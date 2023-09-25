@@ -122,11 +122,15 @@ class makeBDTInputs(processor.ProcessorABC):
         xsec = info['xsec']
 
         # register event weight branch
+        events.__setitem__("genWgt",events.genWgt)
+        events.__setitem__("sum_wgt",sum_wgt)
+        
         events.__setitem__("eventWgt",xsec*lumi*events.genWgt)
         events.__setitem__("eventWgtNorm",xsec*lumi*events.genWgt/sum_wgt)
 
         # Preselection
-        routines.selectExistingGoodVtx(events)
+        #routines.selectExistingGoodVtx(events)
+        routines.selectExistingGoodVtx_noDeltaR(events) # Kyungmin's test
         events.__setitem__("nGoodVtx",ak.count(events.good_vtx.vxy,axis=1))
         events = events[events.nGoodVtx > 0]
         routines.selectBestVertex(events)
@@ -161,6 +165,10 @@ class makeBDTInputs(processor.ProcessorABC):
         # filling outputs dictionary
         e1 = events.sel_vtx.e1
         e2 = events.sel_vtx.e2
+
+        outputs['genWgt'] = column_accumulator(events["genWgt"].to_numpy())
+        outputs['sum_wgt'] = column_accumulator(events["sum_wgt"].to_numpy())
+        
         outputs['wgt'] = column_accumulator(events["eventWgt"].to_numpy())
         outputs['wgt_norm'] = column_accumulator(events["eventWgtNorm"].to_numpy())
         outputs['lead_jet_eta'] = column_accumulator(events.PFJet.eta[:,0].to_numpy())
@@ -172,6 +180,8 @@ class makeBDTInputs(processor.ProcessorABC):
         outputs['sel_vtx_METdPhi'] = column_accumulator(np.abs(events.sel_vtx.METdPhi).to_numpy())
         outputs['sel_vtx_m'] = column_accumulator(events.sel_vtx.m.to_numpy())
         outputs['sel_vtx_dR'] = column_accumulator(events.sel_vtx.dR.to_numpy())
+        outputs['sel_vtx_vxy'] = column_accumulator(events.sel_vtx.vxy.to_numpy())
+        outputs['sel_vtx_sigmavxy'] = column_accumulator(events.sel_vtx.sigmavxy.to_numpy())
         outputs['sel_vtx_minDxy'] = column_accumulator(np.minimum(np.abs(events.sel_vtx.e1.dxy),np.abs(events.sel_vtx.e2.dxy)).to_numpy())
         outputs['met_leadPt_ratio'] = column_accumulator((events.PFMET.pt/events.PFJet.pt[:,0]).to_numpy())
         outputs["vxy_signif"] = column_accumulator((events.sel_vtx.vxy/events.sel_vtx.sigmavxy).to_numpy())
@@ -181,6 +191,13 @@ class makeBDTInputs(processor.ProcessorABC):
         outputs["sel_e2_dxySignif"] = column_accumulator((np.abs(e2.dxy)/e2.dxyErr).to_numpy())
         if info['type'] == 'signal':
             outputs['sel_vtx_match'] = column_accumulator(events.sel_vtx.match.to_numpy())
+        
+            arr_shape = np.shape(events["sum_wgt"].to_numpy())
+
+            ctau = int(samp.split("-")[-1])
+            ctau_arr = ctau * np.ones(arr_shape)
+            
+            outputs["ctau"] = column_accumulator(ctau_arr)
 
         return outputs
 
