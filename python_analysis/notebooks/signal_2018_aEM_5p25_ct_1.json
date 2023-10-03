@@ -1,0 +1,17 @@
+[
+    {
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/signal/signal_v2_2018_5p25_aEM_rdfSkim/output_sig_Mchi-5p25_dMchi-0p5_ct-1/",
+        "Mchi": 5.25,
+        "dMchi": 0.5,
+        "ctau": 1,
+        "name": "sig_Mchi-5.25_dMchi-0.5_ct-1",
+        "sum_wgt": 2.9707725701655363e-07,
+        "type": "signal",
+        "year": 2018,
+        "alphaD": "aEM",
+        "xsec": 70538.148,
+        "nFiles": 4,
+        "num_events": 240690,
+        "blacklist": []
+    }
+]
