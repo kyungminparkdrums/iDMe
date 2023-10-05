@@ -292,7 +292,7 @@ def fillHistos(events,histos,samp,cut,info,sum_wgt=1):
     histos["lead_jet_pt"].fill(samp=samp,cut=cut,pt=ak.fill_none(ak.pad_none(events.PFJet.pt,1),-999)[:,0],weight=wgt)
     #histos["dp_dotJet1"].fill(samp=samp,cut=cut,dot=events.DP_dotJet1,weight=wgt)
     #histos["dp_dotJet12"].fill(samp=samp,cut=cut,dot=events.DP_dotJet12,weight=wgt)
-
+    
     if info["type"] == "signal":
         histos["sel_vtx_matchType"].fill(samp=samp,cut=cut,mtype=vtx.match,weight=wgt)
         histos["sel_vtx_minEledRj_vs_matchType"].fill(samp=samp,cut=cut,dr=np.minimum(e1.mindRj,e2.mindRj),mtype=vtx.match,weight=wgt)

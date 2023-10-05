@@ -238,8 +238,10 @@ class iDMeProcessorLite(iDMeProcessor):
 
         # Preselection
         routines.selectExistingGoodVtx(events)
+        #routines.selectExistingGoodVtx_noDeltaR(events) # Kyungmin's test
         events.__setitem__("nGoodVtx",ak.count(events.good_vtx.vxy,axis=1))
         events = events[events.nGoodVtx > 0]
+        
         routines.selectBestVertex(events)
 
         # Initial number of events
