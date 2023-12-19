@@ -80,7 +80,7 @@ def cut12(events,info):
     name = "cut12"
     desc = "dPhi(MET,vtx) < 1"
     plots = False
-    cut = events.sel_vtx.METdPhi < 1
+    cut = np.abs(events.sel_vtx.METdPhi) < 1
     return events[cut], name, desc, plots
 
 def cut13(events,info):

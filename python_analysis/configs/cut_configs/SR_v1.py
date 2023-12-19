@@ -130,5 +130,5 @@ def cut13(events,info):
     name = "cut13"
     desc = "dPhi(MET,vtx) < 2.5"
     plots = True
-    cut = events.sel_vtx.METdPhi < 2.5
+    cut = np.abs(events.sel_vtx.METdPhi) < 2.5
     return events[cut], name, desc, plots
