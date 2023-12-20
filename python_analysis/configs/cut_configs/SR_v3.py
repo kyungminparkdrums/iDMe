@@ -33,7 +33,7 @@ def cut3(events,info):
 def cut4(events,info):
     name = "cut4"
     desc = "MET > 200 GeV"
-    plots = True
+    plots = False
     cut = events.PFMET.pt > 200
     return events[cut], name, desc, plots
 
@@ -107,14 +107,35 @@ def cut10(events,info):
 
 def cut11(events,info):
     name = "cut11"
-    desc = "Vertex chi2/df < 5"
+    desc = "Vertex chi2/df < 3"
     plots = False
-    cut = events.sel_vtx.reduced_chi2 < 5
+    cut = events.sel_vtx.reduced_chi2 < 3
     return events[cut], name, desc, plots
 
 def cut12(events,info):
     name = "cut12"
-    desc = "dPhi(MET,vtx) < 2.5"
+    desc = "dPhi(MET,vtx) < 1"
+    plots = False
+    cut = np.abs(events.sel_vtx.METdPhi) < 1
+    return events[cut], name, desc, plots
+
+def cut13(events,info):
+    name = "cut13"
+    desc = "m(ee) < 20"
+    plots = False
+    cut = events.sel_vtx.m < 20
+    return events[cut], name, desc, plots
+
+def cut14(events,info):
+    name = "cut14"
+    desc = "dR(ee) < 1.0"
+    plots = False
+    cut = events.sel_vtx.dR < 1.0
+    return events[cut], name, desc, plots
+
+def cut15(events,info):
+    name = "cut15"
+    desc = "minDxy > 0.01"
     plots = True
-    cut = np.abs(events.sel_vtx.METdPhi) < 2.5
+    cut = np.minimum(np.abs(events.sel_vtx.e1.dxy),np.abs(events.sel_vtx.e2.dxy)) > 0.01
     return events[cut], name, desc, plots
