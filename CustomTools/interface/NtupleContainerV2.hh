@@ -203,6 +203,23 @@ public:
     vector<int> recoElectronTrkNumStripHits_;
     vector<int> recoElectronCharge_;
 
+    vector<float> recoElectronSigmaIetaIeta_;
+    vector<float> recoElectronHoverE_;
+    vector<float> recoElectronR9_;
+    vector<float> recoElectronDEtaIn_;
+    vector<float> recoElectronDEtaOut_;
+    vector<float> recoElectronDPhiIn_;
+    vector<float> recoElectronDPhiOut_;
+    vector<float> recoElectronFBrem_;
+    vector<float> recoElectronEoverPIn_;
+    vector<float> recoElectronEoverPOut_;
+    vector<float> recoElectronDRTkSumPt_;
+    vector<float> recoElectronDREcalSumEt_;
+    vector<float> recoElectronDRHcalSumEt_;
+    vector<float> recoElectronEinvMinusPinvIn_;
+    vector<float> recoElectronEinvMinusPinvOut_;
+    vector<int> recoElectronMissingHits_;
+
     // Low pT electrons
     int nElectronLowPt_;
     vector<float> recoLowPtElectronPt_;
@@ -242,6 +259,23 @@ public:
     vector<int> recoLowPtElectronTrkNumStripHits_;
     vector<int> recoLowPtElectronCharge_;
     vector<float> recoLowPtElectronMinDrToReg_;
+
+    vector<float> recoLowPtElectronSigmaIetaIeta_;
+    vector<float> recoLowPtElectronHoverE_;
+    vector<float> recoLowPtElectronR9_;
+    vector<float> recoLowPtElectronDEtaIn_;
+    vector<float> recoLowPtElectronDEtaOut_;
+    vector<float> recoLowPtElectronDPhiIn_;
+    vector<float> recoLowPtElectronDPhiOut_;
+    vector<float> recoLowPtElectronFBrem_;
+    vector<float> recoLowPtElectronEoverPIn_;
+    vector<float> recoLowPtElectronEoverPOut_;
+    vector<float> recoLowPtElectronDRTkSumPt_;
+    vector<float> recoLowPtElectronDREcalSumEt_;
+    vector<float> recoLowPtElectronDRHcalSumEt_;
+    vector<float> recoLowPtElectronEinvMinusPinvIn_;
+    vector<float> recoLowPtElectronEinvMinusPinvOut_;
+    vector<int> recoLowPtElectronMissingHits_;
 
     // Photons
     int nPhotons_;

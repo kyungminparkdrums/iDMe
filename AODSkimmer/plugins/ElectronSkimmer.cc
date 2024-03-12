@@ -633,6 +633,25 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
       nt.recoElectronTrkNumTrackerHits_.push_back(track->hitPattern().numberOfValidTrackerHits());
       nt.recoElectronTrkNumPixHits_.push_back(track->hitPattern().numberOfValidPixelHits());
       nt.recoElectronTrkNumStripHits_.push_back(track->hitPattern().numberOfValidStripHits());
+
+      // Filling e/gamma ID variables
+      nt.recoElectronSigmaIetaIeta_.push_back(ele.full5x5_sigmaIetaIeta());
+      nt.recoElectronHoverE_.push_back(ele.hadronicOverEm());
+      nt.recoElectronR9_.push_back(ele.full5x5_r9());
+      nt.recoElectronDEtaIn_.push_back(ele.deltaEtaSuperClusterTrackAtVtx());
+      nt.recoElectronDEtaOut_.push_back(ele.deltaEtaEleClusterTrackAtCalo());
+      nt.recoElectronDPhiIn_.push_back(ele.deltaPhiSuperClusterTrackAtVtx());
+      nt.recoElectronDPhiOut_.push_back(ele.deltaPhiEleClusterTrackAtCalo());
+      nt.recoElectronFBrem_.push_back(ele.fbrem());
+      nt.recoElectronEoverPIn_.push_back(ele.eSuperClusterOverP());
+      nt.recoElectronEoverPOut_.push_back(ele.eEleClusterOverPout());
+      nt.recoElectronDRTkSumPt_.push_back(ele.dr03TkSumPt());
+      nt.recoElectronDREcalSumEt_.push_back(ele.dr03EcalRecHitSumEt());
+      nt.recoElectronDRHcalSumEt_.push_back(ele.dr03HcalTowerSumEt());
+      nt.recoElectronEinvMinusPinvIn_.push_back(abs(1./ele.ecalEnergy() - ele.eSuperClusterOverP()/ele.ecalEnergy()));
+      nt.recoElectronEinvMinusPinvOut_.push_back(abs(1./ele.ecalEnergy() - ele.eEleClusterOverPout()/ele.ecalEnergy())); 
+      nt.recoElectronMissingHits_.push_back(ele.gsfTrack()->numberOfLostHits());
+
    }
 
    /////////////////////////////////
@@ -679,10 +698,10 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
       nt.recoLowPtElectronPFIso_.push_back(iso);
       nt.recoLowPtElectronPFRelIso_.push_back(iso/ele.pt());
       // Saving individual isolation components
-      nt.recoElectronChadIso_.push_back(pfIso.sumChargedHadronPt);
-      nt.recoElectronNhadIso_.push_back(pfIso.sumNeutralHadronEt);
-      nt.recoElectronPhoIso_.push_back(pfIso.sumPhotonEt);
-      nt.recoElectronRhoEA_.push_back(rho*eA);
+      nt.recoLowPtElectronChadIso_.push_back(pfIso.sumChargedHadronPt);
+      nt.recoLowPtElectronNhadIso_.push_back(pfIso.sumNeutralHadronEt);
+      nt.recoLowPtElectronPhoIso_.push_back(pfIso.sumPhotonEt);
+      nt.recoLowPtElectronRhoEA_.push_back(rho*eA);
       // Filling tracks
       nt.recoLowPtElectronDxy_.push_back(track->dxy(pv.position()));
       nt.recoLowPtElectronDxyError_.push_back(track->dxyError());
@@ -693,6 +712,24 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
       nt.recoLowPtElectronTrkNumTrackerHits_.push_back(track->hitPattern().numberOfValidTrackerHits());
       nt.recoLowPtElectronTrkNumPixHits_.push_back(track->hitPattern().numberOfValidPixelHits());
       nt.recoLowPtElectronTrkNumStripHits_.push_back(track->hitPattern().numberOfValidStripHits());
+
+      // Filling e/gamma ID variables
+      nt.recoLowPtElectronSigmaIetaIeta_.push_back(ele.full5x5_sigmaIetaIeta());
+      nt.recoLowPtElectronHoverE_.push_back(ele.hadronicOverEm());
+      nt.recoLowPtElectronR9_.push_back(ele.full5x5_r9());
+      nt.recoLowPtElectronDEtaIn_.push_back(ele.deltaEtaSuperClusterTrackAtVtx());
+      nt.recoLowPtElectronDEtaOut_.push_back(ele.deltaEtaEleClusterTrackAtCalo());
+      nt.recoLowPtElectronDPhiIn_.push_back(ele.deltaPhiSuperClusterTrackAtVtx());
+      nt.recoLowPtElectronDPhiOut_.push_back(ele.deltaPhiEleClusterTrackAtCalo());
+      nt.recoLowPtElectronFBrem_.push_back(ele.fbrem());
+      nt.recoLowPtElectronEoverPIn_.push_back(ele.eSuperClusterOverP());
+      nt.recoLowPtElectronEoverPOut_.push_back(ele.eEleClusterOverPout());
+      nt.recoLowPtElectronDRTkSumPt_.push_back(ele.dr03TkSumPt());
+      nt.recoLowPtElectronDREcalSumEt_.push_back(ele.dr03EcalRecHitSumEt());
+      nt.recoLowPtElectronDRHcalSumEt_.push_back(ele.dr03HcalTowerSumEt());
+      nt.recoLowPtElectronEinvMinusPinvIn_.push_back(abs(1./ele.ecalEnergy() - ele.eSuperClusterOverP()/ele.ecalEnergy()));
+      nt.recoLowPtElectronEinvMinusPinvOut_.push_back(abs(1./ele.ecalEnergy() - ele.eEleClusterOverPout()/ele.ecalEnergy()));
+      nt.recoLowPtElectronMissingHits_.push_back(ele.gsfTrack()->numberOfLostHits());
    }
 
    // Handling photons

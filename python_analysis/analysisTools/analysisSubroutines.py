@@ -93,10 +93,14 @@ def electronID(events):
     
     ele_kinematic_cut = (eles.pt > 1) & (np.abs(eles.eta) < 2.4) & (eles.mindRj > 0.4)
     ele_id_cut = eles.IDcutLoose==1
+    events["Electron","passPtEta"] = (eles.pt > 1) & (np.abs(eles.eta) < 2.4) # Kyungmin
+    events["Electron","passPtEtaOverlap"] = ele_kinematic_cut # Kyungmin
     events["Electron","passID"] = ele_kinematic_cut & ele_id_cut
 
     lpt_ele_kinematic_cut = (lpt_eles.pt > 1) & (np.abs(lpt_eles.eta) < 2.4) & (lpt_eles.mindRj > 0.4)
     lpt_ele_id_cut = ak.ones_like(lpt_eles.pt)==1
+    events["LptElectron","passPtEta"] = (lpt_eles.pt > 1) & (np.abs(lpt_eles.eta) < 2.4) # Kyungmin
+    events["LptElectron","passPtEtaOverlap"] = lpt_ele_kinematic_cut # Kyungmin
     events["LptElectron","passID"] = lpt_ele_kinematic_cut & lpt_ele_id_cut
 
 def electronIsoConePtSum(events):
@@ -130,6 +134,7 @@ def vtxElectronConnection(events):
 
 def defineGoodVertices(events):
     # Selecting electrons that pass basic pT and eta cuts
+    #events["vtx","isGood"] = (events.vtx.e1.passID & events.vtx.e2.passID) & (events.vtx.e1.charge * events.vtx.e2.charge == -1) & (events.vtx.dR < 3)
     events["vtx","isGood"] = (events.vtx.e1.passID & events.vtx.e2.passID) & (events.vtx.e1.charge * events.vtx.e2.charge == -1)
     #events["vtx","isGood"] = (events.vtx.e1.passID & events.vtx.e2.passID)
     events.__setitem__("good_vtx",events.vtx[events.vtx.isGood])
@@ -192,10 +197,12 @@ def matchedVertexElectron(events,i):
     vtx = events.sel_vtx
     e = events.GenEleClosest
     p = events.GenPosClosest
+
     ematch = (((e.typ==1)&(vtx[f"e{i}_typ"]=='R'))|((e.typ==2)&(vtx[f"e{i}_typ"]=='L')))&(e.ind==vtx[f"e{i}_idx"])&(e.dr<0.1)
     pmatch = (((p.typ==1)&(vtx[f"e{i}_typ"]=='R'))|((p.typ==2)&(vtx[f"e{i}_typ"]=='L')))&(p.ind==vtx[f"e{i}_idx"])&(p.dr<0.1)
     matched = ak.where(ematch,-1,0)
     matched = ak.where(pmatch,1,matched) # e & p can't be matched to same object, ensured in ntuplizer code
+
     return matched
 
 @nb.njit()
@@ -253,8 +260,10 @@ def makeBDTv2Inputs(events):
     sel_vtx_m_arr = events.sel_vtx.m.to_numpy()
     sel_vtx_dR_arr = events.sel_vtx.dR.to_numpy()
     sel_vtx_minDxy_arr = np.minimum(np.abs(events.sel_vtx.e1.dxy),np.abs(events.sel_vtx.e2.dxy)).to_numpy()
+    sel_vtx_vxy_arr = events.sel_vtx.vxy.to_numpy()
     vxy_signif_arr = (events.sel_vtx.vxy/events.sel_vtx.sigmavxy).to_numpy()
     
+    #input_arrs = (sel_vtx_chi2_arr, sel_vtx_METdPhi_arr, sel_vtx_m_arr, sel_vtx_dR_arr, sel_vtx_minDxy_arr, sel_vtx_vxy_arr, vxy_signif_arr)
     input_arrs = (sel_vtx_chi2_arr, sel_vtx_METdPhi_arr, sel_vtx_m_arr, sel_vtx_dR_arr, sel_vtx_minDxy_arr, vxy_signif_arr)
     
     input = np.stack(input_arrs, axis=1)
@@ -275,6 +284,7 @@ def getEventsSelVtxIsTruthMatched(events):
 # for signal MC, return the events where selected vertex (lowest chi2) passes the truth-matching (gen-matching)
     e1_match = matchedVertexElectron(events,1)
     e2_match = matchedVertexElectron(events,2)
+
     events["sel_vtx","match"] = ak.values_astype(ak.where(e1_match*e2_match == -1,2,ak.where(np.abs(e1_match)+np.abs(e2_match) > 0,1,0)),np.int32)
     
     return events[events.sel_vtx.match == 2]
@@ -287,6 +297,43 @@ def getEventsGenEEareReconstructed(events):
     isReconstructed = (e.dr < 0.1) & (p.dr < 0.1)
     
     return events[isReconstructed]
+
+def getEventsGenEEareReconstructedVtx(events):
+    events = getEventsGenEEareReconstructed(events)
+    
+    _, has_matched_vtx = getTrueVertex(events, events.vtx, doGenMatch=True)
+    events = events[ak.flatten(has_matched_vtx)] # reject the events which do not have the matched vertex
+    
+    return events
+
+def getEventsGenEEareReconstructedVtxElectronCuts(events, doOverlapRemoval, doID):
+    events = getEventsGenEEareReconstructed(events)
+
+    if (doOverlapRemoval == False) and (doID == False):
+        events["vtx","isPass"]= (events.vtx.e1.passPtEta & events.vtx.e2.passPtEta)
+
+    elif (doOverlapRemoval == True) and (doID == False):
+        events["vtx","isPass"]= (events.vtx.e1.passPtEtaOverlap & events.vtx.e2.passPtEtaOverlap)
+
+    elif (doOverlapRemoval == True) and (doID == True):
+        events["vtx","isPass"] = (events.vtx.e1.passID & events.vtx.e2.passID)
+
+    events.__setitem__("pass_vtx",events.vtx[events.vtx.isPass])
+    events.__setitem__("nPassVtx",ak.count(events.pass_vtx.vxy,axis=1))
+    events = events[events.nPassVtx > 0]
+  
+    _, has_matched_vtx = getTrueVertex(events, events.pass_vtx, doGenMatch=True)
+    events = events[ak.flatten(has_matched_vtx)] # reject the events which do not have the matched vertex
+    
+    return events
+
+def getEventsGenEEareReconstructedGoodVtx(events):
+    events = getEventsGenEEareReconstructed(events)
+    
+    _, has_matched_vtx = getTrueVertex(events, events.good_vtx, doGenMatch=True)
+    events = events[ak.flatten(has_matched_vtx)] # reject the events which do not have the matched vertex
+    
+    return events
 
 def getTrueVertex(events, evt_vtx, doGenMatch=False):
 # Get the index of events that have "true" vertex, formed by reco e+/e- that are closest to gen e+/e-.
@@ -389,6 +436,33 @@ def selectTrueAndMinChi2Vtx(events, evt_vtx, doGenMatch=False):
 
     events = events[ak.flatten(idx_vtxMatch == idx_minChi2)] # reject the events where the true vtx is not the same as the min chi2 vtx
 
+    return events
+
+def selectFalseAndMinChi2Vtx(events, evt_vtx, genEEreconstructed): 
+    '''
+    Select events where the lowest chi2 vertex is NOT truth-matched
+
+    '''
+    
+    # evt_vtx = events.good_vtx
+    
+    if genEEreconstructed:
+        events = getEventsGenEEareReconstructed(events)
+        evt_vtx = events.good_vtx
+    
+    # Index of true vertex in each event
+    idx_vtxMatch, has_matched_vtx = getTrueVertex(events, evt_vtx, doGenMatch=True)
+    idx_vtxMatch = idx_vtxMatch[has_matched_vtx]
+    idx_vtxMatch = ak.fill_none(ak.firsts(idx_vtxMatch),-1)
+    
+    # Index of vertex with the lowest chi2 in each event
+    idx_minChi2 = ak.argmin(evt_vtx.reduced_chi2,axis=1,keepdims=True)
+
+    sel_vtx = ak.flatten(evt_vtx[ak.argmin(evt_vtx.reduced_chi2,axis=1,keepdims=True)])
+    events.__setitem__("sel_vtx",sel_vtx)
+    
+    events = events[ak.flatten(idx_vtxMatch != idx_minChi2)] # reject the events where the true vtx is the same as the min chi2 vtx
+    
     return events
 
 

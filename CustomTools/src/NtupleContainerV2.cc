@@ -71,6 +71,24 @@ void NtupleContainerV2::CreateTreeBranches() {
     outT->Branch("Electron_numStripHits",&recoElectronTrkNumStripHits_);
     outT->Branch("Electron_charge",&recoElectronCharge_);
 
+    outT->Branch("Electron_sigmaIetaIeta",&recoElectronSigmaIetaIeta_);
+    outT->Branch("Electron_HoverE",&recoElectronHoverE_);
+    outT->Branch("Electron_R9",&recoElectronR9_);
+    outT->Branch("Electron_dEtaIn",&recoElectronDEtaIn_);
+    outT->Branch("Electron_dEtaOut",&recoElectronDEtaOut_);
+    outT->Branch("Electron_dPhiIn",&recoElectronDPhiIn_);
+    outT->Branch("Electron_dPhiOut",&recoElectronDPhiOut_);
+    outT->Branch("Electron_fBrem",&recoElectronFBrem_);
+    outT->Branch("Electron_EoverPIn",&recoElectronEoverPIn_);
+    outT->Branch("Electron_EoverPOut",&recoElectronEoverPOut_);
+    outT->Branch("Electron_dRTkSumPt",&recoElectronDRTkSumPt_);
+    outT->Branch("Electron_dREcalSumEt",&recoElectronDREcalSumEt_);
+    outT->Branch("Electron_dRHcalSumEt",&recoElectronDRHcalSumEt_);
+    outT->Branch("Electron_EinvMinusPinvIn",&recoElectronEinvMinusPinvIn_);
+    outT->Branch("Electron_EinvMinusPinvOut",&recoElectronEinvMinusPinvOut_);
+    outT->Branch("Electron_missingHits",&recoElectronMissingHits_);
+
+
     // Low pT electrons
     outT->Branch("nLptElectron",&nElectronLowPt_);
     outT->Branch("LptElectron_pt",&recoLowPtElectronPt_);
@@ -110,6 +128,24 @@ void NtupleContainerV2::CreateTreeBranches() {
     outT->Branch("LptElectron_numStripHits",&recoLowPtElectronTrkNumStripHits_);
     outT->Branch("LptElectron_charge",&recoLowPtElectronCharge_);
     outT->Branch("LptElectron_minDRtoReg",&recoLowPtElectronMinDrToReg_);
+
+    outT->Branch("LptElectron_sigmaIetaIeta",&recoLowPtElectronSigmaIetaIeta_);
+    outT->Branch("LptElectron_HoverE",&recoLowPtElectronHoverE_);
+    outT->Branch("LptElectron_R9",&recoLowPtElectronR9_);
+    outT->Branch("LptElectron_dEtaIn",&recoLowPtElectronDEtaIn_);
+    outT->Branch("LptElectron_dEtaOut",&recoLowPtElectronDEtaOut_);
+    outT->Branch("LptElectron_dPhiIn",&recoLowPtElectronDPhiIn_);
+    outT->Branch("LptElectron_dPhiOut",&recoLowPtElectronDPhiOut_);
+    outT->Branch("LptElectron_fBrem",&recoLowPtElectronFBrem_);
+    outT->Branch("LptElectron_EoverPIn",&recoLowPtElectronEoverPIn_);
+    outT->Branch("LptElectron_EoverPOut",&recoLowPtElectronEoverPOut_);
+    outT->Branch("LptElectron_dRTkSumPt",&recoLowPtElectronDRTkSumPt_);
+    outT->Branch("LptElectron_dREcalSumEt",&recoLowPtElectronDREcalSumEt_);
+    outT->Branch("LptElectron_dRHcalSumEt",&recoLowPtElectronDRHcalSumEt_);
+    outT->Branch("LptElectron_EinvMinusPinvIn",&recoLowPtElectronEinvMinusPinvIn_);
+    outT->Branch("LptElectron_EinvMinusPinvOut",&recoLowPtElectronEinvMinusPinvOut_);
+    outT->Branch("LptElectron_missingHits",&recoLowPtElectronMissingHits_);
+
 
     // Photons
     outT->Branch("nPhoton",&nPhotons_);
@@ -528,6 +564,23 @@ void NtupleContainerV2::ClearTreeBranches() {
     recoElectronTrkNumStripHits_.clear();
     recoElectronCharge_.clear();
 
+    recoElectronSigmaIetaIeta_.clear();
+    recoElectronHoverE_.clear();
+    recoElectronR9_.clear();
+    recoElectronDEtaIn_.clear();
+    recoElectronDEtaOut_.clear();
+    recoElectronDPhiIn_.clear();
+    recoElectronDPhiOut_.clear();
+    recoElectronFBrem_.clear();
+    recoElectronEoverPIn_.clear();
+    recoElectronEoverPOut_.clear();
+    recoElectronDRTkSumPt_.clear();
+    recoElectronDREcalSumEt_.clear();
+    recoElectronDRHcalSumEt_.clear();
+    recoElectronEinvMinusPinvIn_.clear();
+    recoElectronEinvMinusPinvOut_.clear();
+    recoElectronMissingHits_.clear();
+ 
     // Low pT electrons
     nElectronLowPt_ = 0;
     recoLowPtElectronPt_.clear();
@@ -568,6 +621,23 @@ void NtupleContainerV2::ClearTreeBranches() {
     recoLowPtElectronCharge_.clear();
     recoLowPtElectronMinDrToReg_.clear();
 
+    recoLowPtElectronSigmaIetaIeta_.clear();
+    recoLowPtElectronHoverE_.clear();
+    recoLowPtElectronR9_.clear();
+    recoLowPtElectronDEtaIn_.clear();
+    recoLowPtElectronDEtaOut_.clear();
+    recoLowPtElectronDPhiIn_.clear();
+    recoLowPtElectronDPhiOut_.clear();
+    recoLowPtElectronFBrem_.clear();
+    recoLowPtElectronEoverPIn_.clear();
+    recoLowPtElectronEoverPOut_.clear();
+    recoLowPtElectronDRTkSumPt_.clear();
+    recoLowPtElectronDREcalSumEt_.clear();
+    recoLowPtElectronDRHcalSumEt_.clear();
+    recoLowPtElectronEinvMinusPinvIn_.clear();
+    recoLowPtElectronEinvMinusPinvOut_.clear();
+    recoLowPtElectronMissingHits_.clear();
+ 
     // Gen weight and pileup
     genwgt_ = 0;
     genpuobs_ = -9999;
