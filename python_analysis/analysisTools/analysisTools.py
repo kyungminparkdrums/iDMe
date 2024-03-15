@@ -166,6 +166,12 @@ class iDMeProcessor(processor.ProcessorABC):
         cutflow_genEEreconstructed = defaultdict(float)             # (for signal MC) efficiency
         cutflow_counts_genEEreconstructed = defaultdict(float)      # (for signal MC) xsec-weighted event counts
         cutflow_vtx_matched_genEEreconstructed = defaultdict(float) # (for signal MC) fraction that the selected vertex is truth-matched 
+
+        cutflow_vtx_matched_genEEreconstructedVtx = defaultdict(float) 
+        cutflow_vtx_matched_genEEreconstructedGoodVtx = defaultdict(float)
+        cutflow_vtx_matched_genEEreconstructedVtx_pteta = defaultdict(float)        # only require pT / eta
+        cutflow_vtx_matched_genEEreconstructedVtx_ptetaoverlap = defaultdict(float) # only require pT / eta / jet overlap removal
+        cutflow_vtx_matched_genEEreconstructedVtx_ecuts = defaultdict(float)        # require pT / eta / jet overlap removal / ID
         
         info = self.sampleInfo[samp]
         sum_wgt = info["sum_wgt"]
@@ -185,6 +191,13 @@ class iDMeProcessor(processor.ProcessorABC):
             has_gen_matched_reco_ee_events = routines.getEventsGenEEareReconstructed(events)
             cutflow_genEEreconstructed['all'] += np.sum(has_gen_matched_reco_ee_events.genWgt)/sum_wgt
             cutflow_vtx_matched_genEEreconstructed['all'] += 1 # dummy value before selecting a vertex
+
+            cutflow_vtx_matched_genEEreconstructedVtx['all'] += 1 # dummy value before selecting a vertex
+            cutflow_vtx_matched_genEEreconstructedGoodVtx['all'] += 1 # dummy value before selecting a vertex
+
+            cutflow_vtx_matched_genEEreconstructedVtx_pteta['all'] += 1
+            cutflow_vtx_matched_genEEreconstructedVtx_ptetaoverlap['all'] += 1
+            cutflow_vtx_matched_genEEreconstructedVtx_ecuts['all'] += 1
             
         histos['cutDesc']['all'] = 'No cuts'
 
@@ -203,6 +216,9 @@ class iDMeProcessor(processor.ProcessorABC):
         routines.electronID(events) # electron kinematic/ID definition
         routines.vtxElectronConnection(events) # associate electrons to vertices
         routines.defineGoodVertices(events) # define "good" vertices based on whether associated electrons pass ID cuts
+
+        if info['type'] == "signal":
+            routines.calculateCtau(events)
         
         #################################
         #### Demand >= 1 ee vertices ####
@@ -210,22 +226,84 @@ class iDMeProcessor(processor.ProcessorABC):
         events.__setitem__("nGoodVtx",ak.count(events.good_vtx.vxy,axis=1))
         events = events[events.nGoodVtx > 0]
         # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
-        routines.selectBestVertex(events)
 
+        #events = routines.getEventsGenEEareReconstructed(events) # only save events where gen ee are reconstructed, doesn't check ID yet
+        
+        routines.selectBestVertex(events)
+        
+        #events = routines.selectTrueVertex(events, events.good_vtx, doGenMatch=True)
+        #events = routines.selectFalseAndMinChi2Vtx(events, events.good_vtx, genEEreconstructed=False)
+        #events = routines.selectFalseAndMinChi2Vtx(events, events.good_vtx, genEEreconstructed=True)
+
+        routines.projectLxy(events)
+        
+        '''
+        # Test with electron types
+        mask_e1 = (events.sel_vtx.e1_typ == 'R') & (events.sel_vtx.e2_typ == 'L')
+        mask_e2 = (events.sel_vtx.e1_typ == 'L') & (events.sel_vtx.e2_typ == 'R')
+
+        mask = mask_e1 | mask_e2
+
+        #mask_e1 = events.sel_vtx.e1_typ == 'L'
+        #mask_e2 = events.sel_vtx.e2_typ == 'L'
+
+        #mask = mask_e1 & mask_e2
+        
+        #print(f'nEvents before masking: {len(events)}')
+
+        events = events[mask]
+        
+        #print(f'nEvents after masking: {len(events)}')
+        '''
+
+        #mask = events.sel_vtx.vxy <= 1
+        #events = events[mask]
+        
         # Fill cutflow after baseline selection
         cutflow['hasVtx'] += np.sum(events.genWgt)/sum_wgt
         cutflow_nevts['hasVtx'] += len(events)
         histos['cutDesc']['hasVtx'] = 'Baseline Selection'
 
-        # For signal, (1) check if the vertex ee are gen-matched (2) check if the event has ee that are gen-matched
+        '''
+        # For signal, check purity with different definitions of purity
         if info['type'] == "signal":
+            # purity denominator: n(Events)
             vtx_matched_events = routines.getEventsSelVtxIsTruthMatched(events)
             cutflow_vtx_matched['hasVtx'] += np.sum(vtx_matched_events.genWgt)/np.sum(events.genWgt)
-            
+
+            # purity denominator: n(Events where reco e+/e- have gen e+/e- within dR < 0.1)
             has_gen_matched_reco_ee_events = routines.getEventsGenEEareReconstructed(events)
             cutflow_genEEreconstructed['hasVtx'] += np.sum(has_gen_matched_reco_ee_events.genWgt)/sum_wgt
             vtx_matched_events_genEEreconstructed = routines.getEventsSelVtxIsTruthMatched(has_gen_matched_reco_ee_events)
             cutflow_vtx_matched_genEEreconstructed['hasVtx'] += np.sum(vtx_matched_events_genEEreconstructed.genWgt)/np.sum(has_gen_matched_reco_ee_events.genWgt)
+
+            # purity denominator: n(Events where reco e+/e- have gen e+/e- within dR < 0.1 AND get vertexed)
+            has_gen_matched_reco_vtx_events = routines.getEventsGenEEareReconstructedVtx(events)
+            #cutflow_genEEreconstructedVtx['hasVtx'] += np.sum(has_gen_matched_reco_vtx_events.genWgt)/sum_wgt
+            vtx_matched_events_genEEreconstructedVtx = routines.getEventsSelVtxIsTruthMatched(has_gen_matched_reco_vtx_events)
+            cutflow_vtx_matched_genEEreconstructedVtx['hasVtx'] += np.sum(vtx_matched_events_genEEreconstructedVtx.genWgt)/np.sum(has_gen_matched_reco_vtx_events.genWgt)
+
+            # Purity denominator: n(Events where reco e+/e- have gen e+/e- within dR AND get vertexed AND pass electron pT, eta cuts)
+            has_gen_matched_reco_vtx_pteta_events = routines.getEventsGenEEareReconstructedVtxElectronCuts(events, doOverlapRemoval = False, doID = False)
+            vtx_matched_events_genEEreconstructedVtx_pteta = routines.getEventsSelVtxIsTruthMatched(has_gen_matched_reco_vtx_pteta_events)
+            cutflow_vtx_matched_genEEreconstructedVtx_pteta['hasVtx'] += np.sum(vtx_matched_events_genEEreconstructedVtx_pteta.genWgt)/np.sum(has_gen_matched_reco_vtx_pteta_events.genWgt)
+
+            # Purity denominator: n(Events where reco e+/e- have gen e+/e- within dR AND get vertexed AND pass electron pT, eta, jet overlap removal cuts)
+            has_gen_matched_reco_vtx_ptetaoverlap_events = routines.getEventsGenEEareReconstructedVtxElectronCuts(events, doOverlapRemoval = True, doID = False)
+            vtx_matched_events_genEEreconstructedVtx_ptetaoverlap = routines.getEventsSelVtxIsTruthMatched(has_gen_matched_reco_vtx_ptetaoverlap_events)
+            cutflow_vtx_matched_genEEreconstructedVtx_ptetaoverlap['hasVtx'] += np.sum(vtx_matched_events_genEEreconstructedVtx_ptetaoverlap.genWgt)/np.sum(has_gen_matched_reco_vtx_ptetaoverlap_events.genWgt)
+
+            # Purity denominator: n(Events where reco e+/e- have gen e+/e- within dR AND get vertexed AND pass electron pT, eta, jet overlap removal, ID cuts)
+            has_gen_matched_reco_vtx_ecuts_events = routines.getEventsGenEEareReconstructedVtxElectronCuts(events, doOverlapRemoval = True, doID = True)
+            vtx_matched_events_genEEreconstructedVtx_ecuts = routines.getEventsSelVtxIsTruthMatched(has_gen_matched_reco_vtx_ecuts_events)
+            cutflow_vtx_matched_genEEreconstructedVtx_ecuts['hasVtx'] += np.sum(vtx_matched_events_genEEreconstructedVtx_ecuts.genWgt)/np.sum(has_gen_matched_reco_vtx_ecuts_events.genWgt)
+            
+            # purity denominator: n(Events where reco e+/e- have gen e+/e- within dR < 0.1 AND get vertexed AND good_vtx)
+            has_gen_matched_reco_good_vtx_events = routines.getEventsGenEEareReconstructedGoodVtx(events)
+            #cutflow_genEEreconstructedGoodVtx['hasVtx'] += np.sum(has_gen_matched_reco_good_vtx_events.genWgt)/sum_wgt
+            vtx_matched_events_genEEreconstructedGoodVtx = routines.getEventsSelVtxIsTruthMatched(has_gen_matched_reco_good_vtx_events)
+            cutflow_vtx_matched_genEEreconstructedGoodVtx['hasVtx'] += np.sum(vtx_matched_events_genEEreconstructedGoodVtx.genWgt)/np.sum(has_gen_matched_reco_good_vtx_events.genWgt)
+        '''
         
         # Compute miscellaneous extra variables -- add anything you want to this function
         routines.miscExtraVariables(events)
@@ -242,7 +320,16 @@ class iDMeProcessor(processor.ProcessorABC):
         for cut in self.cuts:
             events, cutName, cutDesc, savePlots = cut(events,info)
             cutflow[cutName] += np.sum(events.genWgt)/sum_wgt
-            cutflow_nevts[cutName] += len(events)            
+            cutflow_nevts[cutName] += len(events)  
+
+            if 'cut10' in cutName:
+                print(cutName)
+                print('vxy = ', events.sel_vtx.vxy)
+                print('vxySignif = ', events.sel_vtx.vxy/events.sel_vtx.sigmavxy)
+                print('|dxy1| = ', np.abs(events.sel_vtx.e1.dxy))
+                print('|dxy2| = ', np.abs(events.sel_vtx.e2.dxy))
+
+            '''
             if info['type'] == "signal":
                 vtx_matched_events = routines.getEventsSelVtxIsTruthMatched(events)
                 cutflow_vtx_matched[cutName] += np.sum(vtx_matched_events.genWgt)/np.sum(events.genWgt)
@@ -251,6 +338,35 @@ class iDMeProcessor(processor.ProcessorABC):
                 cutflow_genEEreconstructed[cutName] += np.sum(has_gen_matched_reco_ee_events.genWgt)/sum_wgt
                 vtx_matched_events_genEEreconstructed = routines.getEventsSelVtxIsTruthMatched(has_gen_matched_reco_ee_events)
                 cutflow_vtx_matched_genEEreconstructed[cutName] += np.sum(vtx_matched_events_genEEreconstructed.genWgt)/np.sum(has_gen_matched_reco_ee_events.genWgt)
+
+                # purity denominator: n(Events where reco e+/e- have gen e+/e- within dR < 0.1 AND get vertexed)
+                has_gen_matched_reco_vtx_events = routines.getEventsGenEEareReconstructedVtx(events)
+                #cutflow_genEEreconstructedVtx[cutName] += np.sum(has_gen_matched_reco_vtx_events.genWgt)/sum_wgt
+                vtx_matched_events_genEEreconstructedVtx = routines.getEventsSelVtxIsTruthMatched(has_gen_matched_reco_vtx_events)
+                cutflow_vtx_matched_genEEreconstructedVtx[cutName] += np.sum(vtx_matched_events_genEEreconstructedVtx.genWgt)/np.sum(has_gen_matched_reco_vtx_events.genWgt)
+
+                # Purity denominator: n(Events where reco e+/e- have gen e+/e- within dR AND get vertexed AND pass electron pT, eta cuts)
+                has_gen_matched_reco_vtx_pteta_events = routines.getEventsGenEEareReconstructedVtxElectronCuts(events, doOverlapRemoval = False, doID = False)
+                vtx_matched_events_genEEreconstructedVtx_pteta = routines.getEventsSelVtxIsTruthMatched(has_gen_matched_reco_vtx_pteta_events)
+                cutflow_vtx_matched_genEEreconstructedVtx_pteta[cutName] += np.sum(vtx_matched_events_genEEreconstructedVtx_pteta.genWgt)/np.sum(has_gen_matched_reco_vtx_pteta_events.genWgt)
+    
+                # Purity denominator: n(Events where reco e+/e- have gen e+/e- within dR AND get vertexed AND pass electron pT, eta, jet overlap removal cuts)
+                has_gen_matched_reco_vtx_ptetaoverlap_events = routines.getEventsGenEEareReconstructedVtxElectronCuts(events, doOverlapRemoval = True, doID = False)
+                vtx_matched_events_genEEreconstructedVtx_ptetaoverlap = routines.getEventsSelVtxIsTruthMatched(has_gen_matched_reco_vtx_ptetaoverlap_events)
+                cutflow_vtx_matched_genEEreconstructedVtx_ptetaoverlap[cutName] += np.sum(vtx_matched_events_genEEreconstructedVtx_ptetaoverlap.genWgt)/np.sum(has_gen_matched_reco_vtx_ptetaoverlap_events.genWgt)
+    
+                # Purity denominator: n(Events where reco e+/e- have gen e+/e- within dR AND get vertexed AND pass electron pT, eta, jet overlap removal, ID cuts)
+                has_gen_matched_reco_vtx_ecuts_events = routines.getEventsGenEEareReconstructedVtxElectronCuts(events, doOverlapRemoval = True, doID = True)
+                vtx_matched_events_genEEreconstructedVtx_ecuts = routines.getEventsSelVtxIsTruthMatched(has_gen_matched_reco_vtx_ecuts_events)
+                cutflow_vtx_matched_genEEreconstructedVtx_ecuts[cutName] += np.sum(vtx_matched_events_genEEreconstructedVtx_ecuts.genWgt)/np.sum(has_gen_matched_reco_vtx_ecuts_events.genWgt)
+                
+                # purity denominator: n(Events where reco e+/e- have gen e+/e- within dR < 0.1 AND get vertexed AND good_vtx)
+                has_gen_matched_reco_good_vtx_events = routines.getEventsGenEEareReconstructedGoodVtx(events)
+                #cutflow_genEEreconstructedGoodVtx[cutName] += np.sum(has_gen_matched_reco_good_vtx_events.genWgt)/sum_wgt
+                vtx_matched_events_genEEreconstructedGoodVtx = routines.getEventsSelVtxIsTruthMatched(has_gen_matched_reco_good_vtx_events)
+                cutflow_vtx_matched_genEEreconstructedGoodVtx[cutName] += np.sum(vtx_matched_events_genEEreconstructedGoodVtx.genWgt)/np.sum(has_gen_matched_reco_good_vtx_events.genWgt)
+            '''
+            
             histos['cutDesc'][cutName] += cutDesc + "@"
 
             # Fill histograms
@@ -259,15 +375,25 @@ class iDMeProcessor(processor.ProcessorABC):
         
         for k in cutflow.keys():
             cutflow_counts[k] = xsec*lumi*cutflow[k]
-            cutflow_counts_genEEreconstructed[k] = xsec*lumi*cutflow_genEEreconstructed[k]
+            #cutflow_counts_genEEreconstructed[k] = xsec*lumi*cutflow_genEEreconstructed[k]
         histos['cutflow'] = {samp:cutflow}
         histos['cutflow_cts'] = {samp:cutflow_counts}
         histos['cutflow_nevts'] = {samp:cutflow_nevts}
+
+        
         histos['cutflow_vtx_matched'] = {samp:cutflow_vtx_matched}
 
         histos['cutflow_genEEreconstructed'] = {samp:cutflow_genEEreconstructed}
         histos['cutflow_cts_genEEreconstructed'] = {samp:cutflow_counts_genEEreconstructed}
         histos['cutflow_vtx_matched_genEEreconstructed'] = {samp:cutflow_vtx_matched_genEEreconstructed}
+
+        histos['cutflow_vtx_matched_genEEreconstructedVtx'] = {samp:cutflow_vtx_matched_genEEreconstructedVtx}
+        histos['cutflow_vtx_matched_genEEreconstructedGoodVtx'] = {samp:cutflow_vtx_matched_genEEreconstructedGoodVtx}
+
+        histos['cutflow_vtx_matched_genEEreconstructedVtx_pteta'] = {samp:cutflow_vtx_matched_genEEreconstructedVtx_pteta}
+        histos['cutflow_vtx_matched_genEEreconstructedVtx_ptetaoverlap'] = {samp:cutflow_vtx_matched_genEEreconstructedVtx_ptetaoverlap}
+        histos['cutflow_vtx_matched_genEEreconstructedVtx_ecuts'] = {samp:cutflow_vtx_matched_genEEreconstructedVtx_ecuts}
+        
         
         return histos
 

@@ -465,6 +465,63 @@ def selectFalseAndMinChi2Vtx(events, evt_vtx, genEEreconstructed):
     
     return events
 
+def projectLxy(events):
+    vtx = events.sel_vtx
+
+    #print('(vx, vy): ', np.stack((vtx.vx, vtx.vy), axis=1))
+    #print('(px, py): ', np.stack((vtx.px, vtx.py), axis=1))
+
+    vxpx = vtx.vx * vtx.px
+    vypy = vtx.vy * vtx.py
+    dotprod = vxpx + vypy
+
+    #print('vx*px: ', vxpx)
+    #print('vy*py: ', vypy)
+    #print('dotprod: ', dotprod)
+
+    vxy_mag = np.sqrt(vtx.vx * vtx.vx + vtx.vy * vtx.vy)
+    pxy_mag = np.sqrt(vtx.px * vtx.px + vtx.py * vtx.py)
+
+    #print('(vx, vy) size: ', vxy_mag)
+    #print('(px, py) size: ', pxy_mag)
+
+    cos = dotprod / (vxy_mag * pxy_mag)
+
+    events.__setitem__("cos_collinear",cos)
+
+
+def calculateCtau(events):
+    # chi2
+    mask_chi2 = events.GenPart.ID == 1000023
+    vx_chi2 = ak.flatten(events.GenPart.vx[mask_chi2])
+    vy_chi2 = ak.flatten(events.GenPart.vy[mask_chi2])
+    vz_chi2 = ak.flatten(events.GenPart.vz[mask_chi2])
+
+    gamma_chi2 = ak.flatten(events.GenPart.e[mask_chi2])/ak.flatten(events.GenPart.mass[mask_chi2])
+
+    # gen e-
+    mask_genele = events.GenPart.ID == 11
+    vx_genele = ak.flatten(events.GenPart.vx[mask_genele])
+    vy_genele = ak.flatten(events.GenPart.vy[mask_genele])
+    vz_genele = ak.flatten(events.GenPart.vz[mask_genele])
+
+    #gamma_genele = ak.flatten(events.GenPart.e[mask_genele])/ak.flatten(events.GenPart.mass[mask_genele])
+
+    # gen e+
+    mask_genpos = events.GenPart.ID == -11
+    vx_genpos = ak.flatten(events.GenPart.vx[mask_genpos])
+    vy_genpos = ak.flatten(events.GenPart.vy[mask_genpos])
+    vz_genpos = ak.flatten(events.GenPart.vz[mask_genpos])
+
+    #gamma_genpos = ak.flatten(events.GenPart.e[mask_genpos])/ak.flatten(events.GenPart.mass[mask_genpos])
+
+    # decay length of chi2 in the lab frame
+    decaylength_chi2 = 10 * np.sqrt( (vx_genele-vx_chi2)**2 + (vy_genele-vy_chi2)**2 + (vz_genele-vz_chi2)**2 ) # in [mm]
+
+    ctau_chi2 = decaylength_chi2 / gamma_chi2
+
+    events.__setitem__("ctau",ctau_chi2)
+
 
 #############################################
 ########## Specialized routines #############
