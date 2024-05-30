@@ -8,3 +8,4 @@ rank = Mips
 request_memory = 8000
 +AcctGroup = "analysis"
 +ProjectName = "DarkMatterSimulation"
++DesiredOS = "SL7"

@@ -12,4 +12,5 @@ request_memory = 4000
 request_cpus = 1
 +AcctGroup = "analysis"
 +ProjectName = "DarkMatterSimulation"
++DesiredOS = "SL7"
 Queue 1

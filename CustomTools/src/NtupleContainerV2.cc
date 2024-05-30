@@ -327,7 +327,7 @@ void NtupleContainerV2::CreateTreeBranches() {
         outT->Branch("GenMET_py",&genLeadMETPy_);
         outT->Branch("GenMET_ET",&genLeadMETET_);
     }
-    if (!isData_ && isSignal_) {
+    if (!isData_) {
         outT->Branch("nGenPart",&nGen_);
         outT->Branch("GenPart_ID", &genID_);
         outT->Branch("GenPart_motherID",&genMotherID_);
@@ -345,57 +345,59 @@ void NtupleContainerV2::CreateTreeBranches() {
         outT->Branch("GenPart_vz",&genVz_);
         outT->Branch("GenPart_mass", &genMass_);
 
-        outT->Branch("GenEle_charge",&genEleCharge_);
-        outT->Branch("GenEle_motherID",&genEleMotherID_);
-        outT->Branch("GenEle_pt",&genElePt_);
-        outT->Branch("GenEle_eta",&genEleEta_);
-        outT->Branch("GenEle_phi",&genElePhi_);
-        outT->Branch("GenEle_energy",&genEleEn_);
-        outT->Branch("GenEle_px",&genElePx_);
-        outT->Branch("GenEle_py",&genElePy_);
-        outT->Branch("GenEle_pz",&genElePz_);
-        outT->Branch("GenEle_vxy",&genEleVxy_);
-        outT->Branch("GenEle_vz",&genEleVz_);
-        outT->Branch("GenEle_vx",&genEleVx_);
-        outT->Branch("GenEle_vy",&genEleVy_);
-        outT->Branch("GenEle_matched",&genEleMatched_);
-        outT->Branch("GenEle_matchType",&genEleMatchType_);
-        outT->Branch("GenEle_matchIdxLocal",&genEleMatchIdxLocal_);
-        outT->Branch("GenEle_matchIdxGlobal",&genEleMatchIdxGlobal_);
+        if (isSignal_) {
+            outT->Branch("GenEle_charge",&genEleCharge_);
+            outT->Branch("GenEle_motherID",&genEleMotherID_);
+            outT->Branch("GenEle_pt",&genElePt_);
+            outT->Branch("GenEle_eta",&genEleEta_);
+            outT->Branch("GenEle_phi",&genElePhi_);
+            outT->Branch("GenEle_energy",&genEleEn_);
+            outT->Branch("GenEle_px",&genElePx_);
+            outT->Branch("GenEle_py",&genElePy_);
+            outT->Branch("GenEle_pz",&genElePz_);
+            outT->Branch("GenEle_vxy",&genEleVxy_);
+            outT->Branch("GenEle_vz",&genEleVz_);
+            outT->Branch("GenEle_vx",&genEleVx_);
+            outT->Branch("GenEle_vy",&genEleVy_);
+            outT->Branch("GenEle_matched",&genEleMatched_);
+            outT->Branch("GenEle_matchType",&genEleMatchType_);
+            outT->Branch("GenEle_matchIdxLocal",&genEleMatchIdxLocal_);
+            outT->Branch("GenEle_matchIdxGlobal",&genEleMatchIdxGlobal_);
 
-        outT->Branch("GenPos_charge",&genPosCharge_);
-        outT->Branch("GenPos_motherID",&genPosMotherID_);
-        outT->Branch("GenPos_pt",&genPosPt_);
-        outT->Branch("GenPos_eta",&genPosEta_);
-        outT->Branch("GenPos_phi",&genPosPhi_);
-        outT->Branch("GenPos_energy",&genPosEn_);
-        outT->Branch("GenPos_px",&genPosPx_);
-        outT->Branch("GenPos_py",&genPosPy_);
-        outT->Branch("GenPos_pz",&genPosPz_);
-        outT->Branch("GenPos_vxy",&genPosVxy_);
-        outT->Branch("GenPos_vz",&genPosVz_);
-        outT->Branch("GenPos_vx",&genPosVx_);
-        outT->Branch("GenPos_vy",&genPosVy_);
-        outT->Branch("GenPos_matched",&genPosMatched_);
-        outT->Branch("GenPos_matchType",&genPosMatchType_);
-        outT->Branch("GenPos_matchIdxLocal",&genPosMatchIdxLocal_);
-        outT->Branch("GenPos_matchIdxGlobal",&genPosMatchIdxGlobal_);
+            outT->Branch("GenPos_charge",&genPosCharge_);
+            outT->Branch("GenPos_motherID",&genPosMotherID_);
+            outT->Branch("GenPos_pt",&genPosPt_);
+            outT->Branch("GenPos_eta",&genPosEta_);
+            outT->Branch("GenPos_phi",&genPosPhi_);
+            outT->Branch("GenPos_energy",&genPosEn_);
+            outT->Branch("GenPos_px",&genPosPx_);
+            outT->Branch("GenPos_py",&genPosPy_);
+            outT->Branch("GenPos_pz",&genPosPz_);
+            outT->Branch("GenPos_vxy",&genPosVxy_);
+            outT->Branch("GenPos_vz",&genPosVz_);
+            outT->Branch("GenPos_vx",&genPosVx_);
+            outT->Branch("GenPos_vy",&genPosVy_);
+            outT->Branch("GenPos_matched",&genPosMatched_);
+            outT->Branch("GenPos_matchType",&genPosMatchType_);
+            outT->Branch("GenPos_matchIdxLocal",&genPosMatchIdxLocal_);
+            outT->Branch("GenPos_matchIdxGlobal",&genPosMatchIdxGlobal_);
 
-        // Signal reco info
-        outT->Branch("signalReconstructed",&signalReconstructed_);
+            // Signal reco info
+            outT->Branch("signalReconstructed",&signalReconstructed_);
 
-        // Gen Electron + Positron info
-        outT->Branch("genEE_pt",&genEEPt_);
-        outT->Branch("genEE_eta",&genEEEta_);
-        outT->Branch("genEE_phi",&genEEPhi_);
-        outT->Branch("genEE_energy",&genEEEn_);
-        outT->Branch("genEE_mass",&genEEMass_);
-        outT->Branch("genEE_dr",&genEEdR_);
-        outT->Branch("genEE_METdPhi",&genEEMETdPhi_);
-        outT->Branch("genEE_vxy",&genEEVxy_);
-        outT->Branch("genEE_vz",&genEEVz_);
-        outT->Branch("genEE_vx",&genEEVx_);
-        outT->Branch("genEE_vy",&genEEVy_);
+            // Gen Electron + Positron info
+            outT->Branch("genEE_pt",&genEEPt_);
+            outT->Branch("genEE_eta",&genEEEta_);
+            outT->Branch("genEE_phi",&genEEPhi_);
+            outT->Branch("genEE_energy",&genEEEn_);
+            outT->Branch("genEE_mass",&genEEMass_);
+            outT->Branch("genEE_dr",&genEEdR_);
+            outT->Branch("genEE_METdPhi",&genEEMETdPhi_);
+            outT->Branch("genEE_vxy",&genEEVxy_);
+            outT->Branch("genEE_vz",&genEEVz_);
+            outT->Branch("genEE_vx",&genEEVx_);
+            outT->Branch("genEE_vy",&genEEVy_);
+        }
     }
 
 }
