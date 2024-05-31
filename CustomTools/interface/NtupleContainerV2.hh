@@ -402,12 +402,11 @@ public:
     vector<float> vtx_ll_px_;
     vector<float> vtx_ll_py_;
     vector<float> vtx_ll_pz_;
-    //vector<float> vtx_ll_PFIso_dR4_;
-    //vector<float> vtx_ll_PFRelIso_dR4_;
-    //vector<float> vtx_ll_PFIso_dR3_;
-    //vector<float> vtx_ll_PFRelIso_dR3_;
-    //vector<float> vtx_ll_PFIso_dR8_;
-    //vector<float> vtx_ll_PFRelIso_dR8_;
+    vector<float> vtx_refit_m_;
+    vector<float> vtx_refit_pt_;
+    vector<float> vtx_refit_eta_;
+    vector<float> vtx_refit_phi_;
+    vector<float> vtx_refit_dr_;
     vector<bool> vtx_isMatched_;
     vector<int> vtx_matchSign_;
     vector<vector<float> > vtx_dRtoJets_;
@@ -417,10 +416,21 @@ public:
     vector<int> vtx_e1_idx_;
     vector<bool> vtx_e1_isMatched_;
     vector<int> vtx_e1_matchType_;
+    vector<float> vtx_e1_refitDxy_;
+    vector<float> vtx_e1_refitDxyErr_;
+    vector<float> vtx_e1_refitDz_;
+    vector<float> vtx_e1_refitDzErr_;
+    vector<float> vtx_e1_refitChi2_;
+
     vector<std::string> vtx_e2_type_;
     vector<int> vtx_e2_idx_;
     vector<bool> vtx_e2_isMatched_;
     vector<int> vtx_e2_matchType_;
+    vector<float> vtx_e2_refitDxy_;
+    vector<float> vtx_e2_refitDxyErr_;
+    vector<float> vtx_e2_refitDz_;
+    vector<float> vtx_e2_refitDzErr_;
+    vector<float> vtx_e2_refitChi2_;
 
 protected:
     // Reco and gen TTrees

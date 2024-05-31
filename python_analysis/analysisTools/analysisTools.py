@@ -275,7 +275,8 @@ class iDMeProcessor(processor.ProcessorABC):
         #################################
         # 1 or 2 jets in the event
         nJets = ak.count(events.PFJet.pt,axis=1)
-        events = events[(nJets>0) & (nJets<3)]
+        #events = events[(nJets>0) & (nJets<3)]
+        events = events[nJets>0]
         # needs a good vertex
         routines.defineGoodVertices(events,version='v5') # define "good" vertices based on whether associated electrons pass ID cuts
         events = events[events.nGoodVtx > 0]
