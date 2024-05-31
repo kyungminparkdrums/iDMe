@@ -117,8 +117,8 @@ elif options.year == '2017' or options.year == '2018':
 #######################
 # record all trigger paths that might be useful acrcoss all years - some will not always be available,
 # but what's available will get written out to the ntuples
-triggerPaths = [
-    # MET triggers
+# Jet triggers (for MET trigger eff)
+metTrigs = [
     "HLT_PFMET90_PFMHT90_IDTight",
     "HLT_PFMET100_PFMHT100_IDTight",
     "HLT_PFMET110_PFMHT110_IDTight",
@@ -130,7 +130,8 @@ triggerPaths = [
     "HLT_PFMETTypeOne130_PFMHT130_IDTight",
     "HLT_PFMETTypeOne140_PFMHT140_IDTight",
     "HLT_PFMET100_PFMHT100_IDTight_PFHT60_v9"
-    # Jet triggers (for MET trigger eff)
+]
+jetTrigs = [
     "HLT_PFJet15",
     "HLT_PFJet25",
     "HLT_PFJet40",
@@ -148,8 +149,13 @@ triggerPaths = [
     "HLT_AK4PFJet50",
     "HLT_AK4PFJet80",
     "HLT_AK4PFJet100",
-    "HLT_AK4PFJet120",
-    # Electron triggers (for MET trigger eff)
+    "HLT_AK4PFJet120"
+]
+eleTrigs = list(set([
+    "HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet165",
+    "HLT_Ele30_eta2p1_WPTight_Gsf_CentralPFJet35_EleCleaned",
+    "HLT_Ele28_eta2p1_WPTight_Gsf_HT150",
+    "HLT_Ele27_Ele37_CaloIdL_MW"
     "HLT_DoubleEle25_CaloIdL_MW",
     "HLT_DoubleEle27_CaloIdL_MW",
     "HLT_DoubleEle33_CaloIdL_MW",
@@ -162,11 +168,15 @@ triggerPaths = [
     "HLT_Ele28_WPTight_Gsf",
     "HLT_Ele30_WPTight_Gsf",
     "HLT_Ele32_WPTight_Gsf",
+    "HLT_Ele32_WPTight_Gsf_L1DoubleEG",
     "HLT_Ele35_WPTight_Gsf",
+    "HLT_Ele35_WPTight_Gsf_L1EGMT",
     "HLT_Ele38_WPTight_Gsf",
     "HLT_Ele40_WPTight_Gsf",
+    "HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL",
     "HLT_Ele15_Ele8_CaloIdL_TrackIdL_IsoVL",
     "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL",
+    "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ",
     "HLT_Ele8_CaloIdL_TrackIdL_IsoVL_PFJet30",
     "HLT_Ele12_CaloIdL_TrackIdL_IsoVL_PFJet30",
     "HLT_Ele15_CaloIdL_TrackIdL_IsoVL_PFJet30",
@@ -174,8 +184,12 @@ triggerPaths = [
     "HLT_Ele8_CaloIdM_TrackIdM_PFJet30",
     "HLT_Ele17_CaloIdM_TrackIdM_PFJet30",
     "HLT_Ele23_CaloIdM_TrackIdM_PFJet30",
-    "HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet165"
-]
+    "HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet165",
+    "HLT_DoubleEle8_CaloIdM_TrackIdM_Mass8_PFHT350",
+    "HLT_DoubleEle8_CaloIdM_TrackIdM_Mass8_DZ_PFHT350"
+]))
+
+triggerPaths = metTrigs + jetTrigs + eleTrigs
 
 # Electron effective area input file for PU-corrected PF isolation calculations
 effAreaInputPath = "RecoEgamma/ElectronIdentification/data/Fall17/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_94X.txt"

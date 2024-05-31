@@ -297,6 +297,11 @@ void NtupleContainerV2::CreateTreeBranches() {
     outT->Branch("vtx_px",&vtx_ll_px_);
     outT->Branch("vtx_py",&vtx_ll_py_);
     outT->Branch("vtx_pz",&vtx_ll_pz_);
+    outT->Branch("vtx_refit_m",&vtx_refit_m_);
+    outT->Branch("vtx_refit_pt",&vtx_refit_pt_);
+    outT->Branch("vtx_refit_eta",&vtx_refit_eta_);
+    outT->Branch("vtx_refit_phi",&vtx_refit_phi_);
+    outT->Branch("vtx_refit_dR",&vtx_refit_dr_);
     outT->Branch("vtx_isMatched",&vtx_isMatched_);
     outT->Branch("vtx_matchSign",&vtx_matchSign_);
     outT->Branch("vtx_dRJets",&vtx_dRtoJets_);
@@ -306,10 +311,21 @@ void NtupleContainerV2::CreateTreeBranches() {
     outT->Branch("vtx_e1_idx",&vtx_e1_idx_);
     outT->Branch("vtx_e1_isMatched",&vtx_e1_isMatched_);
     outT->Branch("vtx_e1_matchType",&vtx_e1_matchType_);
+    outT->Branch("vtx_e1_refit_dxy",&vtx_e1_refitDxy_);
+    outT->Branch("vtx_e1_refit_dxyErr",&vtx_e1_refitDxyErr_);
+    outT->Branch("vtx_e1_refit_dz",&vtx_e1_refitDz_);
+    outT->Branch("vtx_e1_refit_dzErr",&vtx_e1_refitDzErr_);
+    outT->Branch("vtx_e1_refit_chi2",&vtx_e1_refitChi2_);
+
     outT->Branch("vtx_e2_typ",&vtx_e2_type_);
     outT->Branch("vtx_e2_idx",&vtx_e2_idx_);
     outT->Branch("vtx_e2_isMatched",&vtx_e2_isMatched_);
     outT->Branch("vtx_e2_matchType",&vtx_e2_matchType_);
+    outT->Branch("vtx_e2_refit_dxy",&vtx_e2_refitDxy_);
+    outT->Branch("vtx_e2_refit_dxyErr",&vtx_e2_refitDxy_);
+    outT->Branch("vtx_e2_refit_dz",&vtx_e2_refitDz_);
+    outT->Branch("vtx_e2_refit_dzErr",&vtx_e2_refitDz_);
+    outT->Branch("vtx_e2_refit_chi2",&vtx_e2_refitChi2_);
 
     // Gen information
     if (!isData_) {
@@ -772,6 +788,11 @@ void NtupleContainerV2::ClearTreeBranches() {
     vtx_ll_px_.clear();
     vtx_ll_py_.clear();
     vtx_ll_pz_.clear();
+    vtx_refit_m_.clear();
+    vtx_refit_pt_.clear();
+    vtx_refit_eta_.clear();
+    vtx_refit_phi_.clear();
+    vtx_refit_dr_.clear();
     vtx_isMatched_.clear();
     vtx_matchSign_.clear();
     vtx_dRtoJets_.clear();
@@ -781,8 +802,19 @@ void NtupleContainerV2::ClearTreeBranches() {
     vtx_e1_idx_.clear();
     vtx_e1_isMatched_.clear();
     vtx_e1_matchType_.clear();
+    vtx_e1_refitDxy_.clear();
+    vtx_e1_refitDxyErr_.clear();
+    vtx_e1_refitDz_.clear();
+    vtx_e1_refitDzErr_.clear();
+    vtx_e1_refitChi2_.clear();
+
     vtx_e2_type_.clear();
     vtx_e2_idx_.clear();
     vtx_e2_isMatched_.clear();
     vtx_e2_matchType_.clear();
+    vtx_e2_refitDxy_.clear();
+    vtx_e2_refitDxyErr_.clear();
+    vtx_e2_refitDz_.clear();
+    vtx_e2_refitDzErr_.clear();
+    vtx_e2_refitChi2_.clear();
 }

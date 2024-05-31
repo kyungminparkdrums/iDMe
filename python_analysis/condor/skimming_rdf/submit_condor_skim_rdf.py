@@ -5,18 +5,28 @@ import json
 from XRootD import client
 import numpy as np
 import subprocess
+from argparse import ArgumentParser
 
-if len(sys.argv) < 5:
-    print("Wrong inputs!")
-    print("Usage: python submit_condor_skim_rdf.py sampleConfig.json n_file_per n_cores MET_cut")
+parser = ArgumentParser()
+parser.add_argument("-s","--samples",required=True)
+parser.add_argument("-n","--n_file_per",required=True,type=int)
+parser.add_argument("-c","--num_cores",required=True,type=int)
+parser.add_argument("-m","--met_cut",type=float,required=True)
+parser.add_argument("-j","--njet_cut",required=True,type=int)
+args = parser.parse_args()
 
-samples = sys.argv[1]
-n_file_per = int(sys.argv[2])
-n_cores = int(sys.argv[3])
-MET_cut = float(sys.argv[4])
+samples = args.samples
+n_file_per = args.n_file_per
+n_cores = args.num_cores
+MET_cut = args.met_cut
+nJet_cut = args.njet_cut
 
 sampFile = samples.split("/")[-1]
 jobname_base = sampFile.split(".")[0] + f"_rdfSkim_MET{int(MET_cut)}"
+if nJet_cut > 0:
+    jobname_base += f"_nJetsG0L{nJet_cut}"
+else:
+    jobname_base += "_nJetsG0"
 
 xrdClient = client.FileSystem("root://cmseos.fnal.gov")
 
@@ -63,7 +73,7 @@ for i in range(n_samp):
 
         print("done tarring")
 
-        submit_cmd = f"condor_submit condor_skim_rdf.jdl -append \"Arguments = {jobname} {outDir} {MET_cut}\" -append \"transfer_input_files = {tgz}\" -append \"Output = submissions_skim_rdf/{jobname_base}/{jobname}/Logs/stdout.out\" -append \"Error = submissions_skim_rdf/{jobname_base}/{jobname}/Logs/stderr.err\" -append \"Log = submissions_skim_rdf/{jobname_base}/{jobname}/Logs/log.log\" -append \"request_cpus = {n_cores}\""
+        submit_cmd = f"condor_submit condor_skim_rdf.jdl -append \"Arguments = {jobname} {outDir} {MET_cut} {nJet_cut}\" -append \"transfer_input_files = {tgz}\" -append \"Output = submissions_skim_rdf/{jobname_base}/{jobname}/Logs/stdout.out\" -append \"Error = submissions_skim_rdf/{jobname_base}/{jobname}/Logs/stderr.err\" -append \"Log = submissions_skim_rdf/{jobname_base}/{jobname}/Logs/log.log\" -append \"request_cpus = {n_cores}\""
         
         subprocess.run(submit_cmd,shell=True)
         

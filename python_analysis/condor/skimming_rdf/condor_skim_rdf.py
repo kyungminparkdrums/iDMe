@@ -130,9 +130,18 @@ bool anyTrue(ROOT::VecOps::RVec<bool> vals) {
 }
 '''
 if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print("Bad input!")
-        print("Usage: ./condor_skim_rdf jobname outDir MET_cut")
+    parser = ArgumentParser()
+    parser.add_argument("-n","--jobname",required=True)
+    parser.add_argument("-o","--outdir",required=True)
+    parser.add_argument("-m","--met_cut",type=float,required=True)
+    parser.add_argument("-j","--njet_cut",required=True,type=int)
+    args = parser.parse_args()
+
+    jobname = args.jobname
+    outDir = args.outdir
+    MET_cut = args.met_cut
+    nJet_cut = args.njet_cut
+
     t = time.time()
     ROOT.gInterpreter.GenerateDictionary("ROOT::VecOps::RVec<vector<float> >", "vector;ROOT/RVec.hxx")
     ROOT.gInterpreter.GenerateDictionary("ROOT::VecOps::RVec<string>", "string;ROOT/RVec.hxx")
@@ -148,10 +157,6 @@ if __name__ == "__main__":
     ROOT.EnableImplicitMT()
     print(f"set up root in {(time.time() - t)/60} mins")
     t = time.time()
-
-    jobname = sys.argv[1]
-    outDir = sys.argv[2]
-    MET_cut = sys.argv[3]
 
     with open('samples.json','r') as fin:
         samps = json.load(fin)
@@ -179,12 +184,17 @@ if __name__ == "__main__":
     print(f"set up branches {(time.time() - t)/60} mins")
     t = time.time()
     print(f"initial = {d.Count().GetValue()}")
+    
+    if nJet_cut > 0:
+        njet_filter = f"(nPFJet > 0) && (nPFJet < {nJet_cut})"
+    else:
+        njet_filter = "nPFJet > 0"
     d = d.Filter("anyTrue(vtx_isGood)") \
         .Filter("METFiltersFailBits == 0") \
         .Filter("passHEMveto") \
         .Filter("trig_HLT_PFMET120_PFMHT120_IDTight == 1") \
         .Filter(f"PFMET_pt > {MET_cut}") \
-        .Filter("(nPFJet > 0) && (nPFJet < 3)") \
+        .Filter(njet_filter) \
         .Filter("!anyB_med")
     final = d.Count().GetValue()
     print(f"final = {final}")

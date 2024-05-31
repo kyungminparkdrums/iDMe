@@ -15,6 +15,7 @@
 <use name="DataFormats/JetReco"/>
 <use name="DataFormats/METReco"/>
 <use name="DataFormats/Math"/>
+<use name="DataFormats/GeometryVector"/>
 <use name="DataFormats/VertexReco"/>
 <use name="DataFormats/EgammaCandidates"/>
 <use name="DataFormats/ParticleFlowCandidate"/>
@@ -23,6 +24,8 @@
 <use name="TrackingTools/Records"/>
 <use name="RecoVertex/VertexPrimitives"/>
 <use name="RecoVertex/KalmanVertexFit"/>
+<use name="RecoVertex/KinematicFitPrimitives"/>
+<use name="RecoVertex/KinematicFit"/>
 <use name="SimDataFormats/PileupSummaryInfo"/>
 <use name="SimDataFormats/GeneratorProducts"/>
 <use name="RecoEgamma/EgammaTools"/>

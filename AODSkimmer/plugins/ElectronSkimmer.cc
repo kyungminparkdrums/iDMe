@@ -72,6 +72,7 @@
 #include "DataFormats/Math/interface/deltaR.h"
 #include "DataFormats/Math/interface/deltaPhi.h"
 #include "DataFormats/Math/interface/LorentzVector.h"
+#include "DataFormats/GeometryVector/interface/GlobalPoint.h"
 #include "DataFormats/Common/interface/RefVector.h"
 
 #include "JetMETCorrections/JetCorrector/interface/JetCorrector.h"
@@ -84,6 +85,16 @@
 
 #include "RecoVertex/VertexPrimitives/interface/TransientVertex.h"
 #include "RecoVertex/KalmanVertexFit/interface/KalmanVertexFitter.h"
+
+// stuff for kinematic vertex fit
+#include "RecoVertex/KinematicFitPrimitives/interface/ParticleMass.h"
+#include "RecoVertex/KinematicFitPrimitives/interface/MultiTrackKinematicConstraint.h"
+#include "RecoVertex/KinematicFitPrimitives/interface/KinematicParticleFactoryFromTransientTrack.h"
+#include "RecoVertex/KinematicFit/interface/KinematicConstrainedVertexFitter.h"
+#include "RecoVertex/KinematicFit/interface/TwoTrackMassKinematicConstraint.h"
+#include "RecoVertex/KinematicFit/interface/KinematicParticleVertexFitter.h"
+#include "RecoVertex/KinematicFit/interface/KinematicParticleFitter.h"
+#include "RecoVertex/KinematicFit/interface/MassKinematicConstraint.h"
 
 #include "SimDataFormats/PileupSummaryInfo/interface/PileupSummaryInfo.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
@@ -1000,6 +1011,94 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
             }
             nt.vtx_dRtoJets_.push_back(dRtoJets);
             nt.vtx_dPhiToJets_.push_back(dPhitoJets);
+
+            // get refitted tracks from KVF
+            auto refit_tks = tv.refittedTracks();
+            if (refit_tks.size() != 2) {
+               cout << "Only has " << refit_tks.size() << " refitted tracks!" << endl;
+            }
+            GlobalPoint gp_pv(pv.position().x(),pv.position().y(),pv.position().z());
+            if (refit_tks.size() == 2) {
+               auto tk1 = refit_tks.at(0);
+               auto tk2 = refit_tks.at(1);
+               auto traj1 = tk1.trajectoryStateClosestToPoint(gp_pv);
+               auto traj2 = tk2.trajectoryStateClosestToPoint(gp_pv);
+               
+               nt.vtx_e1_refitDxy_.push_back(traj1.perigeeParameters().transverseImpactParameter());
+               nt.vtx_e1_refitDxyErr_.push_back(traj1.perigeeError().transverseImpactParameterError());
+               nt.vtx_e1_refitDz_.push_back(traj1.perigeeParameters().longitudinalImpactParameter());
+               nt.vtx_e1_refitDzErr_.push_back(traj1.perigeeError().longitudinalImpactParameterError());
+               nt.vtx_e1_refitChi2_.push_back(tk1.normalizedChi2());
+               
+               nt.vtx_e2_refitDxy_.push_back(traj2.perigeeParameters().transverseImpactParameter());
+               nt.vtx_e2_refitDxyErr_.push_back(traj2.perigeeError().transverseImpactParameterError());
+               nt.vtx_e2_refitDz_.push_back(traj2.perigeeParameters().longitudinalImpactParameter());
+               nt.vtx_e2_refitDzErr_.push_back(traj2.perigeeError().longitudinalImpactParameterError());
+               nt.vtx_e2_refitChi2_.push_back(tk2.normalizedChi2());
+
+               nt.vtx_refit_dr_.push_back(reco::deltaR(tk1.track(),tk2.track()));
+            }
+            else if (refit_tks.size() == 1) {
+               auto tk1 = refit_tks.at(0);
+               auto traj1 = tk1.trajectoryStateClosestToPoint(gp_pv);
+               
+               nt.vtx_e1_refitDxy_.push_back(traj1.perigeeParameters().transverseImpactParameter());
+               nt.vtx_e1_refitDxyErr_.push_back(traj1.perigeeError().transverseImpactParameterError());
+               nt.vtx_e1_refitDz_.push_back(traj1.perigeeParameters().longitudinalImpactParameter());
+               nt.vtx_e1_refitDzErr_.push_back(traj1.perigeeError().longitudinalImpactParameterError());
+               nt.vtx_e1_refitChi2_.push_back(tk1.normalizedChi2());
+               
+               nt.vtx_e2_refitDxy_.push_back(-999.0);
+               nt.vtx_e2_refitDxyErr_.push_back(-999.0);
+               nt.vtx_e2_refitDz_.push_back(-999.0);
+               nt.vtx_e2_refitDzErr_.push_back(-999.0);
+               nt.vtx_e2_refitChi2_.push_back(-999.0);
+
+               nt.vtx_refit_dr_.push_back(-999.0);
+            }
+            else {
+               nt.vtx_e1_refitDxy_.push_back(-999.0);
+               nt.vtx_e1_refitDxyErr_.push_back(-999.0);
+               nt.vtx_e1_refitDz_.push_back(-999.0);
+               nt.vtx_e1_refitDzErr_.push_back(-999.0);
+               nt.vtx_e1_refitChi2_.push_back(-999.0);
+
+               nt.vtx_e2_refitDxy_.push_back(-999.0);
+               nt.vtx_e2_refitDxyErr_.push_back(-999.0);
+               nt.vtx_e2_refitDz_.push_back(-999.0);
+               nt.vtx_e2_refitDzErr_.push_back(-999.0);
+               nt.vtx_e2_refitChi2_.push_back(-999.0);
+
+               nt.vtx_refit_dr_.push_back(-999.0);
+            }
+
+            // Perform kinematic fit to re-compute dielectron mass, pT, dR
+            KinematicParticleFactoryFromTransientTrack pFactory;
+            ParticleMass e_mass = 0.000511;
+            float e_sigma = 0.00000001;
+            float chi = 0.;
+            float ndf = 0.;
+            vector<RefCountedKinematicParticle> eleParticles;
+            eleParticles.push_back(pFactory.particle(transient_tracks[0],e_mass,chi,ndf,e_sigma));
+            eleParticles.push_back(pFactory.particle(transient_tracks[1],e_mass,chi,ndf,e_sigma));
+            KinematicParticleVertexFitter fitter;
+            RefCountedKinematicTree vertexFitTree = fitter.fit(eleParticles);
+            if (vertexFitTree->isValid()) {
+               vertexFitTree->movePointerToTheTop();
+               auto diele_part = vertexFitTree->currentParticle();
+               auto diele_state = diele_part->currentState();
+               auto daughters = vertexFitTree->daughterParticles();
+               nt.vtx_refit_m_.push_back(diele_state.mass());
+               nt.vtx_refit_pt_.push_back(diele_state.globalMomentum().transverse());
+               nt.vtx_refit_eta_.push_back(diele_state.globalMomentum().eta());
+               nt.vtx_refit_phi_.push_back(diele_state.globalMomentum().phi());
+            }
+            else {
+               nt.vtx_refit_m_.push_back(-999.0);
+               nt.vtx_refit_pt_.push_back(-999.0);
+               nt.vtx_refit_eta_.push_back(-999.0);
+               nt.vtx_refit_phi_.push_back(-999.0);
+            }
          }
       }
    };
