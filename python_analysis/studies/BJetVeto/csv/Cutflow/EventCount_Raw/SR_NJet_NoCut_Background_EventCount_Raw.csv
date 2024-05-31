@@ -1,0 +1,8 @@
+,Preselections,n(good vertex) > 0,computing BDT score,No b-tagged jets,Leading jet |eta| < 2.4,Leading jet pT > 80 GeV,"dPhi(MET,leading jet) > 2","dPhi(MET,all jets) > 0.75",BDT
+WJets,1103268,5005,5005,2877,2792,2785,2676,1861,44
+Multiboson,24268,174,174,103,94,91,88,75,1
+ZJets,709875,6240,6240,4202,4058,4043,3927,2919,56
+QCD,30250,120,120,32,32,32,28,0,0
+DY,1180,15,15,11,10,10,10,10,2
+Top,49158,530,530,306,242,238,236,194,12
+Total,1917999,12084,12084,7531,7228,7199,6965,5059,115
