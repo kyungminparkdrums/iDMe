@@ -321,3 +321,27 @@ def save_df_to_csv(df, outdir, outname, isSignal = False):
     print(f'Saved: {outdir}/{outname}.csv')
 
 
+def dict_to_sorted_df(dict, m1=None, delta=None, ctau=None):
+    df = pd.DataFrame.from_dict(dict, orient='index')
+    df.pop(0)
+    
+    m1_list = []
+    delta_list = []
+    ctau_list = []
+    
+    for point in df.index.values:
+        sig_dict = ptools.signalPoint(point)
+        m1_list.append(sig_dict['m1'])
+        delta_list.append(sig_dict['delta'])
+        ctau_list.append(sig_dict['ctau'])
+    
+    df['m1'] = m1_list
+    df['delta'] = delta_list
+    df['ctau'] = ctau_list
+    
+    df = df.sort_values(by=['m1']) # sort by m1
+
+    if (m1 != None) and (delta != None) and (ctau != None):
+        df = df[ (df.m1 == m1) & (df.ctau == ctau) & (df.delta == delta) ]
+    
+    return df
