@@ -1082,18 +1082,27 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
             eleParticles.push_back(pFactory.particle(transient_tracks[0],e_mass,chi,ndf,e_sigma));
             eleParticles.push_back(pFactory.particle(transient_tracks[1],e_mass,chi,ndf,e_sigma));
             KinematicParticleVertexFitter fitter;
-            RefCountedKinematicTree vertexFitTree = fitter.fit(eleParticles);
-            if (vertexFitTree->isValid()) {
-               vertexFitTree->movePointerToTheTop();
-               auto diele_part = vertexFitTree->currentParticle();
-               auto diele_state = diele_part->currentState();
-               auto daughters = vertexFitTree->daughterParticles();
-               nt.vtx_refit_m_.push_back(diele_state.mass());
-               nt.vtx_refit_pt_.push_back(diele_state.globalMomentum().transverse());
-               nt.vtx_refit_eta_.push_back(diele_state.globalMomentum().eta());
-               nt.vtx_refit_phi_.push_back(diele_state.globalMomentum().phi());
+            try {
+               RefCountedKinematicTree vertexFitTree = fitter.fit(eleParticles);
+               if (vertexFitTree->isValid()) {
+                  vertexFitTree->movePointerToTheTop();
+                  auto diele_part = vertexFitTree->currentParticle();
+                  auto diele_state = diele_part->currentState();
+                  auto daughters = vertexFitTree->daughterParticles();
+                  nt.vtx_refit_m_.push_back(diele_state.mass());
+                  nt.vtx_refit_pt_.push_back(diele_state.globalMomentum().transverse());
+                  nt.vtx_refit_eta_.push_back(diele_state.globalMomentum().eta());
+                  nt.vtx_refit_phi_.push_back(diele_state.globalMomentum().phi());
+               }
+               else {
+                  nt.vtx_refit_m_.push_back(-999.0);
+                  nt.vtx_refit_pt_.push_back(-999.0);
+                  nt.vtx_refit_eta_.push_back(-999.0);
+                  nt.vtx_refit_phi_.push_back(-999.0);
+               }
             }
-            else {
+            catch (std::exception ex) {
+               cout << "kinematic vertex fit failed!" << endl;
                nt.vtx_refit_m_.push_back(-999.0);
                nt.vtx_refit_pt_.push_back(-999.0);
                nt.vtx_refit_eta_.push_back(-999.0);

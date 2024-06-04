@@ -5,6 +5,7 @@ import json
 import sys
 import numpy as np
 import time
+from argparse import ArgumentParser
 
 elePassCut = '''
 std::vector<bool> elePassCut(ROOT::VecOps::RVec<float> pt, ROOT::VecOps::RVec<float> eta) {
