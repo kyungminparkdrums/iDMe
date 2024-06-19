@@ -173,6 +173,18 @@ bkg_cmap = {
     "Multiboson":cmap_petroff[5]
 }
 
+# 10-color scheme from cms: ["#3f90da", "#ffa90e", "#bd1f01", "#94a4a2", "#832db6", "#a96b59", "#e76300", "#b9ac70", "#717581", "#92dadd"]
+# https://cms-analysis.docs.cern.ch/guidelines/plotting/colors/#categorical-data-eg-1d-stackplots
+bkg_cmap = {
+    "QCD": "#3f90da",
+    "WJets": "#ffa90e", 
+    "ZJets": "#bd1f01", 
+    "DY": "#94a4a2",
+    "Top": "#832db6",
+    "Multiboson": "#a96b59",
+    "ZGamma": "#e76300"
+}
+
 # Plot efficiency type stuff
 def plot_signal_efficiency(sig_histo, df, m1s, deltas, ctaus, doLog = True, ylabel = '', title = ''):
     cuts = utils.get_signal_list_of_cuts(sig_histo)
@@ -277,7 +289,14 @@ def plot_bkg_efficiency_legacy(bkg_histos, df, doLog = True, ylabel = '', title 
     plt.show()
 
 # Plot kinematics
-def plot_signal_1D(ax, sig_histo, m1, delta, ctau, plot_dict, style_dict):
+def plot_signal_1D(sig_histo, m1, delta, ctau, plot_dict, style_dict):
+    # Figure setting 
+    fig = style_dict['fig']
+    ax = style_dict['ax']
+
+    #plt.style.use(hep.style.ROOT)
+    isData = False
+    
     # get signal point info
     si = utils.get_signal_point_dict(sig_histo)
     samp_df = si[(si.m1 == m1) & (si.delta == delta) & (si.ctau == ctau)]
@@ -328,6 +347,13 @@ def plot_signal_1D(ax, sig_histo, m1, delta, ctau, plot_dict, style_dict):
 
 
 def plot_signal_2D(ax, sig_histo, m1, delta, ctau, plot_dict, style_dict):
+    # Figure setting 
+    fig = style_dict['fig']
+    ax = style_dict['ax']
+
+    #plt.style.use(hep.style.ROOT)
+    isData = False
+    
     # get signal point info
     si = utils.get_signal_point_dict(sig_histo)
     samp_df = si[(si.m1 == m1) & (si.delta == delta) & (si.ctau == ctau)]
@@ -373,7 +399,14 @@ def plot_signal_2D(ax, sig_histo, m1, delta, ctau, plot_dict, style_dict):
         hep.hist2dplot(histo, flow=style_dict['flow'], ax=ax)
 
 
-def plot_bkg_1d(ax, bkg_histos, plot_dict, style_dict, isLegacy, processes = 'all'):
+def plot_bkg_1d(bkg_histos, plot_dict, style_dict, isLegacy, processes = 'all'):
+    # Figure setting 
+    fig = style_dict['fig']
+    ax = style_dict['ax']
+
+    #plt.style.use(hep.style.ROOT)
+    isData = False
+    
     if isLegacy:
         return plot_bkg_1d_legacy(ax, bkg_histos, plot_dict, style_dict, processes, isLegacy)
     else:
@@ -440,14 +473,31 @@ def plot_bkg_1d(ax, bkg_histos, plot_dict, style_dict, isLegacy, processes = 'al
             
         # Plot
         hb.plot(stack=True, yerr=style_dict['doYerr'], density=style_dict['doDensity'], flow=style_dict['flow'], histtype='fill', color=color_list)
+
+        # y-range
+        if style_dict['ylim'] != None:
+            ax.set_ylim([style_dict['ylim'][0], style_dict['ylim'][1]])
+
+        if style_dict['xlim'] != None:
+            ax.set_xlim([style_dict['xlim'][0], style_dict['xlim'][1]])
         
         # legend
         handles, labels = ax.get_legend_handles_labels()
-        ax.legend(handles[::-1], labels[::-1])
+        ax.legend(handles[::-1], labels[::-1], loc='upper right', frameon=False)
+
+        #legend_ax = fig.add_axes([0, 0, 0.05, 1])  # Adjust the values as needed
+        #legend_ax.axis('off')
+        #legend_ax.legend(handles = handles, labels = labels, loc='center',frameon=False)
 
 
-def plot_bkg_1d_legacy(ax, bkg_histos, plot_dict, style_dict, processes = 'all', isLegacy = True):  
+def plot_bkg_1d_legacy(bkg_histos, plot_dict, style_dict, processes = 'all', isLegacy = True):  
+    # Figure setting 
+    fig = style_dict['fig']
+    ax = style_dict['ax']
 
+    #plt.style.use(hep.style.ROOT)
+    isData = False
+    
     if processes == 'all':
         #processes = bkg_histos.keys()
 
@@ -530,12 +580,26 @@ def plot_bkg_1d_legacy(ax, bkg_histos, plot_dict, style_dict, processes = 'all',
     # Plot
     hb.plot(stack=True, yerr=style_dict['doYerr'], density=style_dict['doDensity'], flow=style_dict['flow'], histtype='fill', color=color_list)
 
+    # y-range
+    if style_dict['ylim'] != None:
+        ax.set_ylim([style_dict['ylim'][0], style_dict['ylim'][1]])
+
+    if style_dict['xlim'] != None:
+        ax.set_xlim([style_dict['xlim'][0], style_dict['xlim'][1]])
+        
     # legend
     handles, labels = ax.get_legend_handles_labels()
-    ax.legend(handles[::-1], labels[::-1])
+    ax.legend(handles[::-1], labels[::-1], loc='upper right', frameon=False)
 
 
-def plot_bkg_1d_stacked(ax, bkg_histos, plot_dict, style_dict, isLegacy, processes = 'all'):
+def plot_bkg_1d_stacked(bkg_histos, plot_dict, style_dict, isLegacy, processes = 'all'):
+    # Figure setting 
+    fig = style_dict['fig']
+    ax = style_dict['ax']
+
+    #plt.style.use(hep.style.ROOT)
+    isData = False
+    
     if isLegacy:
         return plot_bkg_1d_stacked_legacy(ax, bkg_histos, plot_dict, style_dict, processes = 'all', isLegacy = isLegacy)
     else:
@@ -602,12 +666,26 @@ def plot_bkg_1d_stacked(ax, bkg_histos, plot_dict, style_dict, isLegacy, process
         # Plot
         hep.histplot(bkg_stack, yerr=style_dict['doYerr'], density=style_dict['doDensity'], ax=ax, histtype='step', flow=style_dict['flow'], label = style_dict['label'])
         
+        # y-range
+        if style_dict['ylim'] != None:
+            ax.set_ylim([style_dict['ylim'][0], style_dict['ylim'][1]])
+
+        if style_dict['xlim'] != None:
+            ax.set_xlim([style_dict['xlim'][0], style_dict['xlim'][1]])
+        
         # legend
         handles, labels = ax.get_legend_handles_labels()
-        ax.legend(handles[::-1], labels[::-1])
+        ax.legend(handles[::-1], labels[::-1], loc='upper right', frameon=False)
         
 
-def plot_bkg_1d_stacked_legacy(ax, bkg_histos, plot_dict, style_dict, processes = 'all', isLegacy = True):  
+def plot_bkg_1d_stacked_legacy(bkg_histos, plot_dict, style_dict, processes = 'all', isLegacy = True):  
+    # Figure setting 
+    fig = style_dict['fig']
+    ax = style_dict['ax']
+
+    #plt.style.use(hep.style.ROOT)
+    isData = False
+    
     if processes == 'all':
         #processes = bkg_histos.keys()
 
@@ -671,11 +749,25 @@ def plot_bkg_1d_stacked_legacy(ax, bkg_histos, plot_dict, style_dict, processes 
     # Plot
     hep.histplot(bkg_stack, yerr=style_dict['doYerr'], density=style_dict['doDensity'], ax=ax, histtype='step', flow=style_dict['flow'], label = style_dict['label'])
     
+    # y-range
+    if style_dict['ylim'] != None:
+        ax.set_ylim([style_dict['ylim'][0], style_dict['ylim'][1]])
+
+    if style_dict['xlim'] != None:
+        ax.set_xlim([style_dict['xlim'][0], style_dict['xlim'][1]])
+        
     # legend
     handles, labels = ax.get_legend_handles_labels()
-    ax.legend(handles[::-1], labels[::-1])
+    ax.legend(handles[::-1], labels[::-1], loc='upper right', frameon=False)
 
-def plot_bkg_2D(ax, bkg_histos, plot_dict, style_dict, isLegacy, processes = 'all'):
+def plot_bkg_2D(bkg_histos, plot_dict, style_dict, isLegacy, processes = 'all'):
+    # Figure setting 
+    fig = style_dict['fig']
+    ax = style_dict['ax']
+
+    #plt.style.use(hep.style.ROOT)
+    isData = False
+    
     if isLegacy:
         return plot_bkg_2D_legacy(ax, bkg_histos, plot_dict, style_dict, processes = 'all', isLegacy = isLegacy)
     else:
@@ -738,13 +830,26 @@ def plot_bkg_2D(ax, bkg_histos, plot_dict, style_dict, isLegacy, processes = 'al
         else:
             hep.hist2dplot(bkg_stack, flow=style_dict['flow'], ax=ax)
         
+        # y-range
+        if style_dict['ylim'] != None:
+            ax.set_ylim([style_dict['ylim'][0], style_dict['ylim'][1]])
+
+        if style_dict['xlim'] != None:
+            ax.set_xlim([style_dict['xlim'][0], style_dict['xlim'][1]])
+        
         # legend
         handles, labels = ax.get_legend_handles_labels()
-        ax.legend(handles[::-1], labels[::-1])
+        ax.legend(handles[::-1], labels[::-1], loc='upper right', frameon=False)
 
 
-def plot_bkg_2D_legacy(ax, bkg_histos, plot_dict, style_dict, processes = 'all', isLegacy = True):  
+def plot_bkg_2D_legacy(bkg_histos, plot_dict, style_dict, processes = 'all', isLegacy = True):  
+    # Figure setting 
+    fig = style_dict['fig']
+    ax = style_dict['ax']
 
+    #plt.style.use(hep.style.ROOT)
+    isData = False
+    
     processes_list = processes
     
     if processes == 'all':
@@ -809,11 +914,25 @@ def plot_bkg_2D_legacy(ax, bkg_histos, plot_dict, style_dict, processes = 'all',
     else:
         hep.hist2dplot(bkg_stack, flow=style_dict['flow'], ax=ax)
     
+    # y-range
+    if style_dict['ylim'] != None:
+        ax.set_ylim([style_dict['ylim'][0], style_dict['ylim'][1]])
+
+    if style_dict['xlim'] != None:
+        ax.set_xlim([style_dict['xlim'][0], style_dict['xlim'][1]])
+        
     # legend
     handles, labels = ax.get_legend_handles_labels()
-    ax.legend(handles[::-1], labels[::-1])
+    ax.legend(handles[::-1], labels[::-1], loc='upper right', frameon=False)
 
-def plot_data_1d(ax, data_histo, plot_dict, style_dict):
+def plot_data_1d(data_histo, plot_dict, style_dict):
+    # Figure setting 
+    fig = style_dict['fig']
+    ax = style_dict['ax']
+
+    #plt.style.use(hep.style.ROOT)
+    isData = True
+    
     # Get list of data
     runs = list(data_histo['cutflow_cts'].keys())
 
@@ -854,6 +973,13 @@ def plot_data_1d(ax, data_histo, plot_dict, style_dict):
     # Plot
     hep.histplot(histo, yerr=style_dict['doYerr'], density=style_dict['doDensity'], ax=ax, histtype='step', flow=style_dict['flow'], label = style_dict['label'])
 
+    # y-range
+    if style_dict['ylim'] != None:
+        ax.set_ylim([style_dict['ylim'][0], style_dict['ylim'][1]])
+
+    if style_dict['xlim'] != None:
+        ax.set_xlim([style_dict['xlim'][0], style_dict['xlim'][1]])
+        
     # legend
     handles, labels = ax.get_legend_handles_labels()
-    ax.legend(handles[::-1], labels[::-1])
+    ax.legend(handles[::-1], labels[::-1], loc='upper right', frameon=False)

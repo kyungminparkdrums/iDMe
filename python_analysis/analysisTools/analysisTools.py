@@ -210,9 +210,9 @@ class iDMeProcessor(processor.ProcessorABC):
         for k,v in self.extraStuff.items():
             info[f"extras_{k}"] = v
         
-        #histos = self.histoMod.make_histograms()
-        #histos['cutDesc'] = defaultdict(str)
-        histObj = self.histoMod.make_histograms(info)
+        histos = self.histoMod.make_histograms()
+        histos['cutDesc'] = defaultdict(str)
+        #histObj = self.histoMod.make_histograms(info)
         cutDesc = defaultdict(str)
 
         cutflow = defaultdict(float)               # efficiency
@@ -275,9 +275,14 @@ class iDMeProcessor(processor.ProcessorABC):
         #################################
         # 1 or 2 jets in the event
         nJets = ak.count(events.PFJet.pt,axis=1)
-        events = events[(nJets>0) & (nJets<3)]
+        #events = events[(nJets>0) & (nJets<3)] # Kyungmin commenting this out for VR
+        #events = events[(nJets>2) & (nJets<5)]
+        events = events[(nJets>2)]
+        #events = events[(nJets>0)]
+        print('NJet > 2')
         # needs a good vertex
-        routines.defineGoodVertices(events,version='v5') # define "good" vertices based on whether associated electrons pass ID cuts
+        #routines.defineGoodVertices(events,version='v5') # define "good" vertices based on whether associated electrons pass ID cuts
+        routines.defineGoodVertices(events,version='v7') # Kyungmin VR
         events = events[events.nGoodVtx > 0]
         # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
         routines.selectBestVertex(events)
@@ -315,7 +320,7 @@ class iDMeProcessor(processor.ProcessorABC):
                 cutflow[cutName] += ak.sum(events.genWgt)/sum_wgt
             else:
                 cutflow[cutName] += len(events)/sum_wgt
-            cutflow_nevts[cutName] += len(events)            
+            cutflow_nevts[cutName] += len(events)
             if info['type'] == "signal":
                 vtx_matched_events = events[events.sel_vtx.isMatched]
                 cutflow_vtx_matched[cutName] += ak.sum(vtx_matched_events.genWgt)/ak.sum(events.genWgt)
@@ -323,7 +328,8 @@ class iDMeProcessor(processor.ProcessorABC):
 
             # Fill histograms
             if savePlots and len(events) > 0: # fixes some bugginess trying to fill histograms with empty arrays
-                self.histoFill(events,histObj,samp,cutName,info,sum_wgt=sum_wgt)
+                #self.histoFill(events,histObj,samp,cutName,info,sum_wgt=sum_wgt)
+                self.histoFill(events,histos,samp,cutName,info,sum_wgt=sum_wgt)
         
         for k in cutflow.keys():
             if isMC:
@@ -331,7 +337,7 @@ class iDMeProcessor(processor.ProcessorABC):
             else:
                 cutflow_counts[k] = sum_wgt*cutflow[k]
         
-        histos = histObj.histograms
+        #histos = histObj.histograms
         histos['cutDesc'] = cutDesc
         histos['cutflow'] = {samp:cutflow}
         histos['cutflow_cts'] = {samp:cutflow_counts}
@@ -351,9 +357,9 @@ class genProcessor(iDMeProcessor):
         samp = events.metadata["dataset"]
         info = self.sampleInfo[samp]
         
-        #histos = self.histoMod.make_histograms()
-        #histos['cutDesc'] = defaultdict(str)
-        histObj = self.histoMod.make_histograms(info)
+        histos = self.histoMod.make_histograms()
+        histos['cutDesc'] = defaultdict(str)
+        #histObj = self.histoMod.make_histograms(info)
         
         cutDesc = defaultdict(str)
         cutflow = defaultdict(float)               # efficiency
@@ -398,7 +404,8 @@ class genProcessor(iDMeProcessor):
             routines.genMatchExtraVtxVariables(events)
 
         # initial histogram fill
-        self.histoFill(events,histObj,samp,"no_presel",info,sum_wgt=sum_wgt)
+        #self.histoFill(events,histObj,samp,"no_presel",info,sum_wgt=sum_wgt)
+        self.histoFill(events,histos,samp,"no_presel",info,sum_wgt=sum_wgt)
 
         #################################
         #### Hard-coded basic cuts ######
@@ -406,6 +413,8 @@ class genProcessor(iDMeProcessor):
         # 1 or 2 jets in the event
         nJets = ak.count(events.PFJet.pt,axis=1)
         events = events[(nJets>0) & (nJets<3)]
+        #events = events[(nJets>0)]
+        print('Gen')
         
         #################################
         #### Demand >= 1 ee vertices ####
@@ -437,12 +446,13 @@ class genProcessor(iDMeProcessor):
             cutDesc[cutName] += cutDescription + "@"
             # Fill histograms
             if savePlots and len(events) > 0: # fixes some bugginess trying to fill histograms with empty arrays
-                self.histoFill(events,histObj,samp,cutName,info,sum_wgt=sum_wgt)
+                #self.histoFill(events,histObj,samp,cutName,info,sum_wgt=sum_wgt)
+                self.histoFill(events,histos,samp,cutName,info,sum_wgt=sum_wgt)
         
         for k in cutflow.keys():
             cutflow_counts[k] = xsec*lumi*cutflow[k]
 
-        histos = histObj.histograms
+        #histos = histObj.histograms
         histos['cutDesc'] = cutDesc
         histos['cutflow'] = {samp:cutflow}
         histos['cutflow_cts'] = {samp:cutflow_counts}
@@ -505,6 +515,8 @@ class trigProcessor(iDMeProcessor):
         # require jets
         nJets = ak.count(events.PFJet.pt,axis=1)
         events = events[(nJets>0)&(nJets<3)]
+        #events = events[(nJets>0)]
+        print('Trigger')
         jet_pt_all.fill(samp=samp,pt=events.PFJet.pt[:,0],weight=events.wgt)
 
         # iDM-like jet selection

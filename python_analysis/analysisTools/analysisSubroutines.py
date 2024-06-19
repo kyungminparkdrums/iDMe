@@ -178,7 +178,8 @@ def defineGoodVertices(events,version='default',ele_id='dR'):
     chi2 = events.vtx.reduced_chi2 < 5
     mass = events.vtx.m < 20
     eleDphi = events.vtx.eleDphi < 2
-    mindxy = events.vtx.min_dxy > 0.01
+    mindxy = events.vtx.min_dxy > 0.005
+    #mindxy = events.vtx.min_dxy > 0.01
     maxMiniIso = np.maximum(events.vtx.e1.miniRelIsoEleCorr,events.vtx.e2.miniRelIsoEleCorr) < 0.9
     passConvVeto = events.vtx.e1.conversionVeto & events.vtx.e2.conversionVeto
     mass_lo = events.vtx.m > 0.325
@@ -198,6 +199,8 @@ def defineGoodVertices(events,version='default',ele_id='dR'):
         events['vtx','isGood'] = IDcut & ossf & chi2 & mass & mindxy & maxMiniIso & passConvVeto # v5 definition
     if version == 'v6':
         events['vtx','isGood'] = IDcut & ossf & chi2 & mass & mindxy & maxMiniIso & passConvVeto & mass_lo # v5 definition
+    if version == 'v7':
+        events['vtx','isGood'] = IDcut & ossf & chi2 & mindxy & maxMiniIso & passConvVeto # v7 Kyungmin
     events.__setitem__("good_vtx",events.vtx[events.vtx.isGood])
     events.__setitem__("nGoodVtx",ak.count(events.good_vtx.vxy,axis=1))
 
