@@ -1,0 +1,24 @@
+{
+    "name": "TTX_TTGJets",
+    "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTGJets/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTGJets_2024_07_19-11_30/240719_163035/0000/",
+    "type": "bkg",
+    "year": 2018,
+    "nFiles": 11,
+    "sum_wgt": 28272836.65625,
+    "xsec": 3774.0,
+    "num_events": 4503937,
+    "blacklist": [],
+    "fileset": [
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTGJets/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTGJets_2024_07_19-11_30/240719_163035/0000/TTGJets_1-1.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTGJets/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTGJets_2024_07_19-11_30/240719_163035/0000/TTGJets_1-2.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTGJets/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTGJets_2024_07_19-11_30/240719_163035/0000/TTGJets_1.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTGJets/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTGJets_2024_07_19-11_30/240719_163035/0000/TTGJets_10.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTGJets/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTGJets_2024_07_19-11_30/240719_163035/0000/TTGJets_2.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTGJets/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTGJets_2024_07_19-11_30/240719_163035/0000/TTGJets_3.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTGJets/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTGJets_2024_07_19-11_30/240719_163035/0000/TTGJets_4.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTGJets/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTGJets_2024_07_19-11_30/240719_163035/0000/TTGJets_5.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTGJets/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTGJets_2024_07_19-11_30/240719_163035/0000/TTGJets_6.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTGJets/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTGJets_2024_07_19-11_30/240719_163035/0000/TTGJets_7.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTGJets/TTGJets_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTGJets_2024_07_19-11_30/240719_163035/0000/TTGJets_9.root"
+    ]
+}

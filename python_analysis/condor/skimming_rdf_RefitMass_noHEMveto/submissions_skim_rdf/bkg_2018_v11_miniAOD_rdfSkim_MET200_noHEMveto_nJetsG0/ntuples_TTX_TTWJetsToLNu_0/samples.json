@@ -1,0 +1,20 @@
+{
+    "name": "TTX_TTWJetsToLNu",
+    "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/TTX/TTWJetsToLNu/TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTWJetsToLNu_2024_07_22-09_09/240722_140918/0000/",
+    "type": "bkg",
+    "year": 2018,
+    "nFiles": 7,
+    "sum_wgt": 3525043.9921875,
+    "xsec": 216.3,
+    "num_events": 10516349,
+    "blacklist": [],
+    "fileset": [
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/TTX/TTWJetsToLNu/TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTWJetsToLNu_2024_07_22-09_09/240722_140918/0000/TTWJetsToLNu_1-1.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/TTX/TTWJetsToLNu/TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTWJetsToLNu_2024_07_22-09_09/240722_140918/0000/TTWJetsToLNu_1.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/TTX/TTWJetsToLNu/TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTWJetsToLNu_2024_07_22-09_09/240722_140918/0000/TTWJetsToLNu_2.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/TTX/TTWJetsToLNu/TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTWJetsToLNu_2024_07_22-09_09/240722_140918/0000/TTWJetsToLNu_3.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/TTX/TTWJetsToLNu/TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTWJetsToLNu_2024_07_22-09_09/240722_140918/0000/TTWJetsToLNu_4.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/TTX/TTWJetsToLNu/TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTWJetsToLNu_2024_07_22-09_09/240722_140918/0000/TTWJetsToLNu_5.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/TTX/TTWJetsToLNu/TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTWJetsToLNu_2024_07_22-09_09/240722_140918/0000/TTWJetsToLNu_6.root"
+    ]
+}

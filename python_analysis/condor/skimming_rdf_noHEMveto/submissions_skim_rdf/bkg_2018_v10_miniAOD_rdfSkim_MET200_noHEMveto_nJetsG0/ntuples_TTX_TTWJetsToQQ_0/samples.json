@@ -1,0 +1,15 @@
+{
+    "name": "TTX_TTWJetsToQQ",
+    "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTWJetsToQQ/TTWJetsToQQ_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTWJetsToQQ_2024_07_19-11_30/240719_163104/0000/",
+    "type": "bkg",
+    "year": 2018,
+    "nFiles": 2,
+    "sum_wgt": 656374.1875,
+    "xsec": 443.2,
+    "num_events": 970179,
+    "blacklist": [],
+    "fileset": [
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTWJetsToQQ/TTWJetsToQQ_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTWJetsToQQ_2024_07_19-11_30/240719_163104/0000/TTWJetsToQQ_1.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/TTX/TTWJetsToQQ/TTWJetsToQQ_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8/crab_iDMe_TTWJetsToQQ_2024_07_19-11_30/240719_163104/0000/TTWJetsToQQ_2.root"
+    ]
+}

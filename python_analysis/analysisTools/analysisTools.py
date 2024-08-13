@@ -223,11 +223,27 @@ class iDMeProcessor(processor.ProcessorABC):
         cutflow_nevts = defaultdict(int)           # raw event counts
         cutflow_vtx_matched = defaultdict(float)   # (for signal MC) fraction that the selected vertex is truth-matched
         # (for signal MC) also check the above, but only counting the events where both gen ee are reconstructed: dR(reco,gen) < 0.1
-        
+
+        print(info)
         if isMC:
             sum_wgt = info["sum_wgt"]
             lumi, unc = getLumi(info['year'])
             xsec = info['xsec']
+
+            # Kyungmin NLO k-factor
+            if 'DY' in info['name']:
+                xsec = xsec * 1.23
+                #print(info['name'])
+                #print('DY sample: apply k-factor of 1.23 to event xsec')
+            elif 'WJet' in info['name']:
+                xsec = xsec * 1.21
+                #print(info['name'])
+                #print('WJets sample: apply k-factor of 1.21 to event xsec')
+            elif 'ZJet' in info['name']:
+                xsec = xsec * 1.23
+                #print(info['name'])
+                #print('ZJets sample: apply k-factor of 1.23 to event xsec')
+                
             # register event weight branch
             events.__setitem__("eventWgt",xsec*lumi*events.genWgt)
         else:
@@ -245,6 +261,13 @@ class iDMeProcessor(processor.ProcessorABC):
             
         cutDesc['all'] = 'No cuts@'
 
+        ######################################################################################
+        ## KYUNGMIN : add HEM flags here (before applying any quality cuts to jet, electrons##
+        ######################################################################################
+
+        routines.checkHEMjet(events)
+        routines.checkHEMelectron(events)
+        
         #################################
         ## Calculating Additional Vars ##
         #################################
@@ -272,21 +295,34 @@ class iDMeProcessor(processor.ProcessorABC):
         events['vtx','eleDphi'] = np.abs(deltaPhi(events.vtx.e1.phi,events.vtx.e2.phi))
         #if info['type'] == 'signal':
             #routines.genMatchExtraVtxVariables(events)
+
         
         #################################
         ##### Hard-coded basic cuts #####
         #################################
         # 1 or 2 jets in the event
         nJets = ak.count(events.PFJet.pt,axis=1)
-        #events = events[(nJets>0) & (nJets<3)]
-        events = events[nJets>0]
+        
+        events = events[(nJets>0) & (nJets<3)]
+        #events = events[nJets>0]
+        print('NJet [0,2]')
+        
+        #events = events[(nJets>2)] # Kyungmin VR studies
+        #print('NJet > 2')
+        
         # needs a good vertex
-        routines.defineGoodVertices(events,version='v5') # define "good" vertices based on whether associated electrons pass ID cuts
-        events = events[events.nGoodVtx > 0]
+        #routines.defineGoodVertices(events,version='v5') # define "good" vertices based on whether associated electrons pass ID cuts
+        routines.defineGoodVertices(events,version='v7') # Kyungmin VR studies
+        #routines.defineGoodVertices(events,version='v8') # Kyungmin VR studies
+        print('good_vtx definition v7') # Kyungmin VR studies
+        #routines.defineGoodVertices(events,version='none') # Kyungmin VR studies
+        #print('good_vtx definition v11') # Kyungmin VR studies
+        events = events[events.nGoodVtx > 0] # Kyungmin to do test with unskimmed files
         # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
-        routines.selectBestVertex(events)
-        #events = routines.selectTrueVertex(events,events.good_vtx)
-
+        #routines.selectBestVertex(events)
+        events = routines.selectTrueVertex(events,events.good_vtx)
+        print('Select True vertex')
+        
         routines.prepareBDT(events, self.model) # prepare BDT inference if the cuts include BDT-based cut
 
         # Fill cutflow after baseline selection
@@ -660,6 +696,7 @@ def getLumi(year):
         unc = 0.023*lumi # 2.3 percent
     if year == 2018:
         lumi = 59.83
+        #lumi = 13.48 # for 2018A only; without the normtag https://twiki.cern.ch/twiki/bin/viewauth/CMS/DCUserPage#More_information_for_2018_Analys
         unc = 0.025*lumi # 2.5 percent
     return lumi, unc
 

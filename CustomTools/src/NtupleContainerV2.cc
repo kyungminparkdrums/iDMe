@@ -245,6 +245,9 @@ void NtupleContainerV2::CreateTreeBranches() {
     outT->Branch("PFJet_corrJERDown_eta",&PFJetCorrectedJERDownEta_);
     outT->Branch("PFJet_corrJERDown_phi",&PFJetCorrectedJERDownPhi_);
     outT->Branch("HEM_flag",&PFHEMFlag_);
+    outT->Branch("HEMjet_flag",&PFHEMjetFlag_);
+    outT->Branch("HEMmet_flag",&PFHEMmetFlag_);
+    outT->Branch("HEMee_flag",&PFHEMeeFlag_);
 
     // MET
     outT->Branch("PFMET_ET",&PFMET_ET_);

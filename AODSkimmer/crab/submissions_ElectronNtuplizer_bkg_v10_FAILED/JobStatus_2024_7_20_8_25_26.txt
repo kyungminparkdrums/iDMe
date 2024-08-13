@@ -1,0 +1,29 @@
+
+
+Analyzing ./crab_iDMe_ST_t-channel_top_2024_07_19-11_31/
+status = FAILED
+Jobs FAILED! Failed job IDs = 1-16, 112, 81, 100, 99, 98, 94, 97, 
+
+Analyzing ./crab_iDMe_ST_tW_top_2024_07_19-11_32/
+status = SUBMITTED
+Jobs still running!
+
+Analyzing ./crab_iDMe_ZGToLLG_2024_07_19-11_33/
+status = FAILED
+Jobs FAILED! Failed job IDs = 1-16, 3, 4, 14, 16, 
+
+Analyzing ./crab_iDMe_WJetsLNu_HT100to200_2024_07_19-11_34/
+status = FAILED
+Jobs FAILED! Failed job IDs = 1-2, 
+
+Analyzing ./crab_iDMe_QCD_HT500to700_2024_07_19-11_36/
+status = FAILED
+Jobs FAILED! Failed job IDs = 1-14, 17, 18, 
+
+Analyzing ./crab_iDMe_TTToSemiLeptonic_2024_07_19-11_43/
+status = SUBMITTED
+Jobs still running!
+
+Analyzing ./crab_iDMe_TTToHadronic_2024_07_19-11_43/
+status = FAILED
+Jobs FAILED! Failed job IDs = 133, 132, 131, 137, 136, 135, 134, 139, 138, 125, 126, 127, 34, 60, 16, 1-31, 141, 1-6, 1-39, 

@@ -350,6 +350,9 @@ public:
     vector<float> PFJetCorrectedJERDownEta_;
     vector<float> PFJetCorrectedJERDownPhi_;
     bool PFHEMFlag_;
+    bool PFHEMjetFlag_;
+    bool PFHEMmetFlag_;
+    bool PFHEMeeFlag_;
 
     // MET
     float PFMET_ET_;

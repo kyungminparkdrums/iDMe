@@ -1,0 +1,23 @@
+
+
+Process with crab job completed: 
+./crab_iDMe_MET_Run2018D_2024_07_22-09_07/
+./crab_iDMe_WJetsLNu_HT100to200_2024_07_22-09_13/
+./crab_iDMe_QCD_HT200to300_2024_07_22-09_17/
+./crab_iDMe_TTToHadronic_2024_07_22-09_25/
+
+
+Process with crab job failed: 
+./crab_iDMe_ST_t-channel_top_2024_07_22-09_10/
+./crab_iDMe_ZGToLLG_2024_07_22-09_12/
+./crab_iDMe_WJetsLNu_HT400to600_2024_07_22-09_13/
+./crab_iDMe_QCD_HT1000to1500_2024_07_22-09_17/
+./crab_iDMe_ZJetsNuNu_HT100to200_2024_07_22-09_21/
+./crab_iDMe_ZJetsNuNu_HT600to800_2024_07_22-09_21/
+./crab_iDMe_WW_2024_07_22-09_24/
+./crab_iDMe_TTToSemiLeptonic_2024_07_22-09_25/
+
+
+Process with crab job still running: 
+./crab_iDMe_MET_Run2018A_2024_07_23-02_27/
+./crab_iDMe_TTTo2L2Nu_2024_07_22-09_25/

@@ -1,0 +1,22 @@
+{
+    "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/signal_v12_miniAOD//2018/Mchi-42p0_dMchi-4p0/ctau-10/",
+    "Mchi": 42.0,
+    "dMchi": 4.0,
+    "ctau": 10,
+    "name": "sig_Mchi-42.0_dMchi-4.0_ct-10",
+    "sum_wgt": 2.8500861731117766e-05,
+    "type": "signal",
+    "year": 2018,
+    "alphaD": "aEM",
+    "xsec": 969.089801,
+    "nFiles": 10,
+    "num_events": 446411,
+    "blacklist": [],
+    "fileset": [
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/signal_v12_miniAOD//2018/Mchi-42p0_dMchi-4p0/ctau-10/ntuples_Mchi-42p0_dMchi-4p0_ctau-10_05.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/signal_v12_miniAOD//2018/Mchi-42p0_dMchi-4p0/ctau-10/ntuples_Mchi-42p0_dMchi-4p0_ctau-10_06.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/signal_v12_miniAOD//2018/Mchi-42p0_dMchi-4p0/ctau-10/ntuples_Mchi-42p0_dMchi-4p0_ctau-10_07.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/signal_v12_miniAOD//2018/Mchi-42p0_dMchi-4p0/ctau-10/ntuples_Mchi-42p0_dMchi-4p0_ctau-10_08.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/signal_v12_miniAOD//2018/Mchi-42p0_dMchi-4p0/ctau-10/ntuples_Mchi-42p0_dMchi-4p0_ctau-10_09.root"
+    ]
+}

@@ -1,0 +1,21 @@
+{
+    "name": "Data_MET_UL18_MET_Run2018B",
+    "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018B/MET/crab_iDMe_MET_Run2018B_2024_07_22-09_07/240722_140727/0000/",
+    "sum_wgt": 0.0,
+    "type": "data",
+    "year": 2018,
+    "xsec": 0.0,
+    "nFiles": 16,
+    "num_events": 26781714,
+    "blacklist": [],
+    "fileset": [
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018B/MET/crab_iDMe_MET_Run2018B_2024_07_22-09_07/240722_140727/0000/MET_Run2018B_1-1.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018B/MET/crab_iDMe_MET_Run2018B_2024_07_22-09_07/240722_140727/0000/MET_Run2018B_1-2.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018B/MET/crab_iDMe_MET_Run2018B_2024_07_22-09_07/240722_140727/0000/MET_Run2018B_1-3.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018B/MET/crab_iDMe_MET_Run2018B_2024_07_22-09_07/240722_140727/0000/MET_Run2018B_1-4.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018B/MET/crab_iDMe_MET_Run2018B_2024_07_22-09_07/240722_140727/0000/MET_Run2018B_1-5.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018B/MET/crab_iDMe_MET_Run2018B_2024_07_22-09_07/240722_140727/0000/MET_Run2018B_1-6.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018B/MET/crab_iDMe_MET_Run2018B_2024_07_22-09_07/240722_140727/0000/MET_Run2018B_1-7.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018B/MET/crab_iDMe_MET_Run2018B_2024_07_22-09_07/240722_140727/0000/MET_Run2018B_1-8.root"
+    ]
+}

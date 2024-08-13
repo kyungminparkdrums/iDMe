@@ -1,0 +1,31 @@
+{
+    "name": "Multiboson_WW",
+    "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/",
+    "type": "bkg",
+    "year": 2018,
+    "nFiles": 18,
+    "sum_wgt": 15679122.133789062,
+    "xsec": 76250.0,
+    "num_events": 15679000,
+    "blacklist": [],
+    "fileset": [
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_1-1.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_1-2.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_1-3.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_1-4.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_1-5.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_1-6.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_1.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_10.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_11.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_12.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_2.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_3.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_4.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_5.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_6.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_7.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_8.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/Multiboson/WW/WW_TuneCP5_13TeV-pythia8/crab_iDMe_WW_2024_07_19-11_42/240719_164307/0000/WW_9.root"
+    ]
+}

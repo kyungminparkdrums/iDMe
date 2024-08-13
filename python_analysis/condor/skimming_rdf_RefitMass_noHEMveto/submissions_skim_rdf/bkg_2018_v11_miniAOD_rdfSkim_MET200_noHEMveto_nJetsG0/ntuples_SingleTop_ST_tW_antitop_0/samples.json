@@ -1,0 +1,21 @@
+{
+    "name": "SingleTop_ST_tW_antitop",
+    "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/SingleTop/ST_tW_antitop/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/crab_iDMe_ST_tW_antitop_2024_07_22-09_10/240722_141115/0000/",
+    "type": "bkg",
+    "year": 2018,
+    "nFiles": 8,
+    "sum_wgt": 251901589.8203125,
+    "xsec": 32510.0,
+    "num_events": 7749000,
+    "blacklist": [],
+    "fileset": [
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/SingleTop/ST_tW_antitop/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/crab_iDMe_ST_tW_antitop_2024_07_22-09_10/240722_141115/0000/ST_tW_antitop_1.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/SingleTop/ST_tW_antitop/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/crab_iDMe_ST_tW_antitop_2024_07_22-09_10/240722_141115/0000/ST_tW_antitop_2.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/SingleTop/ST_tW_antitop/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/crab_iDMe_ST_tW_antitop_2024_07_22-09_10/240722_141115/0000/ST_tW_antitop_3.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/SingleTop/ST_tW_antitop/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/crab_iDMe_ST_tW_antitop_2024_07_22-09_10/240722_141115/0000/ST_tW_antitop_4.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/SingleTop/ST_tW_antitop/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/crab_iDMe_ST_tW_antitop_2024_07_22-09_10/240722_141115/0000/ST_tW_antitop_5.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/SingleTop/ST_tW_antitop/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/crab_iDMe_ST_tW_antitop_2024_07_22-09_10/240722_141115/0000/ST_tW_antitop_6.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/SingleTop/ST_tW_antitop/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/crab_iDMe_ST_tW_antitop_2024_07_22-09_10/240722_141115/0000/ST_tW_antitop_7.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/SingleTop/ST_tW_antitop/ST_tW_antitop_5f_inclusiveDecays_TuneCP5_13TeV-powheg-pythia8/crab_iDMe_ST_tW_antitop_2024_07_22-09_10/240722_141115/0000/ST_tW_antitop_8.root"
+    ]
+}

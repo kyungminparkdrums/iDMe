@@ -1,0 +1,20 @@
+{
+    "name": "Data_MET_UL18_MET_Run2018C",
+    "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v3_5/2018/Data_MET_UL18/MET_Run2018C/MET/crab_iDMe_MET_Run2018C_2024_07_11-21_10/240712_021120/0000/",
+    "sum_wgt": 0.0,
+    "type": "data",
+    "year": 2018,
+    "xsec": 0.0,
+    "nFiles": 13,
+    "num_events": 30107311,
+    "blacklist": [],
+    "fileset": [
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v3_5/2018/Data_MET_UL18/MET_Run2018C/MET/crab_iDMe_MET_Run2018C_2024_07_11-21_10/240712_021120/0000/MET_Run2018C_1-1.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v3_5/2018/Data_MET_UL18/MET_Run2018C/MET/crab_iDMe_MET_Run2018C_2024_07_11-21_10/240712_021120/0000/MET_Run2018C_1.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v3_5/2018/Data_MET_UL18/MET_Run2018C/MET/crab_iDMe_MET_Run2018C_2024_07_11-21_10/240712_021120/0000/MET_Run2018C_10.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v3_5/2018/Data_MET_UL18/MET_Run2018C/MET/crab_iDMe_MET_Run2018C_2024_07_11-21_10/240712_021120/0000/MET_Run2018C_11.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v3_5/2018/Data_MET_UL18/MET_Run2018C/MET/crab_iDMe_MET_Run2018C_2024_07_11-21_10/240712_021120/0000/MET_Run2018C_12.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v3_5/2018/Data_MET_UL18/MET_Run2018C/MET/crab_iDMe_MET_Run2018C_2024_07_11-21_10/240712_021120/0000/MET_Run2018C_2.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v3_5/2018/Data_MET_UL18/MET_Run2018C/MET/crab_iDMe_MET_Run2018C_2024_07_11-21_10/240712_021120/0000/MET_Run2018C_3.root"
+    ]
+}

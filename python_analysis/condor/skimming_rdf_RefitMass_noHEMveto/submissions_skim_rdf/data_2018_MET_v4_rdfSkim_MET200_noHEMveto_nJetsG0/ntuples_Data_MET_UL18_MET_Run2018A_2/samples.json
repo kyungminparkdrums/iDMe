@@ -1,0 +1,21 @@
+{
+    "name": "Data_MET_UL18_MET_Run2018A",
+    "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018A/MET/crab_iDMe_MET_Run2018A_2024_07_23-02_27/240723_072824/0000/",
+    "sum_wgt": 0.0,
+    "type": "data",
+    "year": 2018,
+    "xsec": 0.0,
+    "nFiles": 40,
+    "num_events": 46727310,
+    "blacklist": [],
+    "fileset": [
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018A/MET/crab_iDMe_MET_Run2018A_2024_07_23-02_27/240723_072824/0000/MET_Run2018A_1-4.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018A/MET/crab_iDMe_MET_Run2018A_2024_07_23-02_27/240723_072824/0000/MET_Run2018A_1-5.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018A/MET/crab_iDMe_MET_Run2018A_2024_07_23-02_27/240723_072824/0000/MET_Run2018A_1-6.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018A/MET/crab_iDMe_MET_Run2018A_2024_07_23-02_27/240723_072824/0000/MET_Run2018A_1-7.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018A/MET/crab_iDMe_MET_Run2018A_2024_07_23-02_27/240723_072824/0000/MET_Run2018A_1-8.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018A/MET/crab_iDMe_MET_Run2018A_2024_07_23-02_27/240723_072824/0000/MET_Run2018A_1-9.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018A/MET/crab_iDMe_MET_Run2018A_2024_07_23-02_27/240723_072824/0000/MET_Run2018A_1.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/data_MET_v4/2018/Data_MET_UL18/MET_Run2018A/MET/crab_iDMe_MET_Run2018A_2024_07_23-02_27/240723_072824/0000/MET_Run2018A_11.root"
+    ]
+}

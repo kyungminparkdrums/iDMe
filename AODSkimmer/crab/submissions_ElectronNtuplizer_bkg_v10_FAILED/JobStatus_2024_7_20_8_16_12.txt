@@ -1,0 +1,241 @@
+
+
+Analyzing ./crab_iDMe_TTZToQQ_2024_07_19-11_29/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_TTGJets_2024_07_19-11_30/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_TTWJetsToLNu_2024_07_19-11_30/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_TTWJetsToQQ_2024_07_19-11_30/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_TTZToLLNuNu_2024_07_19-11_31/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ST_s-channel_2024_07_19-11_31/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ST_t-channel_top_2024_07_19-11_31/
+status = FAILED
+Jobs FAILED! Failed job IDs = 1-16, 112, 81, 100, 99, 98, 94, 97, 
+
+Analyzing ./crab_iDMe_ST_t-channel_antitop_2024_07_19-11_31/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ST_tW_top_2024_07_19-11_32/
+status = SUBMITTED
+Jobs still running!
+
+Analyzing ./crab_iDMe_ST_tW_antitop_2024_07_19-11_32/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ZG2JTo2L2JG_2024_07_19-11_32/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ZGToJJG_2024_07_19-11_32/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ZGToNuNuG_2024_07_19-11_33/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ZGToLLG_2024_07_19-11_33/
+status = FAILED
+Jobs FAILED! Failed job IDs = 1-16, 3, 4, 14, 16, 
+
+Analyzing ./crab_iDMe_WJetsLNu_HT70to100_2024_07_19-11_33/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_WJetsLNu_HT800to1200_2024_07_19-11_33/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_WJetsLNu_HT2500toInf_2024_07_19-11_33/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_WJetsLNu_HT400to600_2024_07_19-11_34/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_WJetsLNu_HT600to800_2024_07_19-11_34/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_WJetsLNu_HT100to200_2024_07_19-11_34/
+status = FAILED
+Jobs FAILED! Failed job IDs = 1-2, 
+
+Analyzing ./crab_iDMe_WJetsLNu_HT1200to2500_2024_07_19-11_34/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_WJetsLNu_HT200to400_2024_07_19-11_35/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_DYJetsToLL_M-4to50_HT-70to100_2024_07_19-11_35/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_DYJetsToLL_M-4to50_HT-400to600_2024_07_19-11_35/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_DYJetsToLL_M-4to50_HT-200to400_2024_07_19-11_35/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_DYJetsToLL_M-4to50_HT-600toInf_2024_07_19-11_36/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_DYJetsToLL_M-4to50_HT-100to200_2024_07_19-11_36/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_QCD_HT500to700_2024_07_19-11_36/
+status = FAILED
+Jobs FAILED! Failed job IDs = 1-14, 17, 18, 
+
+Analyzing ./crab_iDMe_QCD_HT100to200_2024_07_19-11_36/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_QCD_HT50to100_2024_07_19-11_37/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_QCD_HT700to1000_2024_07_19-11_37/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_QCD_HT1000to1500_2024_07_19-11_37/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_QCD_HT1500to2000_2024_07_19-11_37/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_QCD_HT2000toInf_2024_07_19-11_37/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_QCD_HT200to300_2024_07_19-11_38/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_QCD_HT300to500_2024_07_19-11_38/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_DYJetsToLL_M-50_HT-600to800_2024_07_19-11_38/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_DYJetsToLL_M-50_HT-400to600_2024_07_19-11_39/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_DYJetsToLL_M-50_HT-2500toInf_2024_07_19-11_39/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_DYJetsToLL_M-50_HT-200to400_2024_07_19-11_39/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_DYJetsToLL_M-50_HT-800to1200_2024_07_19-11_39/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_DYJetsToLL_M-50_HT-100to200_2024_07_19-11_39/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_DYJetsToLL_M-50_HT-1200to2500_2024_07_19-11_40/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ZJetsNuNu_HT800to1200_2024_07_19-11_40/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ZJetsNuNu_HT1200to2500_2024_07_19-11_40/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ZJetsNuNu_HT2500toInf_2024_07_19-11_40/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ZJetsNuNu_HT100to200_2024_07_19-11_41/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ZJetsNuNu_HT600to800_2024_07_19-11_41/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ZJetsNuNu_HT200to400_2024_07_19-11_41/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ZJetsNuNu_HT400to600_2024_07_19-11_41/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_WWW_2024_07_19-11_41/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_WZZ_2024_07_19-11_42/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ZZZ_2024_07_19-11_42/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_WWZ_2024_07_19-11_42/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_WW_2024_07_19-11_42/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_ZZ_2024_07_19-11_43/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_WZ_2024_07_19-11_43/
+status = COMPLETED
+Jobs COMPLETED!
+
+Analyzing ./crab_iDMe_TTToSemiLeptonic_2024_07_19-11_43/
+status = SUBMITTED
+Jobs still running!
+
+Analyzing ./crab_iDMe_TTToHadronic_2024_07_19-11_43/
+status = FAILED
+Jobs FAILED! Failed job IDs = 133, 132, 131, 137, 136, 135, 134, 139, 138, 125, 126, 127, 34, 60, 16, 1-31, 141, 1-6, 1-39, 
+
+Analyzing ./crab_iDMe_TTTo2L2Nu_2024_07_19-11_44/
+status = COMPLETED
+Jobs COMPLETED!

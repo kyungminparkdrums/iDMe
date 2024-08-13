@@ -1,0 +1,23 @@
+{
+    "name": "ZGamma_ZGToJJG",
+    "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/ZGamma/ZGToJJG/ZGammaToJJGamma_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_iDMe_ZGToJJG_2024_07_19-11_32/240719_163300/0000/",
+    "type": "bkg",
+    "year": 2018,
+    "nFiles": 10,
+    "sum_wgt": 98130552.25,
+    "xsec": 4144.0,
+    "num_events": 4940562,
+    "blacklist": [],
+    "fileset": [
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/ZGamma/ZGToJJG/ZGammaToJJGamma_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_iDMe_ZGToJJG_2024_07_19-11_32/240719_163300/0000/ZGToJJG_1.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/ZGamma/ZGToJJG/ZGammaToJJGamma_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_iDMe_ZGToJJG_2024_07_19-11_32/240719_163300/0000/ZGToJJG_10.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/ZGamma/ZGToJJG/ZGammaToJJGamma_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_iDMe_ZGToJJG_2024_07_19-11_32/240719_163300/0000/ZGToJJG_2.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/ZGamma/ZGToJJG/ZGammaToJJGamma_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_iDMe_ZGToJJG_2024_07_19-11_32/240719_163300/0000/ZGToJJG_3.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/ZGamma/ZGToJJG/ZGammaToJJGamma_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_iDMe_ZGToJJG_2024_07_19-11_32/240719_163300/0000/ZGToJJG_4.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/ZGamma/ZGToJJG/ZGammaToJJGamma_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_iDMe_ZGToJJG_2024_07_19-11_32/240719_163300/0000/ZGToJJG_5.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/ZGamma/ZGToJJG/ZGammaToJJGamma_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_iDMe_ZGToJJG_2024_07_19-11_32/240719_163300/0000/ZGToJJG_6.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/ZGamma/ZGToJJG/ZGammaToJJGamma_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_iDMe_ZGToJJG_2024_07_19-11_32/240719_163300/0000/ZGToJJG_7.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/ZGamma/ZGToJJG/ZGammaToJJGamma_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_iDMe_ZGToJJG_2024_07_19-11_32/240719_163300/0000/ZGToJJG_8.root",
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v10_5_miniAOD/2018/ZGamma/ZGToJJG/ZGammaToJJGamma_TuneCP5_13TeV-amcatnloFXFX-pythia8/crab_iDMe_ZGToJJG_2024_07_19-11_32/240719_163300/0000/ZGToJJG_9.root"
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "name": "Multiboson_WWZ",
+    "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/Multiboson/WWZ/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8/crab_iDMe_WWZ_2024_07_22-09_24/240722_142420/0000/",
+    "type": "bkg",
+    "year": 2018,
+    "nFiles": 1,
+    "sum_wgt": 42310.51953125,
+    "xsec": 170.7,
+    "num_events": 248000,
+    "blacklist": [],
+    "fileset": [
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/background_v11/2018/Multiboson/WWZ/WWZ_4F_TuneCP5_13TeV-amcatnlo-pythia8/crab_iDMe_WWZ_2024_07_22-09_24/240722_142420/0000/WWZ_1.root"
+    ]
+}

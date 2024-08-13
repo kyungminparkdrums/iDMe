@@ -183,6 +183,8 @@ def defineGoodVertices(events,version='default',ele_id='dR'):
     maxMiniIso = np.maximum(events.vtx.e1.miniRelIsoEleCorr,events.vtx.e2.miniRelIsoEleCorr) < 0.9
     passConvVeto = events.vtx.e1.conversionVeto & events.vtx.e2.conversionVeto
     mass_lo = events.vtx.m > 0.325
+
+    #mass_lo_refit = events.vtx.refit_m > 0.1
     
     if version == 'none':
         events['vtx','isGood'] = ak.values_astype(ak.ones_like(events.vtx.m),bool)
@@ -202,6 +204,16 @@ def defineGoodVertices(events,version='default',ele_id='dR'):
         events['vtx','isGood'] = IDcut & ossf & chi2 & mass & mindxy & maxMiniIso & passConvVeto & mass_lo # v6 definition
     if version == 'v7':
         events['vtx','isGood'] = IDcut & ossf & chi2 & mindxyLoose & maxMiniIso & passConvVeto # v7 definition
+    if version == 'idOnly':
+        events["vtx","isGood"] = IDcut # electron kinematics & ID only
+    if version == 'v8':
+        events["vtx","isGood"] = IDcut & ossf & chi2 & mindxyLoose & maxMiniIso & passConvVeto & mass_lo_refit # v8 definition
+    if version == 'v9':
+        events["vtx","isGood"] = IDcut & ossf & chi2 & mindxyLoose & maxMiniIso & mass_lo_refit # v9 definition
+    if version == 'v10':
+        events["vtx","isGood"] = IDcut & chi2 & mindxyLoose & maxMiniIso & mass_lo_refit # v10 definition
+    if version == 'v11':
+        events["vtx","isGood"] = IDcut & chi2 & mindxyLoose & maxMiniIso & passConvVeto & mass_lo_refit # v11 definition
     events.__setitem__("good_vtx",events.vtx[events.vtx.isGood])
     events.__setitem__("nGoodVtx",ak.count(events.good_vtx.vxy,axis=1))
 
@@ -255,6 +267,44 @@ def miscExtraVariablesSignal(events):
     projectLxy(events)
     #calculateCtau(events)
 
+
+def projectLxyFromPV(events):
+    vtx = events.vtx
+
+    # (vx, vy)
+    vx_fromPV = vtx.vx - events.PV.x
+    vy_fromPV = vtx.vy - events.PV.y
+
+    vxy_mag_fromPV = np.sqrt(vx_fromPV * vx_fromPV + vy_fromPV * vy_fromPV)
+
+    '''
+    # (px, py) Refitted
+    px_refit = vtx.refit_pt * np.cos(vtx.refit_phi)
+    py_refit = vtx.refit_pt * np.sin(vtx.refit_phi)
+
+    vx_fromPV_px_refit = vx_fromPV * px_refit
+    vy_fromPV_py_refit = vy_fromPV * py_refit
+
+    dotprod_fromPV_refit = vx_fromPV_px_refit + vy_fromPV_py_refit
+
+    pxy_mag_refit = np.sqrt(px_refit * px_refit + py_refit * py_refit)
+    cos_fromPV_refit = dotprod_fromPV_refit / (vxy_mag_fromPV * pxy_mag_refit)
+    '''
+    # (px, py)
+    vx_fromPV_px = vx_fromPV * vtx.px
+    vy_fromPV_py = vy_fromPV * vtx.py
+    
+    dotprod_fromPV = vx_fromPV_px + vy_fromPV_py
+
+    pxy_mag = np.sqrt(vtx.px * vtx.px + vtx.py * vtx.py)
+    cos_fromPV = dotprod_fromPV / (vxy_mag_fromPV * pxy_mag)
+    
+    #mask_dotprod_neg = dotprod < 0
+
+    events["vtx","cos_collinear_fromPV"] = cos_fromPV
+    #events["vtx","cos_collinear_fromPV_refit"] = cos_fromPV_refit
+
+
 def projectLxy(events):
     vtx = events.vtx
 
@@ -271,6 +321,45 @@ def projectLxy(events):
 
     events["vtx","cos_collinear"] = cos
     events["vtx","projectedLxy"] =  vtx.vxy * cos
+
+    projectLxyFromPV(events) # Kyungmin studying beamspot modeling effect
+
+def projectGenLxy(events):
+    
+    # PV
+    mask_chi2 = events.GenPart.ID == 1000023
+    vx_chi2 = ak.flatten(events.GenPart.vx[mask_chi2])
+    vy_chi2 = ak.flatten(events.GenPart.vy[mask_chi2])
+    
+    # SV
+    mask_genele = events.GenPart.ID == 11
+    vx_genele = ak.flatten(events.GenPart.vx[mask_genele])
+    vy_genele = ak.flatten(events.GenPart.vy[mask_genele])
+    
+    mask_genpos = events.GenPart.ID == -11
+    vx_genpos = ak.flatten(events.GenPart.vx[mask_genpos])
+    vy_genpos = ak.flatten(events.GenPart.vy[mask_genpos])
+    
+    # PV->SV vector
+    vx = vx_genpos-vx_chi2
+    vy = vy_genpos-vy_chi2
+
+    # SV momentum vector
+    px = ak.flatten(events.GenPart.px[mask_genpos])
+    py = ak.flatten(events.GenPart.py[mask_genpos])
+
+    vxpx = vx * px
+    vypy = vy * py
+    dotprod = vxpx + vypy
+
+    vxy_mag = np.sqrt(vx*vx + vy*vy)
+    pxy_mag = np.sqrt(px*px + py*py)
+
+    cos = dotprod / (vxy_mag * pxy_mag)
+
+    print('gen cos(theta) = ', cos)
+
+    events["vtx","gen_cos_collinear"] = cos
 
 def calculateCtau(events):
     # chi2
@@ -453,6 +542,55 @@ def sumPtInCone(b,e1_eta,e1_phi,e2_eta,e2_phi,e2_pt):
                     pt_sum_cone += e2_pt[n][j]
             b.real(pt_sum_cone)
         b.end_list() # end list
+
+def checkHEMjet(events):
+    # If there is a jet in the event that satisfies the following requirements, reject the event
+    # if ((jet.pt() > 30) && (jet.eta() > -3.0) && (jet.eta() < -1.3) && (jet.phi() > -1.57) && (jet.phi() < -0.87))
+    
+    filter_jet_pt = events.PFJet.pt > 30
+    filter_jet_etaBug = (events.PFJet.eta > -3.0) & (events.PFJet.eta < -1.4) # with bug in eta boundary -- what is implemented in the ntuplizer
+    filter_jet_eta = (events.PFJet.eta > -3.0) & (events.PFJet.eta < -1.3) 
+    filter_jet_phi = (events.PFJet.phi > -1.57) & (events.PFJet.phi < -0.87)
+
+    isHEM = filter_jet_pt & filter_jet_eta
+    isHEM = isHEM & filter_jet_phi
+
+    hasHEMjet = ak.flatten(ak.sum(isHEM, axis=-1, keepdims=True))
+
+    events['hasHEMjet'] = hasHEMjet
+
+    isHEMbug = filter_jet_pt & filter_jet_etaBug
+    isHEMbug = isHEMbug & filter_jet_phi
+
+    hasHEMjetBug = ak.flatten(ak.sum(isHEMbug, axis=-1, keepdims=True))
+    
+    events['hasHEMjetBug'] = hasHEMjetBug
+
+def checkHEMelectron(events):
+    # PF 
+    filter_elecPF_pt = events.Electron.pt > 5
+    filter_elecPF_eta = (events.Electron.eta > -3.0) & (events.Electron.eta < -1.3)
+    filter_elecPF_phi = (events.Electron.phi > -1.57) & (events.Electron.phi < -0.87)
+
+    isHEMelecPF = filter_elecPF_pt & filter_elecPF_eta
+    isHEMelecPF = isHEMelecPF & filter_elecPF_phi
+
+    hasHEMelecPF = ak.flatten(ak.sum(isHEMelecPF, axis=-1, keepdims=True))
+    
+    events['hasHEMelecPF'] = hasHEMelecPF
+
+    # Low pT
+    filter_elecLpt_pt = events.LptElectron.pt > 1
+    filter_elecLpt_eta = (events.LptElectron.eta > -3.0) & (events.LptElectron.eta < -1.3)
+    filter_elecLpt_phi = (events.LptElectron.phi > -1.57) & (events.LptElectron.phi < -0.87)
+
+    isHEMelecLpt = filter_elecLpt_pt & filter_elecLpt_eta
+    isHEMelecLpt = isHEMelecLpt & filter_elecLpt_phi
+
+    hasHEMelecLpt = ak.flatten(ak.sum(isHEMelecLpt, axis=-1, keepdims=True))
+    
+    events['hasHEMelecLpt'] = hasHEMelecLpt
+
 
 def makeBDTv1Inputs(events): # Legacy BDT; not used anymore 
     '''

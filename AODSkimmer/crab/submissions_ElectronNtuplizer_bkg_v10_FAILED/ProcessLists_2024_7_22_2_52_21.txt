@@ -1,0 +1,16 @@
+
+
+Process with crab job completed: 
+
+
+Process with crab job failed: 
+./crab_iDMe_ST_t-channel_top_2024_07_19-11_31/
+./crab_iDMe_ST_tW_top_2024_07_19-11_32/
+./crab_iDMe_ZGToLLG_2024_07_19-11_33/
+./crab_iDMe_WJetsLNu_HT100to200_2024_07_19-11_34/
+./crab_iDMe_QCD_HT500to700_2024_07_19-11_36/
+./crab_iDMe_TTToSemiLeptonic_2024_07_19-11_43/
+./crab_iDMe_TTToHadronic_2024_07_19-11_43/
+
+
+Process with crab job still running: 

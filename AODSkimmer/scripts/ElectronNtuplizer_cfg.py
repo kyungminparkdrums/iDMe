@@ -228,7 +228,13 @@ process.TFileService = cms.Service("TFileService",
 ###### Main iDM analyzer #####
 ##############################
 # import ntuplizer
-from iDMe.AODSkimmer.ElectronSkimmer_cfi import ElectronSkimmer
+#from iDMe.AODSkimmer.ElectronSkimmer_cfi import ElectronSkimmer
+
+import sys
+sys.path.append("../../../../cfipython/slc7_amd64_gcc700/iDMe/AODSkimmer/")
+#sys.path.append("../../../cfipython/slc7_amd64_gcc700/iDMe/AODSkimmer/")
+from ElectronSkimmer_cfi import ElectronSkimmer
+
 process.ntuples = ElectronSkimmer.clone(
     isData = cms.bool(options.data),
     isSignal = cms.bool(options.signal),

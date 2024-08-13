@@ -1,0 +1,18 @@
+{
+    "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/signal_v12_miniAOD//2018/Mchi-55p0_dMchi-10p0/ctau-1/",
+    "Mchi": 55.0,
+    "dMchi": 10.0,
+    "ctau": 1,
+    "name": "sig_Mchi-55.0_dMchi-10.0_ct-1",
+    "sum_wgt": 2.4928291168180294e-05,
+    "type": "signal",
+    "year": 2018,
+    "alphaD": "aEM",
+    "xsec": 97.18122089,
+    "nFiles": 1,
+    "num_events": 22500,
+    "blacklist": [],
+    "fileset": [
+        "root://cmsxrootd.fnal.gov//store/group/lpcmetx/iDMe/Samples/Ntuples/signal_v12_miniAOD//2018/Mchi-55p0_dMchi-10p0/ctau-1/ntuples_Mchi-55p0_dMchi-10p0_ctau-1_00.root"
+    ]
+}
