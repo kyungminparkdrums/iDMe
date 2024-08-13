@@ -192,7 +192,6 @@ if __name__ == "__main__":
         njet_filter = "nPFJet > 0"
     d = d.Filter("anyTrue(vtx_isGood)") \
         .Filter("METFiltersFailBits == 0") \
-        #.Filter("passHEMveto") \
         .Filter("trig_HLT_PFMET120_PFMHT120_IDTight == 1") \
         .Filter(f"PFMET_pt > {MET_cut}") \
         .Filter(njet_filter) \
