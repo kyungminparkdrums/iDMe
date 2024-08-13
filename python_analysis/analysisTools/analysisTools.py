@@ -37,7 +37,7 @@ vxy_range = {1:[0,20],10:[0,50],100:[0,50],1000:[0,50]}
 vxy_rebin = {1:5,10:20,100:20,1000:20}
 
 class Analyzer:
-    def __init__(self,fileList,histoList,cuts,max_samples=-1,max_files_per_samp=-1,newCoffea=False):
+    def __init__(self,fileList,histoList,cuts,model_json=None,max_samples=-1,max_files_per_samp=-1,newCoffea=False):
         # flag to see if we're using new coffea
         self.newCoffea = newCoffea
 
@@ -67,6 +67,8 @@ class Analyzer:
         self.nEventsProcessed = {}
         self.totalEvents = 0
         self.mode = None
+
+        self.model = model_json # BDT model for inference (if used in selections)
         
         self.loadFiles()
     
@@ -135,7 +137,7 @@ class Analyzer:
     def process(self,treename='ntuples/outT',execr="iterative",workers=4,dask_client=None,procType='default',**kwargs):
         fileset = self.sample_locs
         if procType == 'default':
-            proc = iDMeProcessor(self.sample_names,self.sample_info,self.sample_locs,self.histoFile,self.cuts,mode=self.mode,**kwargs)
+            proc = iDMeProcessor(self.sample_names,self.sample_info,self.sample_locs,self.histoFile,self.cuts,mode=self.mode,model_json=self.model, **kwargs)
         elif procType == 'gen':
             proc = genProcessor(self.sample_names,self.sample_info,self.sample_locs,self.histoFile,self.cuts,mode=self.mode,**kwargs)
         elif procType == 'trig':
@@ -169,11 +171,12 @@ class Analyzer:
         return accumulator
 
 class iDMeProcessor(processor.ProcessorABC):
-    def __init__(self,samples,sampleInfo,fileSet,histoFile,cutFile,mode='signal',**kwargs):
+    def __init__(self,samples,sampleInfo,fileSet,histoFile,cutFile,mode='signal',model_json=None,**kwargs):
         self.samples = samples
         self.sampleInfo = sampleInfo
         self.sampleLocs = fileSet
         self.mode = mode
+        self.model = model_json
         
         # load in histogram config
         self.histoMod = importlib.import_module(histoFile)
@@ -220,11 +223,20 @@ class iDMeProcessor(processor.ProcessorABC):
         cutflow_nevts = defaultdict(int)           # raw event counts
         cutflow_vtx_matched = defaultdict(float)   # (for signal MC) fraction that the selected vertex is truth-matched
         # (for signal MC) also check the above, but only counting the events where both gen ee are reconstructed: dR(reco,gen) < 0.1
-        
+
         if isMC:
             sum_wgt = info["sum_wgt"]
             lumi, unc = getLumi(info['year'])
             xsec = info['xsec']
+
+            # Apply NLO k-factor for W/Z
+            if 'DY' in info['name']:
+                xsec = xsec * 1.23
+            elif 'WJet' in info['name']:
+                xsec = xsec * 1.21
+            elif 'ZJet' in info['name']:
+                xsec = xsec * 1.23
+                
             # register event weight branch
             events.__setitem__("eventWgt",xsec*lumi*events.genWgt)
         else:
@@ -241,6 +253,19 @@ class iDMeProcessor(processor.ProcessorABC):
             cutflow_vtx_matched['all'] += 1 # dummy value before selecting a vertex
             
         cutDesc['all'] = 'No cuts@'
+
+        ######################################################################################
+        ## Add HEM flags to Event (before applying any quality cuts to jet, electrons ##
+        ######################################################################################
+
+        routines.checkHEMjet(events)
+        routines.checkHEMelectron(events)
+      
+        # Veto HEM jets and electrons for 2018 data and MC
+        if info['year'] == 2018:
+            events = events[events.hasHEMjet == 0]
+            events = events[events.hasHEMelecPF == 0]
+            events = events[events.hasHEMelecLpt == 0]
 
         #################################
         ## Calculating Additional Vars ##
@@ -269,20 +294,24 @@ class iDMeProcessor(processor.ProcessorABC):
         events['vtx','eleDphi'] = np.abs(deltaPhi(events.vtx.e1.phi,events.vtx.e2.phi))
         #if info['type'] == 'signal':
             #routines.genMatchExtraVtxVariables(events)
+
         
         #################################
         ##### Hard-coded basic cuts #####
         #################################
         # 1 or 2 jets in the event
         nJets = ak.count(events.PFJet.pt,axis=1)
-        #events = events[(nJets>0) & (nJets<3)]
+        #events = events[(nJets>0) & (nJets<3)] # Nominal NJet requirement for SR
         events = events[nJets>0]
+        #events = events[nJets>2] # For VR: VR is defined by orthogonal NJet requirement && orthogonal other cut (still under study)
         # needs a good vertex
         routines.defineGoodVertices(events,version='v5') # define "good" vertices based on whether associated electrons pass ID cuts
         events = events[events.nGoodVtx > 0]
         # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
         routines.selectBestVertex(events)
         #events = routines.selectTrueVertex(events,events.good_vtx)
+        
+        routines.prepareBDT(events, self.model) # prepare BDT inference if the cuts include BDT-based cut
 
         # Fill cutflow after baseline selection
         if isMC:
@@ -394,7 +423,7 @@ class genProcessor(iDMeProcessor):
             routines.genMatchRecoQuantities(events)
         # associate electrons to vertices after all electron-related stuff has been computed
         routines.vtxElectronConnection(events) # associate electrons to vertices
-        routines.defineGoodVertices(events) # define "good" vertices based on whether associated electrons pass ID cuts
+        routines.defineGoodVertices(events,version='v5') # define "good" vertices based on whether associated electrons pass ID cuts
         if info['type'] == 'signal':
             routines.genMatchExtraVtxVariables(events)
 

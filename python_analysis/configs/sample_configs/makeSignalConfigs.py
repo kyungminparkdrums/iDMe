@@ -149,21 +149,34 @@ elif mode == "bkg":
     with open(out_json,"w") as outfile:
         json.dump(output,outfile,indent=4)
 elif mode == "data":
-    status, samples = xrdClient.dirlist(f"{prefix}/{year}/")
+    if skimmed:
+        status, samples = xrdClient.dirlist(f"{prefix}/")
+    else:
+        status, samples = xrdClient.dirlist(f"{prefix}/{year}/")
     samples = [samp.name for samp in samples]
     output = []
     for samp in samples:
-        base_dir = f"{prefix}/{year}/{samp}"
-        subsamples = [d.name for d in xrdClient.dirlist(base_dir)[1]]
+        if skimmed:
+            base_dir = f"{prefix}/{samp}"
+            subsamples = [samp]
+        else:
+            base_dir = f"{prefix}/{year}/{samp}"
+            subsamples = [d.name for d in xrdClient.dirlist(base_dir)[1]]
         for subsample in subsamples:
-            target_dir = f"{base_dir}/{subsample}/"
+            if skimmed:
+                target_dir = base_dir
+            else:
+                target_dir = f"{base_dir}/{subsample}/"
             rootFiles = subprocess.run(['eos','root://cmseos.fnal.gov/','find','-name','*.root','-f',target_dir],stdout=subprocess.PIPE).stdout.decode('utf-8').splitlines()
             rootFiles = [r for r in rootFiles if '.root' in r]
             fileDirs = ["/".join(f.split("/")[:-1])+"/" for f in rootFiles]
             fileDirs = list(set(fileDirs)) # list of unique file directories
             
             info = {}
-            info["name"] = f"{samp}_{subsample}"
+            if skimmed:
+                info["name"] = subsample.replace("output_","")
+            else:
+                info["name"] = f"{samp}_{subsample}"
             info["location"] = fileDirs[0] if len(fileDirs) == 1 else fileDirs
             info["sum_wgt"] = 0.0
             info["type"] = "data"
@@ -173,8 +186,16 @@ elif mode == "data":
             for fdir in fileDirs:
                 nFiles += len([rf.name for rf in xrdClient.dirlist(fdir)[1] if '.root' in rf.name])
             info["nFiles"] = nFiles
+    
+            if skimmed:
+                samp_name = subsample.replace("output_","")
+                info['num_events'] = ref_info[samp_name]['num_events']
+                info['blacklist'] = ref_info[samp_name]['blacklist']
             output.append(info)
 
-    out_json = "data_{0}_{1}.json".format(year,name)
+    if skimmed:
+        out_json = "skimmed_data_{0}_{1}.json".format(year,name)
+    else:
+        out_json = "data_{0}_{1}.json".format(year,name)
     with open(out_json,"w") as outfile:
         json.dump(output,outfile,indent=4)
