@@ -1,0 +1,16 @@
+{
+    "variables": [
+        "sel_vtx_chi2",
+        "sel_vtx_METdPhi",
+        "sel_vtx_refit_m",
+        "sel_vtx_refit_dR",
+        "sel_vtx_corrMinDxy",
+        "vxy",
+        "vxy_signif",
+        "sel_vtx_cos_collinear",
+        "sel_vtx_prod_eta",
+        "met_leadPt_ratio",
+        "jetMETdPhi",
+        "minJetMETdPhi"
+    ]
+}

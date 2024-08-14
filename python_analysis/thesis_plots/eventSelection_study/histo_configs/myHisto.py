@@ -15,8 +15,10 @@ class myHisto:
         self.ele_type = self.parse_axis(('ele_type',['L','R']))
         self.match_type = self.parse_axis(('match_type',['L','R']))
         self.match = self.parse_axis(('match',[0,1]))
+        self.match_exist = self.parse_axis(('match_exist',[0,1]))
         self.met = self.parse_axis(('met',100,50,300))
         self.dR = self.parse_axis(('dR',100,0,5))
+        self.dR_lo = self.parse_axis(('dR',100,0,0.5))
         self.vxy1 = self.parse_axis(('vxy',100,0,1))
         self.vxy10 = self.parse_axis(('vxy',100,0,10))
         self.vxy100 = self.parse_axis(('vxy',100,0,100))
@@ -46,6 +48,9 @@ class myHisto:
         self.ele_passID = self.parse_axis(('passID',[0,1]))
         self.vtx_type = self.parse_axis(('vtype',['LL','LR','RR']))
         self.vtx_mass = self.parse_axis(('mass',100,0,30))
+        self.vtx_mass_long = self.parse_axis(('mass',100,0,50))
+        self.vtx_mass_high = self.parse_axis(('mass',200,0,200))
+        self.mass_low = self.parse_axis(('mass_low',500,0,5))
         self.vtx_sign = self.parse_axis(('sign',[-1,1]))
         self.vtx_pt = self.parse_axis(('pt',100,0,50))
         self.ele_ptRes = self.parse_axis(('ptres',100,-2,2))
@@ -61,7 +66,6 @@ class myHisto:
         self.recoCategories = self.parse_axis(('recoCat',['total','noEEreco','eeReco_noID','eeReco_ID_noVtx',
                                                           'eeReco_ID_hasVtx_bad','eeReco_ID_hasVtx_good_unSel','eeReco_ID_hasVtx_good_sel']))
         self.jet_pt = self.parse_axis(('jet_pt',100,80,1000))
-        self.mass_low = self.parse_axis(('mass_low',500,0,5))
         self.mindxy_low = self.parse_axis(('mindxy_low',1000,0,0.1))
         self.sign_etaProd = self.parse_axis(('sign_etaProd',[-1,1]))
         self.cosTheta = self.parse_axis(('cosTheta',100,-1,1))
@@ -75,6 +79,7 @@ class myHisto:
         self.vxy20 = self.parse_axis(('vxy',200,0,20))
         self.vxyRes = self.parse_axis(('vxyRes',100,0,5))
         self.vxySignif = self.parse_axis(('vxySignif',500,0,50))
+        self.met_ratio = self.parse_axis(('met_ratio',100,0,3))
 
     def make(self,name,*args,**hist_kwargs):
         if name in self.histograms.keys():

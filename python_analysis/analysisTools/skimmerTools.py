@@ -138,9 +138,20 @@ class makeBDTInputs(processor.ProcessorABC):
         samp = events.metadata["dataset"]
         outputs = {}
         info = self.sampleInfo[samp]
-        sum_wgt = info["sum_wgt"]
-        lumi, unc = getLumi(info['year'])
-        xsec = info['xsec']
+        isMC = info["type"] == "signal" or info["type"] == "bkg"
+        info['defineGoodVertices'] = routines.defineGoodVertices
+        info['selectBestVertex'] = routines.selectBestVertex
+        if isMC:
+            sum_wgt = info["sum_wgt"]
+            lumi, unc = getLumi(info['year'])
+            xsec = info['xsec']
+            if info['type'] == 'signal':
+                xsec = xsec*info['filter_eff']
+            # register event weight branch
+            events.__setitem__("eventWgt",xsec*lumi*events.genWgt)
+            events.__setitem__("eventWgtNorm",xsec*lumi*events.genWgt/sum_wgt)
+        else:
+            sum_wgt = info["num_events"]
 
         # register event weight branch
         events.__setitem__("eventWgt",xsec*lumi*events.genWgt)
@@ -154,53 +165,26 @@ class makeBDTInputs(processor.ProcessorABC):
         #################################
         ## Calculating Additional Vars ##
         #################################
-        events['Electron','mindRj'] = ak.fill_none(ak.min(events.Electron.dRJets,axis=-1),999)
-        events['Electron','mindPhiJ'] = ak.fill_none(ak.min(np.abs(events.Electron.dPhiJets),axis=-1),999)
-        events['LptElectron','mindRj'] = ak.fill_none(ak.min(events.LptElectron.dRJets,axis=-1),999)
-        events['LptElectron','mindPhiJ'] = ak.fill_none(ak.min(np.abs(events.LptElectron.dPhiJets),axis=-1),999)
-        events['vtx','mindRj'] = ak.fill_none(ak.min(events.vtx.dRJets,axis=-1),999)
-        events['vtx','mindPhiJ'] = ak.fill_none(ak.min(np.abs(events.vtx.dPhiJets),axis=-1),999)
-        routines.projectLxy(events)
-        routines.electronID(events,info) # electron kinematic/ID definition
-        routines.jetBtag(events,info['year'])
-        if info['type'] == "signal":
-            events['GenJetMETdPhi'] = np.abs(deltaPhi(events.GenJet.phi[:,0],events.GenMET.phi))
-            events['GenEle','dr'] = events.genEE.dr
-            events['GenPos','dr'] = events.genEE.dr
-            if "vxy" not in events.genEE.fields:
-                events['genEE','vxy'] = events.GenEle.vxy
-            routines.genElectronKinematicBins(events)
-            #routines.getLptMatchInfoForReg(events)
-            routines.genMatchRecoQuantities(events)
-        # associate electrons to vertices after all electron-related stuff has been computed
-        routines.vtxElectronConnection(events) # associate electrons to vertices
-        events['vtx','min_dxy'] = np.minimum(np.abs(events.vtx.e1.dxy),np.abs(events.vtx.e2.dxy))
-        events['vtx','eleDphi'] = np.abs(deltaPhi(events.vtx.e1.phi,events.vtx.e2.phi))
-        #if info['type'] == 'signal':
-            #routines.genMatchExtraVtxVariables(events)
+        events = routines.computeExtraVariables(events,info)
         
         #################################
         ##### Hard-coded basic cuts #####
         #################################
         # 1 or 2 jets in the event
         nJets = ak.count(events.PFJet.pt,axis=1)
-        events = events[(nJets>0) & (nJets<3)]
+        #events = events[(nJets>0) & (nJets<4)]
+        events["nJets"] = nJets
+        events = events[nJets>0]
         # needs a good vertex
-        #routines.defineGoodVertices(events,version='none') # define "good" vertices based on whether associated electrons pass ID cuts
-        #routines.defineGoodVertices(events,version='default') # define "good" vertices based on whether associated electrons pass ID cuts
-        routines.defineGoodVertices(events,version='v5') # define "good" vertices based on whether associated electrons pass ID cuts
+        routines.defineGoodVertices(events,version='v8') # define "good" vertices based on whether associated electrons pass ID cuts
         events = events[events.nGoodVtx > 0]
         # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
+        # for signal, only select the events where the good vertex is the true vertex
         if info['type'] == "signal":
             events = routines.selectTrueVertex(events, events.good_vtx)
             events["sel_vtx","match"] = ak.sum(np.stack((events.sel_vtx.e1_isMatched, events.sel_vtx.e2_isMatched)), axis=0)
         else:
             routines.selectBestVertex(events)
-        
-        # Compute miscellaneous extra variables -- add anything you want to this function
-        #routines.miscExtraVariables(events)
-        #if info['type'] == "signal":
-        #    routines.miscExtraVariablesSignal(events)
 
         ###############################
         ######## CUTS & HISTOS ########
@@ -220,6 +204,11 @@ class makeBDTInputs(processor.ProcessorABC):
         abs_dphi = np.abs(e1.phi - e2.phi)
         
         outputs['wgt'] = column_accumulator(events["eventWgt"].to_numpy())
+        xsec = info['xsec']
+        if info['type'] == 'signal':
+            xsec = xsec*info['filter_eff']
+        outputs['xsec'] = column_accumulator(xsec*np.ones(len(events)))
+        #outputs['samp'] = column_accumulator(np.full(len(events),samp))
         outputs['wgt_norm'] = column_accumulator(events["eventWgtNorm"].to_numpy())
         outputs['lead_jet_eta'] = column_accumulator(events.PFJet.eta[:,0].to_numpy())
         outputs['lead_jet_pt'] = column_accumulator(events.PFJet.pt[:,0].to_numpy())
@@ -229,8 +218,11 @@ class makeBDTInputs(processor.ProcessorABC):
         outputs['sel_vtx_chi2'] = column_accumulator(events.sel_vtx.reduced_chi2.to_numpy())
         outputs['sel_vtx_METdPhi'] = column_accumulator(np.abs(events.sel_vtx.METdPhi).to_numpy())
         outputs['sel_vtx_m'] = column_accumulator(events.sel_vtx.m.to_numpy())
+        outputs['sel_vtx_refit_m'] = column_accumulator(events.sel_vtx.refit_m.to_numpy())
         outputs['sel_vtx_dR'] = column_accumulator(events.sel_vtx.dR.to_numpy())
+        outputs['sel_vtx_refit_dR'] = column_accumulator(events.sel_vtx.refit_dR.to_numpy())
         outputs['sel_vtx_minDxy'] = column_accumulator(np.minimum(np.abs(events.sel_vtx.e1.dxy),np.abs(events.sel_vtx.e2.dxy)).to_numpy())
+        outputs['sel_vtx_corrMinDxy'] = column_accumulator(events.sel_vtx.corrMinDxy.to_numpy())
         outputs['met_leadPt_ratio'] = column_accumulator((events.PFMET.pt/events.PFJet.pt[:,0]).to_numpy())
         outputs["vxy"] = column_accumulator(events.sel_vtx.vxy.to_numpy())
         outputs["vxy_signif"] = column_accumulator((events.sel_vtx.vxy/events.sel_vtx.sigmavxy).to_numpy())
@@ -241,6 +233,7 @@ class makeBDTInputs(processor.ProcessorABC):
         
         if info['type'] == 'signal':
             outputs['sel_vtx_match'] = column_accumulator(events.sel_vtx.match.to_numpy())
+            outputs['sel_vtx_isMatched'] = column_accumulator(ak.values_astype(events.sel_vtx.isMatched,int).to_numpy())
             outputs['m1'] = column_accumulator(events["m1"].to_numpy())
             outputs['delta'] = column_accumulator(events["delta"].to_numpy())
             outputs['ctau'] = column_accumulator(events["ctau"].to_numpy())

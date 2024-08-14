@@ -14,6 +14,7 @@ parser.add_argument("-n","--n_file_per",required=True,type=int)
 parser.add_argument("-c","--num_cores",required=True,type=int)
 parser.add_argument("-m","--met_cut",type=float,required=True)
 parser.add_argument("-j","--njet_cut",required=True,type=int)
+parser.add_argument("-p","--particular",required=False,default="")
 args = parser.parse_args()
 
 samples = args.samples
@@ -21,6 +22,7 @@ n_file_per = args.n_file_per
 n_cores = args.num_cores
 MET_cut = args.met_cut
 nJet_cut = args.njet_cut
+particular = args.particular
 
 sampFile = samples.split("/")[-1]
 jobname_base = sampFile.split(".")[0] + f"_rdfSkim_MET{int(MET_cut)}"
@@ -41,6 +43,8 @@ nfiles_by_samp = [samp['nFiles'] for samp in sampData]
 for i in range(n_samp):
     samp = sampData[i]
     name = samp['name']
+    if particular != "" and name != particular:
+        continue
     outDir = "/store/group/lpcmetx/iDMe/skimmed_ntuples/{0}/{1}/output_{2}/".format(mode,jobname_base,name.replace(".","p"))
     print(outDir)
     xrdClient.mkdir(outDir,flags=client.flags.MkDirFlags.MAKEPATH)

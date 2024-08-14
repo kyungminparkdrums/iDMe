@@ -1,5 +1,15 @@
 [
     {
+        "name": "DYLowMass_DYJetsToLL_M10to50",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_v9_miniAOD_rdfSkim_MET200_nJetsG0/output_DYLowMass_DYJetsToLL_M10to50/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 5,
+        "sum_wgt": 99288125.0,
+        "xsec": 15910.0,
+        "blacklist": []
+    },
+    {
         "name": "DY_DYJetsToLL",
         "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_v9_miniAOD_rdfSkim_MET200_nJetsG0/output_DY_DYJetsToLL/",
         "type": "bkg",
@@ -85,11 +95,9 @@
         "type": "bkg",
         "year": 2018,
         "nFiles": 2,
-        "sum_wgt": 14835140.0,
+        "sum_wgt": 15230975.0,
         "xsec": 1117000.0,
-        "blacklist": [
-            "QCD_HT1000to1500_35.root"
-        ]
+        "blacklist": []
     },
     {
         "name": "QCD_QCD_HT100to200",
@@ -97,11 +105,9 @@
         "type": "bkg",
         "year": 2018,
         "nFiles": 0,
-        "sum_wgt": 81518589.0,
+        "sum_wgt": 81746043.0,
         "xsec": 23640000000.0,
-        "blacklist": [
-            "QCD_HT100to200_63.root"
-        ]
+        "blacklist": []
     },
     {
         "name": "QCD_QCD_HT1500to2000",
