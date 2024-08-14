@@ -140,6 +140,8 @@ class Analyzer:
             proc = genProcessor(self.sample_names,self.sample_info,self.sample_locs,self.histoFile,self.cuts,mode=self.mode,**kwargs)
         elif procType == 'trig':
             proc = trigProcessor(self.sample_names,self.sample_info,self.sample_locs,self.histoFile,self.cuts,mode=self.mode,**kwargs)
+        elif procType == 'bare':
+            proc = bareProcessor(self.sample_names,self.sample_info,self.sample_locs,self.histoFile,self.cuts,mode=self.mode,**kwargs)
         
         if not self.newCoffea:
             if execr == "iterative":
@@ -225,6 +227,8 @@ class iDMeProcessor(processor.ProcessorABC):
             sum_wgt = info["sum_wgt"]
             lumi, unc = getLumi(info['year'])
             xsec = info['xsec']
+            if info['type'] == 'signal':
+                xsec = xsec*info['filter_eff']
             # register event weight branch
             events.__setitem__("eventWgt",xsec*lumi*events.genWgt)
         else:
@@ -245,44 +249,21 @@ class iDMeProcessor(processor.ProcessorABC):
         #################################
         ## Calculating Additional Vars ##
         #################################
-        events['Electron','mindRj'] = ak.fill_none(ak.min(events.Electron.dRJets,axis=-1),999)
-        events['Electron','mindPhiJ'] = ak.fill_none(ak.min(np.abs(events.Electron.dPhiJets),axis=-1),999)
-        events['LptElectron','mindRj'] = ak.fill_none(ak.min(events.LptElectron.dRJets,axis=-1),999)
-        events['LptElectron','mindPhiJ'] = ak.fill_none(ak.min(np.abs(events.LptElectron.dPhiJets),axis=-1),999)
-        events['vtx','mindRj'] = ak.fill_none(ak.min(events.vtx.dRJets,axis=-1),999)
-        events['vtx','mindPhiJ'] = ak.fill_none(ak.min(np.abs(events.vtx.dPhiJets),axis=-1),999)
-        routines.projectLxy(events)
-        routines.electronID(events,info) # electron kinematic/ID definition
-        routines.jetBtag(events,info['year'])
-        if info['type'] == "signal":
-            events['GenJetMETdPhi'] = np.abs(deltaPhi(events.GenJet.phi[:,0],events.GenMET.phi))
-            events['GenEle','dr'] = events.genEE.dr
-            events['GenPos','dr'] = events.genEE.dr
-            if "vxy" not in events.genEE.fields:
-                events['genEE','vxy'] = events.GenEle.vxy
-            routines.genElectronKinematicBins(events)
-            #routines.getLptMatchInfoForReg(events)
-            routines.genMatchRecoQuantities(events)
-        # associate electrons to vertices after all electron-related stuff has been computed
-        routines.vtxElectronConnection(events) # associate electrons to vertices
-        events['vtx','min_dxy'] = np.minimum(np.abs(events.vtx.e1.dxy),np.abs(events.vtx.e2.dxy))
-        events['vtx','eleDphi'] = np.abs(deltaPhi(events.vtx.e1.phi,events.vtx.e2.phi))
-        #if info['type'] == 'signal':
-            #routines.genMatchExtraVtxVariables(events)
+        events = routines.computeExtraVariables(events,info)
         
         #################################
         ##### Hard-coded basic cuts #####
         #################################
         # 1 or 2 jets in the event
         nJets = ak.count(events.PFJet.pt,axis=1)
-        #events = events[(nJets>0) & (nJets<3)]
+        #events = events[(nJets>0) & (nJets<4)]
+        events["nJets"] = nJets
         events = events[nJets>0]
         # needs a good vertex
-        routines.defineGoodVertices(events,version='v5') # define "good" vertices based on whether associated electrons pass ID cuts
+        routines.defineGoodVertices(events,version='v8') # define "good" vertices based on whether associated electrons pass ID cuts
         events = events[events.nGoodVtx > 0]
         # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
         routines.selectBestVertex(events)
-        #events = routines.selectTrueVertex(events,events.good_vtx)
 
         # Fill cutflow after baseline selection
         if isMC:
@@ -296,12 +277,6 @@ class iDMeProcessor(processor.ProcessorABC):
         if info['type'] == "signal":
             vtx_matched_events = events[events.sel_vtx.isMatched]
             cutflow_vtx_matched['hasVtx'] += ak.sum(vtx_matched_events.genWgt)/ak.sum(events.genWgt)
-        
-        # Compute miscellaneous extra variables -- add anything you want to this function
-        # don't need this for now - can activate if need be
-        #routines.miscExtraVariables(events)
-        #if info['type'] == "signal":
-        #    routines.miscExtraVariablesSignal(events)
 
         # computing any extra quantities specified in the histogram config file
         for subroutine in self.subroutines:
@@ -347,6 +322,7 @@ class iDMeProcessor(processor.ProcessorABC):
             accumulator['cutDesc'][cutName] = accumulator['cutDesc'][cutName].split("@")[0]
         return accumulator
 
+# processor for extracting gen/truth-matched signal plots - no selection
 class genProcessor(iDMeProcessor):
     def process(self,events):
         samp = events.metadata["dataset"]
@@ -364,6 +340,8 @@ class genProcessor(iDMeProcessor):
         sum_wgt = info["sum_wgt"]
         lumi, unc = getLumi(info['year'])
         xsec = info['xsec']
+        if info['type'] == 'signal':
+            xsec = xsec*info['filter_eff']
 
         # register event weight branch
         events.__setitem__("eventWgt",xsec*lumi*events.genWgt)
@@ -376,27 +354,11 @@ class genProcessor(iDMeProcessor):
         #################################
         ## Calculating Additional Vars ##
         #################################
-        events['Electron','mindRj'] = ak.fill_none(ak.min(events.Electron.dRJets,axis=-1),999)
-        events['Electron','mindPhiJ'] = ak.fill_none(ak.min(events.Electron.dPhiJets,axis=-1),999)
-        events['LptElectron','mindRj'] = ak.fill_none(ak.min(events.LptElectron.dRJets,axis=-1),999)
-        events['LptElectron','mindPhiJ'] = ak.fill_none(ak.min(events.LptElectron.dPhiJets,axis=-1),999)
-        events['vtx','mindRj'] = ak.fill_none(ak.min(events.vtx.dRJets,axis=-1),999)
-        events['vtx','mindPhiJ'] = ak.fill_none(ak.min(events.vtx.dPhiJets,axis=-1),999)
-        routines.electronID(events,info) # electron kinematic/ID definition
-        if info['type'] == "signal":
-            events['GenJetMETdPhi'] = deltaPhi(events.GenJet.phi[:,0],events.GenMET.phi)
-            events['GenEle','dr'] = events.genEE.dr
-            events['GenPos','dr'] = events.genEE.dr
-            if "vxy" not in events.genEE.fields:
-                events['genEE','vxy'] = events.GenEle.vxy
-            routines.genElectronKinematicBins(events)
-            routines.getLptMatchInfoForReg(events)
-            routines.genMatchRecoQuantities(events)
-        # associate electrons to vertices after all electron-related stuff has been computed
-        routines.vtxElectronConnection(events) # associate electrons to vertices
-        routines.defineGoodVertices(events) # define "good" vertices based on whether associated electrons pass ID cuts
-        if info['type'] == 'signal':
-            routines.genMatchExtraVtxVariables(events)
+        routines.jetBtag(events,info['year'])
+        routines.vtxElectronConnection(events)
+        #events = routines.computeExtraVariables(events,info)
+        #if info['type'] == 'signal':
+        #    routines.genMatchExtraVtxVariables(events)
 
         # initial histogram fill
         self.histoFill(events,histObj,samp,"no_presel",info,sum_wgt=sum_wgt)
@@ -405,24 +367,22 @@ class genProcessor(iDMeProcessor):
         #### Hard-coded basic cuts ######
         #################################
         # 1 or 2 jets in the event
-        nJets = ak.count(events.PFJet.pt,axis=1)
-        events = events[(nJets>0) & (nJets<3)]
+        #nJets = ak.count(events.PFJet.pt,axis=1)
+        #events = events[(nJets>0) & (nJets<3)]
         
         #################################
         #### Demand >= 1 ee vertices ####
         #################################
-        events.__setitem__("nGoodVtx",ak.count(events.good_vtx.vxy,axis=1))
-        events = events[events.nGoodVtx > 0]
+        #routines.defineGoodVertices(events) # define "good" vertices based on whether associated electrons pass ID cuts
+        #events.__setitem__("nGoodVtx",ak.count(events.good_vtx.vxy,axis=1))
+        #events = events[events.nGoodVtx > 0]
         # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
-        routines.selectBestVertex(events)
+        #routines.selectBestVertex(events)
 
         # Fill cutflow after baseline selection
         cutflow['hasVtx'] += ak.sum(events.genWgt)/sum_wgt
         cutflow_nevts['hasVtx'] += len(events)
         cutDesc['hasVtx'] = 'Baseline Selection'
-        
-        # Compute miscellaneous extra variables -- add anything you want to this function
-        routines.miscExtraVariables(events)
 
         # computing any extra quantities specified in the histogram config file
         for subroutine in self.subroutines:
@@ -451,6 +411,62 @@ class genProcessor(iDMeProcessor):
         
         return histos
 
+# processor for doing nothing but filling histos
+class bareProcessor(iDMeProcessor):
+    def process(self,events):
+        samp = events.metadata["dataset"]
+        info = self.sampleInfo[samp]
+        isMC = info["type"] == "signal" or info["type"] == "bkg"
+        info['defineGoodVertices'] = routines.defineGoodVertices
+        info['selectBestVertex'] = routines.selectBestVertex
+        for k,v in self.extraStuff.items():
+            info[f"extras_{k}"] = v
+        
+        #histos = self.histoMod.make_histograms()
+        #histos['cutDesc'] = defaultdict(str)
+        histObj = self.histoMod.make_histograms(info)
+        cutDesc = defaultdict(str)
+        
+        if isMC:
+            sum_wgt = info["sum_wgt"]
+            lumi, unc = getLumi(info['year'])
+            xsec = info['xsec']
+            if info['type'] == 'signal':
+                xsec = xsec*info['filter_eff']
+            # register event weight branch
+            events.__setitem__("eventWgt",xsec*lumi*events.genWgt)
+        else:
+            sum_wgt = info["num_events"]
+
+        #################################
+        ## Calculating Additional Vars ##
+        #################################
+        #events = routines.computeExtraVariables(events,info)
+        
+        #################################
+        ##### Hard-coded basic cuts #####
+        #################################
+        # 1 or 2 jets in the event
+        #nJets = ak.count(events.PFJet.pt,axis=1)
+        #events = events[(nJets>0) & (nJets<4)]
+        #events = events[nJets>0]
+        #events["nJets"] = nJets
+        # needs a good vertex
+        #routines.defineGoodVertices(events,version='v8') # define "good" vertices based on whether associated electrons pass ID cuts
+        #events = events[events.nGoodVtx > 0]
+        # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
+        #routines.selectBestVertex(events)
+
+        self.histoFill(events,histObj,samp,"all",info,sum_wgt=sum_wgt)
+        
+        histos = histObj.histograms
+
+        return histos
+    
+    def postprocess(self, accumulator):
+        # only need one description per cut name -- adds many during parallel execution
+        return accumulator
+
 class trigProcessor(iDMeProcessor):
     def process(self,events):
         samp = events.metadata["dataset"]
@@ -461,6 +477,8 @@ class trigProcessor(iDMeProcessor):
             sum_wgt = info["sum_wgt"]
             lumi, unc = getLumi(info['year'])
             xsec = info['xsec']
+            if info['type'] == 'signal':
+                xsec = xsec*info['filter_eff']
             # register event weight branch
             events.__setitem__("eventWgt",xsec*lumi*events.genWgt)
         else:
@@ -501,34 +519,77 @@ class trigProcessor(iDMeProcessor):
         MET_passTrig_all.fill(samp=samp,met=events.PFMET.pt,
                               passTrig=ak.values_astype(events.trig.HLT_PFMET120_PFMHT120_IDTight,int),
                               weight=events.wgt)
-
     
         # require jets
         nJets = ak.count(events.PFJet.pt,axis=1)
-        events = events[(nJets>0)&(nJets<3)]
+        #events = events[(nJets>0)&(nJets<3)]
+        events = events[nJets>0]
         jet_pt_all.fill(samp=samp,pt=events.PFJet.pt[:,0],weight=events.wgt)
+        events = events[np.abs(events.PFMET.pt-events.CaloMET.pt)/events.CaloMET.pt < 0.5]
 
         # iDM-like jet selection
-        lead_pt = events.PFJet.pt[:,0]
-        lead_eta = np.abs(events.PFJet.eta[:,0])
-        #ele_cut = (events.Electron.pt > 30) & (events.Electron.IDcutLoose==1)
-        #lpt_ele_cut = (events.LptElectron.pt > 30)
-        #n_ele_cut = ak.any(ele_cut,axis=1) | ak.any(lpt_ele_cut,axis=1)
-        cut = (lead_pt > 80) & (lead_eta < 2.4)
-        events = events[cut]
+        if info['type'] == 'data' or info['type'] == "bkg":
+            lead_pt = events.PFJet.pt[:,0]
+            lead_eta = np.abs(events.PFJet.eta[:,0])
+            cut = (lead_pt > 80) & (lead_eta < 2.4)
+            
+            ele_cut = (events.Electron.pt > 30) & (np.abs(events.Electron.eta) < 2.4)
+            #lpt_ele_cut = (events.LptElectron.pt > 30)
+            n_ele_cut = ak.any(ele_cut,axis=1)# | ak.any(lpt_ele_cut,axis=1)
+            
+            cut = cut & n_ele_cut
+            events = events[cut]
         
-        # require reference trigger
-        events = events[events.trig.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL==1]
+        # require reference trigger - try several
+        refTrigs = [
+            "HLT_DoubleEle27_CaloIdL_MW",
+            "HLT_DoubleEle8_CaloIdM_TrackIdM_Mass8_PFHT350",
+            "HLT_Ele17_CaloIdM_TrackIdM_PFJet30",
+            "HLT_Ele40_WPTight_Gsf",
+            "HLT_DoubleEle8_CaloIdM_TrackIdM_Mass8_DZ_PFHT350",
+            "HLT_Ele32_WPTight_Gsf",
+            "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL",
+            "HLT_Ele16_Ele12_Ele8_CaloIdL_TrackIdL",
+            "HLT_Ele35_WPTight_Gsf_L1EGMT",
+            "HLT_Ele23_CaloIdM_TrackIdM_PFJet30",
+            "HLT_Ele38_WPTight_Gsf",
+            "HLT_DoubleEle24_eta2p1_WPTight_Gsf",
+            "HLT_Ele30_eta2p1_WPTight_Gsf_CentralPFJet35_EleCleaned",
+            "HLT_Ele8_CaloIdM_TrackIdM_PFJet30",
+            "HLT_Ele35_WPTight_Gsf",
+            "HLT_Ele8_CaloIdL_TrackIdL_IsoVL_PFJet30",
+            "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ",
+            "HLT_Ele28_eta2p1_WPTight_Gsf_HT150",
+            "HLT_DoubleEle33_CaloIdL_MW",
+            "HLT_Ele32_WPTight_Gsf_L1DoubleEG",
+            "HLT_Ele23_CaloIdL_TrackIdL_IsoVL_PFJet30"
+            "HLT_Ele50_CaloIdVT_GsfTrkIdT_PFJet165",
+            "HLT_Ele12_CaloIdL_TrackIdL_IsoVL_PFJet30"
+        ]
+
+        MET_passTrig_refTrig = Hist(StrCategory([],name="samp",label="Sample Name",growth=True),
+                                    StrCategory([],name="refTrig",label="ref trigger",growth=True),
+                                    Regular(600,0,600,name="met",label="met"),
+                                    IntCategory([0,1],name="passMET",label="passMET"),
+                                    IntCategory([0,1],name="passRef",label="passRef"),
+                                    storage=hist.storage.Weight())
+        for refTrig in refTrigs:
+            if refTrig in events.trig.fields:
+                MET_passTrig_refTrig.fill(samp=samp,met=events.PFMET.pt,refTrig=refTrig,
+                                        passMET=ak.values_astype(events.trig.HLT_PFMET120_PFMHT120_IDTight,int),
+                                        passRef=ak.values_astype(events.trig[refTrig],int))
+
+        #events = events[events.trig.HLT_Ele20_WPTight_Gsf==1]
 
         # fill histos
-        MET_passTrig.fill(samp=samp,
-                             met=events.PFMET.pt,
-                             passTrig=ak.values_astype(events.trig.HLT_PFMET120_PFMHT120_IDTight,int),
-                             weight=events.wgt)
-        jet_pt_passTrig.fill(samp=samp,pt=events.PFJet.pt[:,0],passTrig=ak.values_astype(events.trig.HLT_PFMET120_PFMHT120_IDTight,int),weight=events.wgt)
+        #MET_passTrig.fill(samp=samp,
+        #                     met=events.PFMET.pt,
+        #                     passTrig=ak.values_astype(events.trig.HLT_PFMET120_PFMHT120_IDTight,int),
+        #                     weight=events.wgt)
+        #jet_pt_passTrig.fill(samp=samp,pt=events.PFJet.pt[:,0],passTrig=ak.values_astype(events.trig.HLT_PFMET120_PFMHT120_IDTight,int),weight=events.wgt)
 
         output = {"MET_passTrig":MET_passTrig,"MET_all":MET_all, "MET_passTrig_all":MET_passTrig_all,
-                  "jet_pt_all":jet_pt_all, "jet_pt_passTrig":jet_pt_passTrig}
+                  "jet_pt_all":jet_pt_all, "jet_pt_passTrig":jet_pt_passTrig,"MET_passTrig_refTrig":MET_passTrig_refTrig}
 
         return output
 
@@ -566,6 +627,8 @@ class fileSkimmer:
             sum_wgt = info["sum_wgt"]
             lumi, unc = getLumi(info['year'])
             xsec = self.sampleInfo['xsec']
+            if info['type'] == 'signal':
+                xsec = xsec*info['filter_eff']
 
             # register event weight branch
             events.__setitem__("eventWgt",xsec*lumi*events.genWgt/sum_wgt)

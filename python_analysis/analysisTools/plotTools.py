@@ -23,7 +23,8 @@ bkg_cmap = {
     "DY":cmap_petroff[3],
     "Top":cmap_petroff[4],
     "Multiboson":cmap_petroff[5],
-    "ZGamma":"khaki"
+    "ZGamma":"darkkhaki",
+    "DYLowMass":"tab:brown"
 }
 selected_signals = [
     "sig_2018_Mchi-10p5_dMchi-1p0_ctau-1",
@@ -925,3 +926,203 @@ def plot_data_1d(ax, data_histo, plot_dict, style_dict):
     # legend
     handles, labels = ax.get_legend_handles_labels()
     ax.legend(handles[::-1], labels[::-1])
+
+
+def plot_samples_sigBkg(loader_sig,loader_bkg,hname,selection,samples,labels,outName,outD,
+                 xlabel=None,ylabel=None,title=None,xlim=None,ylim=None,
+                 ncol_leg=1,figsize=None,logy=False,logx=False,rebin=1j,
+                 save=True,show=False,density=False,yerr=True,histtype='errorbar',heplabel="Private Work",
+                 legend_loc='best',legend_fontsize=12,label_fontsize=16,bkgOnly=False,sigOnly=False):
+    if not figsize:
+        figsize=(8,6)
+    plt.figure(figsize=figsize)
+    if not bkgOnly:
+        # load signal histograms
+        h_sig = loader_sig.load(hname)[selection]
+        histos_sig = [h_sig[{"samp":s}][::rebin] for s in samples]
+        labels_sig = labels
+        colors_sig = ['k','g','b','c']
+        if len(labels_sig) < len(colors_sig):
+            colors_sig = colors_sig[:len(labels_sig)]
+    if not sigOnly:
+        # load bkg histograms
+        h_bkg = loader_bkg.load(hname)[selection]
+        labels_bkg = loader_bkg.cats
+        histos_bkg = []
+        counts_bkg = []
+        colors_bkg = []
+        for cat in labels_bkg:
+            trueSel = getPresentSamples(h_bkg,loader_bkg.catSamps[cat])
+            hsel = h_bkg[{"samp":trueSel}][{"samp":sum}]
+            if hsel.sum(flow=True).value == 0:
+                continue
+            histos_bkg.append(hsel[::rebin])
+            colors_bkg.append(bkg_cmap[cat])
+            counts_bkg.append(hsel.sum(flow=True).value)
+        histos_bkg = [h for h,_ in sorted(zip(histos_bkg,counts_bkg),key=lambda p: p[1],reverse=True)]
+        colors_bkg = [c for c,_ in sorted(zip(colors_bkg,counts_bkg),key=lambda p: p[1],reverse=True)]
+        labels_bkg = [l for l,_ in sorted(zip(labels_bkg,counts_bkg),key=lambda p: p[1],reverse=True)]
+    # plot histograms
+    if not sigOnly:
+        hep.histplot(histos_bkg,label=labels_bkg,density=density,yerr=yerr,stack=True,histtype='fill',color=colors_bkg)
+    if not bkgOnly:
+        hep.histplot(histos_sig,label=labels_sig,density=density,yerr=yerr,color=colors_sig,histtype=histtype,lw=2)
+    if xlabel:
+        plt.xlabel(xlabel,fontsize=label_fontsize)
+    if ylabel:
+        plt.ylabel(ylabel,fontsize=label_fontsize)
+    else:
+        if density:
+            plt.ylabel("A.U.",fontsize=label_fontsize)
+        else:
+            plt.ylabel("Events",fontsize=label_fontsize)
+    if xlim:
+        plt.xlim(xlim)
+    if ylim:
+        plt.ylim(ylim)
+    if title:
+        plt.title(title)
+    if logy:
+        plt.yscale('log')
+    if logx:
+        plt.xscale('log')
+    plt.legend(ncol=ncol_leg,fontsize=legend_fontsize,loc=legend_loc)
+    hep.cms.text(heplabel)
+    #hep.cms.label("Simulation", data=False, year=2018)
+    plt.tight_layout()
+    if save:
+        os.makedirs(outD,exist_ok=True)
+        if density:
+            plt.savefig(f"{outD}/{outName}_density.pdf")
+        else:
+            plt.savefig(f"{outD}/{outName}.pdf")
+    if not show:
+        plt.close()
+
+def make_cdf_summary_sigVsBkg(dfs,loader_sig,loader_bkg,hname_sig,hname_bkg,selection,outName,outD,right=True,
+                 xlabel=None,ylabel=None,title=None,xlim=None,ylim=None,
+                 ncol_leg=1,figsize=None,logy=False,logx=False,alpha=1,
+                 save=True,show=False,legend_loc='best',category=False,bkgOnly=False,sigOnly=False):
+    if not figsize:
+        figsize=(8,6)
+    fig,axes = plt.subplots(1,1,figsize=figsize)
+    handles = []
+    if not bkgOnly:
+        hsig = loader_sig.load(hname_sig)[selection]
+        for s in dfs.name:
+            hsamp = hsig[{"samp":s}]
+            if xlim:
+                edges = xlim
+            else:
+                edges = hsamp.axes[0].edges[:-1] if right else hsamp.axes[0].edges[1:]
+            x,eff_real = makeCDF(hsamp,edges[0],edges[-1],right=right,category=category)
+            plt.plot(x,eff_real,color='green',alpha=0.5,lw=2)
+        handles.append(Line2D([],[],lw=2,color='green',label="Signals"))
+    if not sigOnly:
+        hbkg = loader_bkg.load(hname_bkg)[selection]
+        for bkg_cat in loader_bkg.cats:
+            trueSel = getPresentSamples(hbkg,loader_bkg.catSamps[bkg_cat])
+            hsamp = hbkg[{"samp":trueSel}][{"samp":sum}]
+            x,eff_fake = makeCDF(hsamp,edges[0],edges[-1],right=right,category=category)
+            h, = plt.plot(x,eff_fake,alpha=1,lw=2,label=bkg_cat,color=bkg_cmap[bkg_cat])
+            handles.append(h)
+    plt.legend(handles=handles,loc=legend_loc,ncol=ncol_leg)
+    if xlabel:
+        plt.xlabel(xlabel)
+    if right:
+        plt.ylabel("Cumulative Distribution (Right)")
+    else:
+        plt.ylabel("Cumulative Distribution (Left)")
+    if ylim:
+        plt.ylim(ylim)
+    if title:
+        plt.title(title)
+    if logy:
+        plt.yscale('log')
+    if logx:
+        plt.xscale('log')
+    plt.grid()
+    plt.tight_layout()
+    if save:
+        os.makedirs(outD,exist_ok=True)
+        plt.savefig(f"{outD}/{outName}.pdf")
+    if not show:
+        plt.close()
+
+def make_Nminus1_sigVsBkg(dfs,loader_sig,loader_bkg,hname_sig,hname_bkg,selection,outName,outD,right=True,
+                 xlabel=None,ylabel=None,title=None,xlim=None,ylim=None,
+                 ncol_leg=1,figsize=None,logy=False,logx=False,alpha=1,
+                 save=True,show=False,legend_loc='best',category=False):
+    if not figsize:
+        figsize=(8,6)
+    fig,axes = plt.subplots(1,1,figsize=figsize)
+    hsig = loader_sig.load(hname_sig)[selection]
+    hbkg = loader_bkg.load(hname_bkg)[selection]
+    
+    # get bkg yields as a function of cut
+    bkg_yields = []
+    for bkg_cat in loader_bkg.cats:
+        trueSel = getPresentSamples(hbkg,loader_bkg.catSamps[bkg_cat])
+        hsamp = hbkg[{"samp":trueSel}][{"samp":sum}]
+        if xlim:
+            edges = xlim
+        else:
+            edges = hsamp.axes[0].edges[:-1] if right else hsamp.axes[0].edges[1:]
+        x,nbkg = makeCDF(hsamp,edges[0],edges[-1],right=right,category=category,nevents=True)
+        bkg_yields.append(nbkg)
+    tot_bkg = sum(bkg_yields)
+    
+    for s in dfs.name:
+        hsamp = hsig[{"samp":s}]
+        if xlim:
+            edges = xlim
+        else:
+            edges = hsamp.axes[0].edges[:-1] if right else hsamp.axes[0].edges[1:]
+        x,sig_yields = makeCDF(hsamp,edges[0],edges[-1],right=right,category=category,nevents=True)
+        plt.plot(x,sig_yields/tot_bkg,color='green',alpha=0.5,lw=2)
+        
+    handles = [Line2D([],[],lw=2,color='green',label="Signals")]
+    plt.legend(handles=handles,loc=legend_loc,ncol=ncol_leg)
+    if xlabel:
+        plt.xlabel(xlabel)
+    if right:
+        plt.ylabel(r"$S/\sqrt{B}$ (Right)")
+    else:
+        plt.ylabel(r"$S/\sqrt{B}$ (Left)")
+    if ylim:
+        plt.ylim(ylim)
+    if title:
+        plt.title(title)
+    if logy:
+        plt.yscale('log')
+    if logx:
+        plt.xscale('log')
+    plt.grid()
+    plt.tight_layout()
+    if save:
+        os.makedirs(outD,exist_ok=True)
+        plt.savefig(f"{outD}/{outName}.pdf")
+    if not show:
+        plt.close()
+
+def getBkgComposition(loader_bkg,hname,selection):
+    h_bkg = loader_bkg.load(hname)[selection]
+    labels_bkg = loader_bkg.cats
+    histos_bkg = []
+    counts_bkg = []
+    for cat in labels_bkg:
+        trueSel = getPresentSamples(h_bkg,loader_bkg.catSamps[cat])
+        histos_bkg.append(h_bkg[{"samp":trueSel}][{"samp":sum}])
+        counts_bkg.append(h_bkg[{"samp":trueSel}][{"samp":sum}].value)
+    print("Background Composition is:")
+    for ct, label in zip(counts_bkg,labels_bkg):
+        print(f"\t{label} : {ct:.4f} ({100*ct/np.sum(counts_bkg):.4f}%)")
+
+def summedBkgCutflow(loader_bkg,cfname,cut):
+    labels_bkg = loader_bkg.cats
+    cf = loader_bkg.load(cfname)
+    output = {cat:0 for cat in labels_bkg}
+    for key,value in cf.items():
+        cat = key.split("_")[2]
+        output[cat] += value[cut]
+    return output

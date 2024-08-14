@@ -26,4 +26,29 @@ print(f"\t STATUS : {s['status']}")
 for k in s['jobsPerStatus'].keys():
     print(f"\t {k} : {s['jobsPerStatus'][k]}")
 print(f"\t LINK : {link}")
+failed_all = []
+failed_main = []
+failed_tail = []
+for j in s['jobList']:
+    status,name = j[0], j[1]
+    if status == 'failed':
+        if name[:2] == '0-':
+            continue
+        failed_all.append(name)
+        if name[:2] == '1-':
+            failed_tail.append(name)
+        if "-" not in name:
+            failed_main.append(name)
+true_failed = []
+for f in failed_main:
+    if f"1-{f}" in failed_tail:
+        true_failed.append(f)
+for f in failed_tail:
+    if f[2:] not in failed_main:
+        true_failed.append(f)
+print("Failed jobs:",failed_all)
+print("Failed main:",failed_main)
+print("Failed tail:",failed_tail)
+print("True failed:",",".join(true_failed))
+print(f"crab resubmit {directory} --jobids={','.join(true_failed)}")
 print("--------------------------")

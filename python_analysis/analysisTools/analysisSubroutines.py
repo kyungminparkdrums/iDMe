@@ -176,12 +176,13 @@ def defineGoodVertices(events,version='default',ele_id='dR'):
         IDcut = events.vtx.e1.passID & events.vtx.e2.passID
     ossf = events.vtx.sign == -1
     chi2 = events.vtx.reduced_chi2 < 5
-    mass = events.vtx.m < 20
+    mass = events.vtx.refit_m < 20
     eleDphi = events.vtx.eleDphi < 2
-    mindxy = events.vtx.min_dxy > 0.01
+    #mindxy = events.vtx.min_dxy > 0.01
+    mindxy = events.vtx.min_dxy > 0.005
     maxMiniIso = np.maximum(events.vtx.e1.miniRelIsoEleCorr,events.vtx.e2.miniRelIsoEleCorr) < 0.9
     passConvVeto = events.vtx.e1.conversionVeto & events.vtx.e2.conversionVeto
-    mass_lo = events.vtx.m > 0.325
+    mass_lo = events.vtx.refit_m > 0.1
     if version == 'none':
         events['vtx','isGood'] = ak.values_astype(ak.ones_like(events.vtx.m),bool)
     if version == 'default':
@@ -197,7 +198,11 @@ def defineGoodVertices(events,version='default',ele_id='dR'):
     if version == 'v5':
         events['vtx','isGood'] = IDcut & ossf & chi2 & mass & mindxy & maxMiniIso & passConvVeto # v5 definition
     if version == 'v6':
-        events['vtx','isGood'] = IDcut & ossf & chi2 & mass & mindxy & maxMiniIso & passConvVeto & mass_lo # v5 definition
+        events['vtx','isGood'] = IDcut & ossf & chi2 & mass & mindxy & maxMiniIso & passConvVeto & mass_lo # v6 definition
+    if version == 'v7': # remove the upper mass cut (keep the mass > 0.1 since we now have the refitted mass)
+        events['vtx','isGood'] = IDcut & ossf & chi2 & mindxy & maxMiniIso & passConvVeto & mass_lo
+    if version == 'v8': # remove both mass cuts
+        events['vtx','isGood'] = IDcut & ossf & chi2 & mindxy & maxMiniIso & passConvVeto 
     events.__setitem__("good_vtx",events.vtx[events.vtx.isGood])
     events.__setitem__("nGoodVtx",ak.count(events.good_vtx.vxy,axis=1))
 
@@ -205,25 +210,33 @@ def selectBestVertex(events):
     sel_vtx = ak.flatten(events.good_vtx[ak.argmin(events.good_vtx.reduced_chi2,axis=1,keepdims=True)])
     events.__setitem__("sel_vtx",sel_vtx)
 
-def miscExtraVariables(events):
-    # Jet-MET and vertex-MET deltaPhi
-    events["sel_vtx","mindRj"] = ak.min(np.sqrt(deltaPhi(events.PFJet.phi,events.sel_vtx.phi)**2 + (events.PFJet.eta-events.sel_vtx.eta)**2),axis=1)
-    events["sel_vtx","mindPhiJ"] = ak.min(np.abs(deltaPhi(events.PFJet.phi,events.sel_vtx.phi)),axis=1)
-
-    # compute composite MET + leptons (px,py) and dot w/ leading jet(s) (px,py)
-    """dp_px = events.PFMET.pt*np.cos(events.PFMET.phi) + events.sel_vtx.px
-    dp_py = events.PFMET.pt*np.sin(events.PFMET.phi) + events.sel_vtx.py
-    dp_pt = np.sqrt(dp_px**2+dp_py**2)
-    jet_px = events.PFJet.pt*np.cos(events.PFJet.phi)
-    jet_py = events.PFJet.pt*np.sin(events.PFJet.phi)
-    alljet_px = ak.sum(jet_px,axis=1)
-    alljet_py = ak.sum(jet_py,axis=1)
-    alljet_pt = np.sqrt(alljet_px**2+alljet_py**2)
-    events['DP_dotJet1'] = (dp_px*jet_px[:,0] + dp_py*jet_py[:,0])/(dp_pt*events.PFJet.pt[:,0])
-    events['DP_dotJet12'] = (dp_px*alljet_px + dp_py*alljet_py)/(dp_pt*alljet_pt)"""
-
-    # collinear angle & projectedLxy
+def computeExtraVariables(events,info):
+    events['Electron','mindRj'] = ak.fill_none(ak.min(events.Electron.dRJets,axis=-1),999)
+    events['Electron','mindPhiJ'] = ak.fill_none(ak.min(np.abs(events.Electron.dPhiJets),axis=-1),999)
+    events['LptElectron','mindRj'] = ak.fill_none(ak.min(events.LptElectron.dRJets,axis=-1),999)
+    events['LptElectron','mindPhiJ'] = ak.fill_none(ak.min(np.abs(events.LptElectron.dPhiJets),axis=-1),999)
+    events['vtx','mindRj'] = ak.fill_none(ak.min(events.vtx.dRJets,axis=-1),999)
+    events['vtx','mindPhiJ'] = ak.fill_none(ak.min(np.abs(events.vtx.dPhiJets),axis=-1),999)
+    events['vtx','corrMinDxy'] = ak.fill_none(np.minimum(np.abs(events.vtx.e1_refit_dxy),np.abs(events.vtx.e2_refit_dxy)),999)
     projectLxy(events)
+    electronID(events,info) # electron kinematic/ID definition
+    jetBtag(events,info['year'])
+    if info['type'] == "signal":
+        events['GenJetMETdPhi'] = np.abs(deltaPhi(events.GenJet.phi[:,0],events.GenMET.phi))
+        events['GenEle','dr'] = events.genEE.dr
+        events['GenPos','dr'] = events.genEE.dr
+        if "vxy" not in events.genEE.fields:
+            events['genEE','vxy'] = events.GenEle.vxy
+        genElectronKinematicBins(events)
+        #routines.getLptMatchInfoForReg(events)
+        genMatchRecoQuantities(events)
+    # associate electrons to vertices after all electron-related stuff has been computed
+    vtxElectronConnection(events) # associate electrons to vertices
+    events['vtx','min_dxy'] = np.minimum(np.abs(events.vtx.e1.dxy),np.abs(events.vtx.e2.dxy))
+    events['vtx','eleDphi'] = np.abs(deltaPhi(events.vtx.e1.phi,events.vtx.e2.phi))
+    #if info['type'] == 'signal':
+        #routines.genMatchExtraVtxVariables(events)
+    return events
 
 def miscExtraVariablesSignal(events):
     # record if signal is reconstructed
@@ -257,16 +270,19 @@ def projectLxy(events):
     vxpx = vtx.vx * vtx.px
     vypy = vtx.vy * vtx.py
     dotprod = vxpx + vypy
-
-    # mask_dotprod_neg = dotprod < 0
-
     vxy_mag = np.sqrt(vtx.vx * vtx.vx + vtx.vy * vtx.vy)
     pxy_mag = np.sqrt(vtx.px * vtx.px + vtx.py * vtx.py)
-
     cos = dotprod / (vxy_mag * pxy_mag)
-
     events["vtx","cos_collinear"] = cos
     events["vtx","projectedLxy"] =  vtx.vxy * cos
+
+    # compute with refitted e+e- pT
+    vxpx = vtx.vx * vtx.refit_pt * np.cos(vtx.refit_phi)
+    vypy = vtx.vy * vtx.refit_pt * np.sin(vtx.refit_phi)
+    dotprod = vxpx + vypy 
+    cos = dotprod / (vxy_mag * vtx.refit_pt)
+    events["vtx","corr_cos_collinear"] = cos
+    events["vtx","corrProjectedLxy"] =  vtx.vxy * cos
 
 def calculateCtau(events):
     # chi2
@@ -497,9 +513,9 @@ def makeBDTv2Inputs(events):
 def makeBDTinputs(events):
     '''
     # BDT_10vars_comb11 (ROC-AUC, PR-AUC) = (0.9958, 0.9959)
-    variables = ['sel_vtx_chi2','sel_vtx_METdPhi','sel_vtx_m','sel_vtx_dR','sel_vtx_minDxy','vxy','vxy_signif',\
+    variables = ['sel_vtx_chi2','sel_vtx_METdPhi','sel_vtx_refit_m','sel_vtx_refit_dR','sel_vtx_corrMinDxy','vxy','vxy_signif',\
                  'sel_vtx_cos_collinear', 'sel_vtx_prod_eta', 'met_leadPt_ratio'
-    ]
+]
     '''
 
     mindxy = np.minimum(np.abs(events.sel_vtx.e1.dxy),np.abs(events.sel_vtx.e2.dxy))
@@ -510,17 +526,22 @@ def makeBDTinputs(events):
     sel_vtx_chi2_arr = events.sel_vtx.reduced_chi2.to_numpy()
     sel_vtx_METdPhi_arr = np.abs(events.sel_vtx.METdPhi).to_numpy()
     sel_vtx_m_arr = events.sel_vtx.m.to_numpy()
+    sel_vtx_refit_m_arr = events.sel_vtx.refit_m.to_numpy()
     sel_vtx_dR_arr = events.sel_vtx.dR.to_numpy()
+    sel_vtx_refit_dR_arr = events.sel_vtx.refit_dR.to_numpy()
     sel_vtx_minDxy_arr = mindxy.to_numpy()
+    sel_vtx_corrMinDxy_arr = events.sel_vtx.corrMinDxy.to_numpy()
     sel_vtx_vxy_arr = events.sel_vtx.vxy.to_numpy()
     vxy_signif_arr = (events.sel_vtx.vxy/events.sel_vtx.sigmavxy).to_numpy()
-    cos_collinear_arr = events.cos_collinear.to_numpy()
+    cos_collinear_arr = events.sel_vtx.cos_collinear.to_numpy()
     sel_vtx_prod_eta_arr = (events.sel_vtx.e1.eta * events.sel_vtx.e2.eta).to_numpy()
     met_leadPt_ratio_arr = (events.PFMET.pt/events.PFJet.pt[:,0]).to_numpy()
+    jetMETdPhi = np.abs(events.PFJet.METdPhi[:,0]).to_numpy()
+    minJetMETdPhi = ak.min(np.abs(events.PFJet.METdPhi),axis=1).to_numpy()
 
-    input_arrs = (sel_vtx_chi2_arr, sel_vtx_METdPhi_arr, sel_vtx_m_arr, sel_vtx_dR_arr, \
-                  sel_vtx_minDxy_arr, sel_vtx_vxy_arr, vxy_signif_arr, \
-                  cos_collinear_arr, sel_vtx_prod_eta_arr, met_leadPt_ratio_arr)
+    input_arrs = (sel_vtx_chi2_arr, sel_vtx_METdPhi_arr, sel_vtx_refit_m_arr, sel_vtx_refit_dR_arr, \
+                  sel_vtx_corrMinDxy_arr, sel_vtx_vxy_arr, vxy_signif_arr, \
+                  cos_collinear_arr, sel_vtx_prod_eta_arr, met_leadPt_ratio_arr, jetMETdPhi, minJetMETdPhi)
 
     input = np.stack(input_arrs, axis=1)
 
@@ -533,6 +554,16 @@ def getBDTscore(arr, model):
 
     # get BDT score
     score = trained_model.predict(arr)
+
+    return score
+
+def getBDTClassifierScore(arr,model):
+    # load the pre-trained model
+    trained_model = xgb.XGBClassifier()
+    trained_model.load_model(model)
+
+    # get BDT score
+    score = trained_model.predict_proba(arr)[:,1]
 
     return score
 
@@ -570,12 +601,15 @@ def selectTrueVertex(events, evt_vtx):
         events = routines.selectTrueVertex(events, events.vtx)           # select the true vertex
 
     '''
-    
-    idx_vtxMatch, has_matched_vtx = getTrueVertex(events, evt_vtx)
+    # Sam edits 5/31/24: changing this to use the vtx_isMatched field that I added to the ntuples - simplifies this function
+    # first slim down to events with a matched vertex
+    cut_hasVtx = ak.any(evt_vtx.isMatched,axis=1)
+    events = events[cut_hasVtx]
+    evt_vtx = evt_vtx[cut_hasVtx]
 
-    sel_vtx = ak.flatten(evt_vtx[idx_vtxMatch])
+    # next, select the matched vertex
+    sel_vtx = ak.flatten(evt_vtx[evt_vtx.isMatched])
     events.__setitem__("sel_vtx",sel_vtx)
-    events = events[ak.flatten(has_matched_vtx)] # reject the events which do not have the matched vertex
 
     return events
 

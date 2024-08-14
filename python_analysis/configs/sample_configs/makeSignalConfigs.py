@@ -130,6 +130,8 @@ elif mode == "bkg":
             for fdir in fileDirs:
                 nFiles += len([rf.name for rf in xrdClient.dirlist(fdir)[1] if '.root' in rf.name])
             info["nFiles"] = nFiles
+            if nFiles == 0:
+                continue
 
             if skimmed:
                 samp_name = subsample.replace("output_","")

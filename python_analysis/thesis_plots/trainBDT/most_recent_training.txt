@@ -1,0 +1,32 @@
+Try 1 - June 2nd, 2024
+- variables = ['sel_vtx_chi2','sel_vtx_METdPhi','sel_vtx_refit_m','sel_vtx_refit_dR','sel_vtx_corrMinDxy','vxy','vxy_signif',\
+               'sel_vtx_cos_collinear', 'sel_vtx_prod_eta', 'met_leadPt_ratio']
+- No njets cut, Njets > 0 inclusive
+- Loose/Med/Tight = 0.992/0.996/0.999
+- Called BDT_BJetMedium.json
+
+Trained and evaluated with only nJets > 0 cut -- no nJets < 3 applied!
+This training marked "NJetAll"
+
+Try 2 - June 3rd 2024
+- variables = ['sel_vtx_chi2','sel_vtx_METdPhi','sel_vtx_refit_m','sel_vtx_refit_dR','sel_vtx_corrMinDxy','vxy','vxy_signif',\
+               'sel_vtx_cos_collinear', 'sel_vtx_prod_eta', 'met_leadPt_ratio']
+- Based on Njets distribution, try Njets < 4 -- almost all signal captured, and introduces more QCD (better stats)
+- Called BDT_BJetMedium_NJetL4.json
+- Loose/Med/Tight = 0.9937/0.9974/0.9995
+
+Try 3 - June 3rd, 2024
+- Use Njets < 4 but only apply ISR cuts (pt > 80, |eta| < 2.4) -- add dPhi(met,leading) and min(dphi(met, all jets)) to training
+- variables = ['sel_vtx_chi2','sel_vtx_METdPhi','sel_vtx_refit_m','sel_vtx_refit_dR','sel_vtx_corrMinDxy','vxy','vxy_signif',\
+               'sel_vtx_cos_collinear', 'sel_vtx_prod_eta', 'met_leadPt_ratio', 'jetMETdPhi', 'minJetMETdPhi']
+- Called BDT_BJetMedium_NJetL4_ISRonly.json
+- Loose/Med/Tight = 0.9957/0.9980/0.9996
+
+
+Try 4 - June 6th, 2024
+- Use Njets < 4, ISR cuts, and the jetMETdPhi < 2 and dPhi(MET, all jets) > 0.75 and refit Mee > 0.1
+- BUT include the jet-met dphi variables in the BDT training
+- variables = ['sel_vtx_chi2','sel_vtx_METdPhi','sel_vtx_refit_m','sel_vtx_refit_dR','sel_vtx_corrMinDxy','vxy','vxy_signif',\
+             'sel_vtx_cos_collinear', 'sel_vtx_prod_eta', 'met_leadPt_ratio', 'jetMETdPhi', 'minJetMETdPhi']
+- Called BDT_BJetMedium_NJetL4_useJetMETdPhiVars.json
+- Loose/Med/Tight = 0.99545/0.99800/0.99955

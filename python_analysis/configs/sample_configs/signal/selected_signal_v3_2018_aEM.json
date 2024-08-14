@@ -9,10 +9,11 @@
         "type": "signal",
         "year": 2018,
         "alphaD": "aEM",
-        "xsec": 41339.815,
+        "xsec": 49652.7114,
         "nFiles": 11,
         "num_events": 513160,
-        "blacklist": []
+        "blacklist": [],
+        "filter_eff": 0.7072
     },
     {
         "location": "/store/group/lpcmetx/iDMe//Samples/Ntuples/signal_v3/2018/Mchi-10p5_dMchi-1p0/ctau-10/",
@@ -24,10 +25,11 @@
         "type": "signal",
         "year": 2018,
         "alphaD": "aEM",
-        "xsec": 4828.2734,
+        "xsec": 4965.27114,
         "nFiles": 15,
         "num_events": 643295,
-        "blacklist": []
+        "blacklist": [],
+        "filter_eff": 0.6845
     },
     {
         "location": "/store/group/lpcmetx/iDMe//Samples/Ntuples/signal_v3/2018/Mchi-10p5_dMchi-1p0/ctau-100/",
@@ -39,10 +41,11 @@
         "type": "signal",
         "year": 2018,
         "alphaD": "aEM",
-        "xsec": 496.26306999999997,
+        "xsec": 496.527114,
         "nFiles": 44,
         "num_events": 1538155,
-        "blacklist": []
+        "blacklist": [],
+        "filter_eff": 0.6895
     },
     {
         "location": "/store/group/lpcmetx/iDMe//Samples/Ntuples/signal_v3/2018/Mchi-11p0_dMchi-2p0/ctau-1/",
@@ -54,10 +57,11 @@
         "type": "signal",
         "year": 2018,
         "alphaD": "aEM",
-        "xsec": 1582.1976490000004,
+        "xsec": 1543.0629600000002,
         "nFiles": 11,
         "num_events": 443760,
-        "blacklist": []
+        "blacklist": [],
+        "filter_eff": 0.643
     },
     {
         "location": "/store/group/lpcmetx/iDMe//Samples/Ntuples/signal_v3/2018/Mchi-11p0_dMchi-2p0/ctau-10/",
@@ -69,10 +73,11 @@
         "type": "signal",
         "year": 2018,
         "alphaD": "aEM",
-        "xsec": 157.24653,
+        "xsec": 155.409249,
         "nFiles": 15,
         "num_events": 559380,
-        "blacklist": []
+        "blacklist": [],
+        "filter_eff": 0.6143
     },
     {
         "location": "/store/group/lpcmetx/iDMe//Samples/Ntuples/signal_v3/2018/Mchi-11p0_dMchi-2p0/ctau-100/",
@@ -84,10 +89,11 @@
         "type": "signal",
         "year": 2018,
         "alphaD": "aEM",
-        "xsec": 15.921892,
+        "xsec": 15.5520366,
         "nFiles": 21,
         "num_events": 732332,
-        "blacklist": []
+        "blacklist": [],
+        "filter_eff": 0.6224
     },
     {
         "location": "/store/group/lpcmetx/iDMe//Samples/Ntuples/signal_v3/2018/Mchi-52p5_dMchi-5p0/ctau-1/",
@@ -99,10 +105,11 @@
         "type": "signal",
         "year": 2018,
         "alphaD": "aEM",
-        "xsec": 3020.0491,
+        "xsec": 3115.2733341999997,
         "nFiles": 8,
         "num_events": 402112,
-        "blacklist": []
+        "blacklist": [],
+        "filter_eff": 0.7724
     },
     {
         "location": "/store/group/lpcmetx/iDMe//Samples/Ntuples/signal_v3/2018/Mchi-52p5_dMchi-5p0/ctau-10/",
@@ -114,10 +121,11 @@
         "type": "signal",
         "year": 2018,
         "alphaD": "aEM",
-        "xsec": 322.45422,
+        "xsec": 311.52733342,
         "nFiles": 9,
         "num_events": 415843,
-        "blacklist": []
+        "blacklist": [],
+        "filter_eff": 0.7768
     },
     {
         "location": "/store/group/lpcmetx/iDMe//Samples/Ntuples/signal_v3/2018/Mchi-52p5_dMchi-5p0/ctau-100/",
@@ -129,12 +137,13 @@
         "type": "signal",
         "year": 2018,
         "alphaD": "aEM",
-        "xsec": 32.4727489999999,
+        "xsec": 31.152733342,
         "nFiles": 16,
         "num_events": 649371,
         "blacklist": [
             "ntuples_Mchi-52p5_dMchi-5p0_ctau-100_13.root"
-        ]
+        ],
+        "filter_eff": 0.7797
     },
     {
         "location": "/store/group/lpcmetx/iDMe//Samples/Ntuples/signal_v3/2018/Mchi-55p0_dMchi-10p0/ctau-1/",
@@ -146,10 +155,11 @@
         "type": "signal",
         "year": 2018,
         "alphaD": "aEM",
-        "xsec": 101.38717999999999,
+        "xsec": 97.18122089,
         "nFiles": 1,
         "num_events": 22500,
-        "blacklist": []
+        "blacklist": [],
+        "filter_eff": 0.7121
     },
     {
         "location": "/store/group/lpcmetx/iDMe//Samples/Ntuples/signal_v3/2018/Mchi-55p0_dMchi-10p0/ctau-10/",
@@ -161,10 +171,11 @@
         "type": "signal",
         "year": 2018,
         "alphaD": "aEM",
-        "xsec": 10.183912,
+        "xsec": 9.735678006,
         "nFiles": 4,
         "num_events": 115956,
-        "blacklist": []
+        "blacklist": [],
+        "filter_eff": 0.7129
     },
     {
         "location": "/store/group/lpcmetx/iDMe//Samples/Ntuples/signal_v3/2018/Mchi-55p0_dMchi-10p0/ctau-100/",
@@ -176,9 +187,10 @@
         "type": "signal",
         "year": 2018,
         "alphaD": "aEM",
-        "xsec": 1.0185793,
+        "xsec": 0.973702779,
         "nFiles": 11,
         "num_events": 311639,
-        "blacklist": []
+        "blacklist": [],
+        "filter_eff": 0.7049
     }
 ]
