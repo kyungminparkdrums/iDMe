@@ -75,6 +75,9 @@ def get_data_cutflow_dict(data_histo, branch):
     cutnames = get_data_list_of_cuts(data_histo)
     df.columns = cutnames
 
+    if branch != 'cutflow':
+        df.loc["Total"] = df.sum()
+
     return df
 
 def get_data_list_of_cuts(data_histo, get_cut_idx = False):
@@ -233,6 +236,14 @@ def get_bkg_cutflow_df(bkg_histos, branch, process = 'all', isLegacy = False):
     cutflow.columns = cut_name
     
     return cutflow
+
+def get_s_over_sqrtB_cutflow_dict(sig_histo, bkg_histo):
+    sig_df = get_signal_cutflow_dict(sig_histo, branch='cutflow_cts')
+    bkg_df = get_bkg_cutflow_df(bkg_histo, branch='cutflow_cts')
+
+    s_over_sqrtB_df = sig_df / bkg_df.loc['Total']
+    
+    return s_over_sqrtB_df
 
 def get_bkg_list_of_cuts(bkg_histos, get_cut_idx = False, isLegacy = False):
     if isLegacy:
