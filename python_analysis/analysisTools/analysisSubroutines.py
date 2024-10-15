@@ -4,8 +4,8 @@ from coffea.nanoevents import NanoEventsFactory, NanoAODSchema, BaseSchema
 from coffea import processor
 import uproot
 import awkward as ak
-import vector
-vector.register_awkward()
+#import vector
+#vector.register_awkward()
 import numba as nb
 import awkward.numba
 import numpy as np
@@ -168,7 +168,7 @@ def vtxElectronConnection(events):
         events["vtx","e1"] = all_eles[vtx_e1_flatIdx]
         events["vtx","e2"] = all_eles[vtx_e2_flatIdx]
 
-def defineGoodVertices(events,version='default',ele_id='dR'):
+def defineGoodVertices(events,version='v9',ele_id='dR'):
     # Selecting electrons that pass basic pT and eta cuts
     if ele_id == 'basic':
         IDcut = events.vtx.e1.passIDBasic & events.vtx.e2.passIDBasic
@@ -178,11 +178,12 @@ def defineGoodVertices(events,version='default',ele_id='dR'):
     chi2 = events.vtx.reduced_chi2 < 5
     mass = events.vtx.refit_m < 20
     eleDphi = events.vtx.eleDphi < 2
-    #mindxy = events.vtx.min_dxy > 0.01
     mindxy = events.vtx.min_dxy > 0.005
     maxMiniIso = np.maximum(events.vtx.e1.miniRelIsoEleCorr,events.vtx.e2.miniRelIsoEleCorr) < 0.9
     passConvVeto = events.vtx.e1.conversionVeto & events.vtx.e2.conversionVeto
     mass_lo = events.vtx.refit_m > 0.1
+    mass_lo_refit = events.vtx.refit_m > 0.1
+    mindxy_refit = np.minimum(np.abs(events.vtx.e1.refit_dxy), np.abs(events.vtx.e2.refit_dxy)) > 0.001
     if version == 'none':
         events['vtx','isGood'] = ak.values_astype(ak.ones_like(events.vtx.m),bool)
     if version == 'default':
@@ -203,6 +204,8 @@ def defineGoodVertices(events,version='default',ele_id='dR'):
         events['vtx','isGood'] = IDcut & ossf & chi2 & mindxy & maxMiniIso & passConvVeto & mass_lo
     if version == 'v8': # remove both mass cuts
         events['vtx','isGood'] = IDcut & ossf & chi2 & mindxy & maxMiniIso & passConvVeto 
+    if version == "v9":
+        events["vtx","isGood"] = IDcut & ossf & chi2 & maxMiniIso & passConvVeto & mass_lo_refit & mindxy_refit
     events.__setitem__("good_vtx",events.vtx[events.vtx.isGood])
     events.__setitem__("nGoodVtx",ak.count(events.good_vtx.vxy,axis=1))
 

@@ -13,8 +13,8 @@ from coffea import processor
 
 import uproot
 import awkward as ak
-import vector
-vector.register_awkward()
+#import vector
+#vector.register_awkward()
 import numpy as np
 import matplotlib.pyplot as plt
 import json
