@@ -490,7 +490,7 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
                      jet.bDiscriminator("pfDeepFlavourJetTags:problepb");
          nt.PFJetBTag_.push_back(bTag);
          nt.PFJetMETdPhi_.push_back(reco::deltaPhi(jet.phi(),nt.PFMET_Phi_));
-         if ((jet.pt() > 30) && (jet.eta() > -3.0) && (jet.eta() < -1.4) && (jet.phi() > -1.57) && (jet.phi() < -0.87)) {
+         if ((jet.pt() > 30) && (jet.eta() > -3.0) && (jet.eta() < -1.3) && (jet.phi() > -1.57) && (jet.phi() < -0.87)) {
             nt.PFHEMFlag_ = true;
          }
       }
