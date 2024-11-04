@@ -7,6 +7,7 @@ import re
 import datetime as dt
 import os
 from argparse import ArgumentParser
+import glob
 
 parser = ArgumentParser()
 parser.add_argument("-m","--mode",required=True)
@@ -114,9 +115,11 @@ elif mode == "bkg":
                 target_dir = base_dir
             else:
                 target_dir = f"{base_dir}/{subsample}/"
-            rootFiles = subprocess.run(['eos','root://cmseos.fnal.gov/','find','-name','*.root','-f',target_dir],stdout=subprocess.PIPE).stdout.decode('utf-8').splitlines()
-            rootFiles = [r for r in rootFiles if '.root' in r]
+            #rootFiles = subprocess.run(['eos','root://cmseos.fnal.gov/','find','-name','*.root','-f',target_dir],stdout=subprocess.PIPE).stdout.decode('utf-8').splitlines()
+            #rootFiles = [r for r in rootFiles if '.root' in r]
+            rootFiles = [ f for f in glob.glob(f"/eos/uscms/{target_dir}/**/*.root", recursive=True) ]
             fileDirs = ["/".join(f.split("/")[:-1])+"/" for f in rootFiles]
+            fileDirs = [ d.split("/eos/uscms/")[-1] for d in fileDirs]
             fileDirs = list(set(fileDirs)) # list of unique file directories
             
             info = {}
@@ -155,6 +158,7 @@ elif mode == "data":
     else:
         status, samples = xrdClient.dirlist(f"{prefix}/{year}/")
     samples = [samp.name for samp in samples]
+    print(samples)
     output = []
     for samp in samples:
         if skimmed:
@@ -163,16 +167,20 @@ elif mode == "data":
         else:
             base_dir = f"{prefix}/{year}/{samp}"
             subsamples = [d.name for d in xrdClient.dirlist(base_dir)[1]]
+            print(subsamples)
         for subsample in subsamples:
             if skimmed:
                 target_dir = base_dir
             else:
                 target_dir = f"{base_dir}/{subsample}/"
-            rootFiles = subprocess.run(['eos','root://cmseos.fnal.gov/','find','-name','*.root','-f',target_dir],stdout=subprocess.PIPE).stdout.decode('utf-8').splitlines()
-            rootFiles = [r for r in rootFiles if '.root' in r]
+                print(target_dir)
+            #rootFiles = subprocess.run(['eos','root://cmseos.fnal.gov/','find','-name','*.root','-f',target_dir],stdout=subprocess.PIPE).stdout.decode('utf-8').splitlines()
+            #rootFiles = [r for r in rootFiles if '.root' in r]
+            rootFiles = [ f for f in glob.glob(f"/eos/uscms/{target_dir}/**/*.root", recursive=True) ]
             fileDirs = ["/".join(f.split("/")[:-1])+"/" for f in rootFiles]
+            fileDirs = [ d.split("/eos/uscms/")[-1] for d in fileDirs]
             fileDirs = list(set(fileDirs)) # list of unique file directories
-            
+            print(fileDirs) 
             info = {}
             if skimmed:
                 info["name"] = subsample.replace("output_","")

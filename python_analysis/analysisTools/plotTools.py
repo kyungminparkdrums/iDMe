@@ -28,7 +28,7 @@ bkg_cmap = {
     "Multiboson":cmap_petroff[5],
     "ZGamma":"khaki"
 }
-
+'''
 bkg_cmap = {
     "QCD": cmap[0],
     "WJets": cmap[1],
@@ -41,7 +41,7 @@ bkg_cmap = {
     "ZGamma": cmap[8],
     "TTX": cmap[9]
 }
-
+'''
 selected_signals = [
     "sig_2018_Mchi-10p5_dMchi-1p0_ctau-1",
     "sig_2018_Mchi-11p0_dMchi-2p0_ctau-100",
@@ -287,6 +287,9 @@ def plot_signal_efficiency(sig_histo, df, plot_dict_sig_eff):
     
     cuts = utils.get_signal_list_of_cuts(sig_histo)
 
+    #cuts[1] = 'n(good vertex) > 0 && N(Jets) > 2'
+    print(cuts)
+
     m1_list = []
     for point in df.index.values:
         sig_dict = signalPoint(point)
@@ -463,7 +466,8 @@ def plot_signal_1D(sig_histo, m1, delta, ctau, plot_dict, style_dict):
     fig = style_dict['fig']
     ax = style_dict['ax']
     
-    hep.cms.label('', data=False, year=plot_dict['year'])
+    #hep.cms.label('', data=False, year=plot_dict['year'])
+    hep.cms.label('', data=False, llabel='Private Work', rlabel='')
     
     # get signal point info
     si = utils.get_signal_point_dict(sig_histo)
@@ -474,7 +478,103 @@ def plot_signal_1D(sig_histo, m1, delta, ctau, plot_dict, style_dict):
     m1 = samp_df.m1[0]
     dmchi = samp_df.dmchi[0]
     ctau = samp_df.ctau[0]
-    label = rf"$(m_\chi, \Delta m_\chi) = ({m1:.0f}, {dmchi:.0f})$ GeV"
+    #label = rf"$(m_\chi, \Delta m_\chi) = ({m1:.0f}, {dmchi:.0f})$ GeV"
+    label = rf"{100*delta:.0f}%, {m1:.0f} GeV, {ctau:.0f} mm"
+
+    if style_dict['label'] != None:
+        label = style_dict['label']
+    
+    # get histogram from coffea output
+    histo = sig_histo[plot_dict['variable']][{"samp":samp, "cut": plot_dict['cut']}]
+
+    # rebinning
+    histo = histo[::style_dict['rebin']]
+
+    # set x range manually
+    if style_dict['xlim'] != None:
+        xlim = style_dict['xlim']
+        xbin_range = np.where((histo.axes.edges[0] > xlim[0]) & (histo.axes.edges[0] < xlim[1]))[0]
+        histo = histo[ int(xbin_range[0])-1:int(xbin_range[-1]+1) ]
+
+    # x and y labels
+    if style_dict['xlabel'] != None:
+        ax.set_xlabel(style_dict['xlabel'])
+
+    if style_dict['ylabel'] != None:
+        ax.set_ylabel(style_dict['ylabel'])
+    else:   
+        binwidth = histo.axes.widths[0][0]
+        if style_dict['doDensity']:
+            ax.set_ylabel(f'A.U./{binwidth:.3f}')
+        else:
+            ax.set_ylabel(f'Events/{binwidth:.3f}')
+
+    # x,y scale
+    if style_dict['doLogx']:
+        ax.set_xscale('log')
+    if style_dict['doLogy']:
+        ax.set_yscale('log')
+
+    # Plot
+    hep.histplot(histo, yerr=style_dict['doYerr'], density=style_dict['doDensity'], ax=ax, histtype='step', flow=style_dict['flow'], label = label)
+
+    plt.legend(ncol=2)
+    
+    if style_dict['doSave']:
+        os.makedirs(style_dict['outDir'], exist_ok=True)
+        plt.tight_layout()
+        plt.savefig(f"{style_dict['outDir']}/{style_dict['outName']}")
+        print(f"Saved: {style_dict['outDir']}/{style_dict['outName']}")
+
+
+# Plot kinematics
+def plot_signal_1D_noCMS(sig_histo, m1, delta, ctau, plot_dict, style_dict):
+    """
+    Example:
+
+    plot_dict = {
+    'variable': 'sel_vtx_vxy10',
+    'cut': 'cut7',
+    'year': 2018
+    }
+    
+    style_dict = {
+        'fig': fig,
+        'ax': ax,
+        'rebin': 1j,
+        'xlim': None,     # if None, the default will show up; otherwise give as a list, i.e. [0, 10]
+        'doLogy': True, 
+        'doLogx': False,
+        'doDensity': False,
+        'doYerr': False, 
+        'xlabel': r"$L_{xy}$ [cm]",   # if None, the default will show up; otherwise give as a string, i.e. 'Electron dxy'
+        'ylabel': 'Events/0.1cm',   # if None, the default will show up; otherwise give as a string, i.e. 'Efficiency'
+        'label': None,    # if None, the default will show up; otherwise give as a string, i.e. 'Highest ctau signal samples'
+        'flow': None,     # overflow
+        'doSave': False,
+        'outDir': './plots/',
+        'outName': f'background_cut7_Lxy_max10.png'
+    }
+
+    """
+
+    fig = style_dict['fig']
+    ax = style_dict['ax']
+    
+    #hep.cms.label('', data=False, year=plot_dict['year'])
+    #hep.cms.label('', data=False, llabel='Private Work', rlabel='')
+    
+    # get signal point info
+    si = utils.get_signal_point_dict(sig_histo)
+    samp_df = si[(si.m1 == m1) & (si.delta == delta) & (si.ctau == ctau)]
+    
+    samp = samp_df.name[0]
+
+    m1 = samp_df.m1[0]
+    dmchi = samp_df.dmchi[0]
+    ctau = samp_df.ctau[0]
+    #label = rf"$(m_\chi, \Delta m_\chi) = ({m1:.0f}, {dmchi:.0f})$ GeV"
+    label = rf"{100*delta:.0f}%, {m1:.0f} GeV, {ctau:.0f} mm"
 
     if style_dict['label'] != None:
         label = style_dict['label']
@@ -520,7 +620,7 @@ def plot_signal_1D(sig_histo, m1, delta, ctau, plot_dict, style_dict):
         plt.tight_layout()
         plt.savefig(f"{style_dict['outDir']}/{style_dict['outName']}")
         print(f"Saved: {style_dict['outDir']}/{style_dict['outName']}")
-    
+
 
 def plot_signal_2D(sig_histo, m1, delta, ctau, plot_dict, style_dict):
     """
@@ -556,7 +656,8 @@ def plot_signal_2D(sig_histo, m1, delta, ctau, plot_dict, style_dict):
     fig = style_dict['fig']
     ax = style_dict['ax']
     
-    hep.cms.label('', data=False, year=plot_dict['year'])
+    #hep.cms.label('', data=False, year=plot_dict['year'])
+    hep.cms.label('', data=False, llabel='Private Work', rlabel='')
     
     # get signal point info
     si = utils.get_signal_point_dict(sig_histo)
@@ -596,6 +697,7 @@ def plot_signal_2D(sig_histo, m1, delta, ctau, plot_dict, style_dict):
         ax.set_xscale('log')
     if style_dict['doLogy']:
         ax.set_yscale('log')
+
     
     # Plot
     if style_dict['doLogz']:
@@ -718,6 +820,8 @@ def get_data_histo_1d(data_histo, plot_dict, style_dict):
 
     return histo
 
+
+
 def plot_bkg_1d(bkg_histos, plot_dict, style_dict, isLegacy = False, processes = 'all'):
     """
     Example:
@@ -751,8 +855,9 @@ def plot_bkg_1d(bkg_histos, plot_dict, style_dict, isLegacy = False, processes =
     ax = style_dict['ax']
 
     # CMS styling
+    hep.cms.label('', data=False, llabel='Private Work', rlabel='')
     #hep.cms.label(r"$\mathrm{Private Work}$", data=False, year=plot_dict['year'])
-    hep.cms.label('', data=False, year=plot_dict['year'])
+    #hep.cms.label('', data=False, year=plot_dict['year'])
     
     if isLegacy:
         return plot_bkg_1d_legacy(ax, bkg_histos, plot_dict, style_dict, processes, isLegacy)
@@ -797,6 +902,9 @@ def plot_bkg_1d(bkg_histos, plot_dict, style_dict, isLegacy = False, processes =
         hb = hist.Stack.from_dict(bkg_stack)
             
         color_list = [bkg_cmap[process] for process in sorted_entries.keys()]
+
+        if style_dict['ylim'] != None:
+            ax.set_ylim([style_dict["ylim"][0], style_dict["ylim"][1]])
         
         # x and y labels
         if style_dict['xlabel'] != None:
@@ -817,13 +925,15 @@ def plot_bkg_1d(bkg_histos, plot_dict, style_dict, isLegacy = False, processes =
             ax.set_xscale('log')
         if style_dict['doLogy']:
             ax.set_yscale('log')
+
             
         # Plot
-        hb.plot(stack=True, yerr=style_dict['doYerr'], density=style_dict['doDensity'], flow=style_dict['flow'], histtype='fill', color=color_list)
+        hb.plot(stack=True, yerr=True, density=style_dict['doDensity'], flow=style_dict['flow'], histtype='fill', color=color_list)
         
         # legend
         handles, labels = ax.get_legend_handles_labels()
-        ax.legend(handles[::-1], labels[::-1])
+        ax.legend(handles[::-1], labels[::-1], loc=1)
+        #ax.legend(handles, labels)
 
         if style_dict['doSave']:
             os.makedirs(style_dict['outDir'], exist_ok=True)
@@ -952,8 +1062,9 @@ def plot_bkg_1d_stacked(bkg_histos, plot_dict, style_dict, isLegacy = False, pro
     fig = style_dict['fig']
     ax = style_dict['ax']
     
-    hep.cms.label('', data=False, year=plot_dict['year'])
-    
+    #hep.cms.label('', data=False, year=plot_dict['year'])
+    hep.cms.label('', data=False, llabel='Private Work', rlabel='')
+
     if isLegacy:
         return plot_bkg_1d_stacked_legacy(ax, bkg_histos, plot_dict, style_dict, processes = 'all', isLegacy = isLegacy)
     else:
@@ -1029,7 +1140,90 @@ def plot_bkg_1d_stacked(bkg_histos, plot_dict, style_dict, isLegacy = False, pro
             plt.tight_layout()
             plt.savefig(f"{style_dict['outDir']}/{style_dict['outName']}")
             print(f"Saved: {style_dict['outDir']}/{style_dict['outName']}")
+
+
+def plot_bkg_1d_stacked_errbar(bkg_histos, plot_dict, style_dict, isLegacy = False, processes = 'all'):
+
+    fig = style_dict['fig']
+    ax = style_dict['ax']
+    
+    if isLegacy:
+        return plot_bkg_1d_stacked_legacy(ax, bkg_histos, plot_dict, style_dict, processes = 'all', isLegacy = isLegacy)
+    else:
+        # if process is given as a list, i.e. ['DY', 'W+jets'], plot only these processes in the list; otherwise, plot all as default
+        if processes == 'all':
+            processes = list(set(utils.get_bkg_point_dict(bkg_histos).loc[:, 'Process']))
         
+        subprocess = {process: [] for process in processes} # initialize the dictionary of bkg processes
+        
+        availSubCat = list(bkg_histos[plot_dict['variable']].axes['samp']) # get the list of subprocesses available for the histogram
+        for samp in availSubCat:
+            process = utils.get_bkg_point_dict(bkg_histos).loc[samp][0]
+            if process in processes:
+                subprocess[process].append(samp) # fill out the bkg process list with the available subprocesses
+            
+        # Get histogram for each process
+        bkg={}
+        bkg[plot_dict['variable']] = {process:bkg_histos[plot_dict['variable']][{"samp":subprocess[process]}][{"samp": sum}] for process in processes}
+        
+        # sort the histograms by the entries and stack
+        for process in processes:
+            entries = {process: bkg[plot_dict['variable']][process].sum().value for process in processes}
+        
+        sorted_entries = dict(sorted(entries.items(), key=lambda x:x[1], reverse = False))
+        
+        # histogram
+        bkg_stack = {}
+        
+        # add histos to stack after rebinning and range setting
+        for idx, process in enumerate(sorted_entries.keys()):
+            bkg[plot_dict['variable']][process] = bkg[plot_dict['variable']][process][plot_dict['cut'],::style_dict['rebin']]
+        
+            # set x range manually
+            if style_dict['xlim'] != None:
+                xlim = style_dict['xlim']
+                xbin_range = np.where((bkg[plot_dict['variable']][process].axes.edges[0] > xlim[0]) & (bkg[plot_dict['variable']][process].axes.edges[0] < xlim[1]))[0]
+                bkg[plot_dict['variable']][process] = bkg[plot_dict['variable']][process][ int(xbin_range[0])-1:int(xbin_range[-1]+1) ]
+        
+            if idx == 0:
+                bkg_stack = bkg[plot_dict['variable']][process]
+            else:
+                bkg_stack += bkg[plot_dict['variable']][process]
+        
+        # x and y labels
+        if style_dict['xlabel'] != None:
+            ax.set_xlabel(style_dict['xlabel'])
+    
+        if style_dict['ylabel'] != None:
+            ax.set_ylabel(style_dict['ylabel'])
+        else:
+            binwidth = bkg_stack.axes.widths[0][0]
+            
+            if style_dict['doDensity']:
+                ax.set_ylabel(f'A.U./{binwidth:.3f}')
+            else:
+                ax.set_ylabel(f'Events/{binwidth:.3f}')
+    
+        # x,y scale
+        if style_dict['doLogx']:
+            ax.set_xscale('log')
+        if style_dict['doLogy']:
+            ax.set_yscale('log')  
+        
+        # Plot
+        hep.histplot(bkg_stack, yerr=style_dict['doYerr'], density=style_dict['doDensity'], ax=ax, histtype='band', flow=style_dict['flow'])
+        
+        # legend
+        #handles, labels = ax.get_legend_handles_labels()
+        #ax.legend(handles[::-1], labels[::-1])
+
+        #if style_dict['doSave']:
+        #    os.makedirs(style_dict['outDir'], exist_ok=True)
+        #    plt.tight_layout()
+        #    plt.savefig(f"{style_dict['outDir']}/{style_dict['outName']}")
+        #    print(f"Saved: {style_dict['outDir']}/{style_dict['outName']}")
+
+
 
 def plot_bkg_1d_stacked_legacy(ax, bkg_histos, plot_dict, style_dict, processes = 'all', isLegacy = True):  
     if processes == 'all':
@@ -1131,7 +1325,8 @@ def plot_bkg_2D(bkg_histos, plot_dict, style_dict, isLegacy=False, processes = '
 
     """
     
-    hep.cms.label('', data=False, year=plot_dict['year'])
+    #hep.cms.label('', data=False, year=plot_dict['year'])
+    hep.cms.label('', data=False, llabel='Private Work', rlabel='')
 
     fig = style_dict['fig']
     ax = style_dict['ax']
@@ -1191,6 +1386,7 @@ def plot_bkg_2D(bkg_histos, plot_dict, style_dict, isLegacy=False, processes = '
             ax.set_xscale('log')
         if style_dict['doLogy']:
             ax.set_yscale('log')
+
         
         # Plot
         if style_dict['doLogz']:
@@ -1213,6 +1409,52 @@ def plot_bkg_2D(bkg_histos, plot_dict, style_dict, isLegacy=False, processes = '
             plt.savefig(f"{style_dict['outDir']}/{style_dict['outName']}")
             print(f"Saved: {style_dict['outDir']}/{style_dict['outName']}")
 
+
+def get_bkg_histo_2D(bkg_histos, plot_dict, style_dict):
+    #hep.cms.label('', data=False, year=plot_dict['year'])
+
+    fig = style_dict['fig']
+    ax = style_dict['ax']
+    
+    processes = list(set(utils.get_bkg_point_dict(bkg_histos).loc[:, 'Process']))
+        
+    subprocess = {process: [] for process in processes} # initialize the dictionary of bkg processes
+        
+    availSubCat = list(bkg_histos[plot_dict['variable']].axes['samp']) # get the list of subprocesses available for the histogram
+    for samp in availSubCat:
+        process = utils.get_bkg_point_dict(bkg_histos).loc[samp][0]            
+        if process in processes:
+            subprocess[process].append(samp) # fill out the bkg process list with the available subprocesses
+            
+    # Get histogram for each process
+    bkg={}
+    bkg[plot_dict['variable']] = {process:bkg_histos[plot_dict['variable']][{"samp":subprocess[process]}][{"samp": sum}] for process in processes}
+        
+    # sort the histograms by the entries and stack
+    for process in processes:
+        entries = {process: bkg[plot_dict['variable']][process].sum().value for process in processes}
+        
+    sorted_entries = dict(sorted(entries.items(), key=lambda x:x[1], reverse = False))
+
+    # histogram
+    # add histos to stack after rebinning and range setting
+    for idx, process in enumerate(sorted_entries.keys()):
+        #bkg[plot_dict['variable']][process] = bkg[plot_dict['variable']][process][plot_dict['cut'], ::style_dict['xrebin'], ::style_dict['yrebin']]
+        if style_dict['xlim'] != None:
+            xlim = style_dict['xlim']
+            xbin_range = np.where((bkg[plot_dict['variable']][process].axes.edges[0] > xlim[0]) & (bkg[plot_dict['variable']][process].axes.edges[0] < xlim[1]))[0]
+            bkg[plot_dict['variable']][process] = bkg[plot_dict['variable']][process][ int(xbin_range[0])-1:int(xbin_range[-1]+1), : ]
+        if style_dict['ylim'] != None:
+            ylim = style_dict['ylim']
+            ybin_range = np.where((bkg[plot_dict['variable']][process].axes.edges[1] > ylim[0]) & (bkg[plot_dict['variable']][process].axes.edges[1] < ylim[1]))[1]
+            bkg[plot_dict['variable']][process] = bkg[plot_dict['variable']][process][ :, int(ybin_range[0]):int(ybin_range[-1]+1) ]
+                
+        if idx == 0:
+            bkg_stack = bkg[plot_dict['variable']][process]
+        else:
+            bkg_stack += bkg[plot_dict['variable']][process]
+
+    return bkg_stack
 
 def plot_bkg_2D_legacy(ax, bkg_histos, plot_dict, style_dict, processes = 'all', isLegacy = True):  
 
@@ -1286,7 +1528,8 @@ def plot_bkg_2D_legacy(ax, bkg_histos, plot_dict, style_dict, processes = 'all',
 
 def plot_data_1d(data_histo, plot_dict, style_dict):
         
-    #hep.cms.label('', data=False, year=plot_dict['year'])
+    #hep.cms.label('Private Work', data=True, year=plot_dict['year'])
+    hep.cms.label('', data=False, llabel='Private Work', rlabel='')
 
     fig = style_dict['fig']
     ax = style_dict['ax']
@@ -1335,6 +1578,43 @@ def plot_data_1d(data_histo, plot_dict, style_dict):
     handles, labels = ax.get_legend_handles_labels()
     ax.legend(handles[::-1], labels[::-1])
 
+    if style_dict['doSave']:
+        os.makedirs(style_dict['outDir'], exist_ok=True)
+        plt.tight_layout()
+        plt.savefig(f"{style_dict['outDir']}/{style_dict['outName']}")
+        print(f"Saved: {style_dict['outDir']}/{style_dict['outName']}")
+
+
+def get_data_histo_2D(data_histo, plot_dict, style_dict):
+    fig = style_dict['fig']
+    ax = style_dict['ax']
+    
+    #hep.cms.label('', data=True, year=plot_dict['year'])
+    
+    # Get list of data
+    runs = list(data_histo['cutflow_cts'].keys())
+
+    for idx, run in enumerate(runs):
+        if idx == 0:
+            histo = data_histo[plot_dict['variable']][{"samp":run, "cut": plot_dict['cut']}]
+        else:
+            histo += data_histo[plot_dict['variable']][{"samp":run, "cut": plot_dict['cut']}]
+
+    # rebinning
+    #histo = histo[::style_dict['xrebin'],::style_dict['yrebin']]
+
+    # set x range manually
+    if style_dict['xlim'] != None:
+        xlim = style_dict['xlim']
+        xbin_range = np.where((histo.axes.edges[0] > xlim[0]) & (histo.axes.edges[0] < xlim[1]))[0]
+        histo = histo[ int(xbin_range[0])-1:int(xbin_range[-1]+1), : ]
+    if style_dict['ylim'] != None:
+        ylim = style_dict['ylim']
+        ybin_range = np.where((histo.axes.edges[1] > ylim[0]) & (histo.axes.edges[1] < ylim[1]))[1]
+        histo = histo[ :, int(ybin_range[0]):int(ybin_range[-1]+1) ]
+
+    return histo
+
 
 def plot_data_2D(data_histo, plot_dict, style_dict):
     """
@@ -1345,7 +1625,8 @@ def plot_data_2D(data_histo, plot_dict, style_dict):
     fig = style_dict['fig']
     ax = style_dict['ax']
     
-    hep.cms.label('', data=True, year=plot_dict['year'])
+    #hep.cms.label('', data=True, year=plot_dict['year'])
+    hep.cms.label('', data=False, llabel='Private Work', rlabel='')
     
     # Get list of data
     runs = list(data_histo['cutflow_cts'].keys())
@@ -1380,6 +1661,15 @@ def plot_data_2D(data_histo, plot_dict, style_dict):
         ax.set_xscale('log')
     if style_dict['doLogy']:
         ax.set_yscale('log')
+
+    
+    #ylabels = np.array([int(item.get_text()) for item in ax.get_yticklabels()])
+    #ylabels = np.array([0, 20, 40, 60, 80, 100, 120, 140, 160, 180])
+    #print(ylabels)
+    #ylabels = ylabels*np.pi/180
+    #ylabels_rad = [ f'{theta:.2f}' for theta in ylabels ]
+        
+    #ax.set_yticklabels(ylabels_rad)
     
     # Plot
     if style_dict['doLogz']:
@@ -1408,6 +1698,7 @@ def plot_data_MC_ratio(data_histo, bkg_histo, plot_dict, style_dict):
     ax = style_dict['ax']
     
     plot_bkg_1d(bkg_histo, plot_dict, style_dict, processes = 'all')
+    plot_bkg_1d_stacked_errbar(bkg_histo, plot_dict, style_dict, processes = 'all')
     plot_data_1d(data_histo, plot_dict, style_dict)
 
     """
@@ -1440,16 +1731,37 @@ def plot_data_MC_ratio(data_histo, bkg_histo, plot_dict, style_dict):
     xmax = hist_bkg.axes.edges[0][-1]
     
     xbin_centers = (range(len(ratio)) * binwidth) + xmin + binwidth/2
-    
-    ax_ratio.plot(xbin_centers, ratio, 'o', color='black')
+
+    # data error bar
+    data_err = np.sqrt(hist_data.values())/hist_data.values()
+    ax_ratio.errorbar(xbin_centers, ratio, yerr=data_err, fmt='o', color='black')
+    #ax_ratio.plot(xbin_centers, ratio, 'o', color='black')
+
+    # bkg Error bars
+    bkg_err = np.sqrt(hist_bkg.values())/hist_bkg.values()
+    bkg_err[np.isnan(bkg_err)] = 0
+
+    #y_upper = ratio + bkg_err
+    #y_lower = ratio - bkg_err
+
+    y_upper = np.ones(len(bkg_err)) + bkg_err
+    y_lower = np.ones(len(bkg_err)) - bkg_err
+
+    error_band_args = { 
+        "edges": (range(len(ratio)+1) * binwidth) + xmin, "facecolor": "none", "linewidth": 0.5,
+        "alpha": .5, "color": "grey", "hatch": "///"
+    }
+    ax_ratio.stairs(y_upper, baseline=y_lower, **error_band_args)
+    ax_ratio.stairs(y_upper, baseline=y_lower, **error_band_args)
     
     ax_ratio.axhline(y=1, color='black', linestyle='--', linewidth=0.8)
 
     extent = ax.get_window_extent().transformed(fig.dpi_scale_trans.inverted())
 
+    
     if style_dict['doSave']:
         os.makedirs(style_dict['outDir'], exist_ok=True)
-        plt.savefig(f"{style_dict['outDir']}/{style_dict['outName']}", bbox_inches='tight', bbox_extra_artists=[ax_ratio])
+        plt.savefig(f"{style_dict['outDir']}/{style_dict['outName']}", bbox_inches='tight', bbox_extra_artists=[ax_ratio], pad_inches=0.3)
         print(f"Saved: {style_dict['outDir']}/{style_dict['outName']}")
 
     '''

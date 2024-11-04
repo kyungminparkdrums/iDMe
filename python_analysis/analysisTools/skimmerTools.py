@@ -184,11 +184,12 @@ class makeBDTInputs(processor.ProcessorABC):
         #################################
         # 1 or 2 jets in the event
         nJets = ak.count(events.PFJet.pt,axis=1)
-        events = events[(nJets>0) & (nJets<3)]
+        #events = events[(nJets>0) & (nJets<3)]
+        events = events[(nJets>0)]
         # needs a good vertex
         #routines.defineGoodVertices(events,version='none') # define "good" vertices based on whether associated electrons pass ID cuts
         #routines.defineGoodVertices(events,version='default') # define "good" vertices based on whether associated electrons pass ID cuts
-        routines.defineGoodVertices(events,version='v5') # define "good" vertices based on whether associated electrons pass ID cuts
+        routines.defineGoodVertices(events,version='v10') # define "good" vertices based on whether associated electrons pass ID cuts
         events = events[events.nGoodVtx > 0]
         # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
         if info['type'] == "signal":
@@ -260,6 +261,15 @@ class makeBDTInputs(processor.ProcessorABC):
 
         outputs["delta_eta_over_delta_phi"] = column_accumulator((abs_deta/abs_dphi).to_numpy())
         outputs["log_delta_eta_over_delta_phi"] = column_accumulator(np.log10(abs_deta/abs_dphi).to_numpy())
+
+        outputs["sel_vtx_m_refit"] = column_accumulator(events.sel_vtx.refit_m.to_numpy())
+        outputs["sel_vtx_CosThetaColl_fromPV_refit"] = column_accumulator(events.sel_vtx.cos_collinear_fromPV_refit.to_numpy())
+        outputs["sel_vtx_ThetaColl_fromPV_refit"] = column_accumulator(np.arccos(events.sel_vtx.cos_collinear_fromPV_refit.to_numpy()))
+        outputs["sel_vtx_CosThetaColl_fromPV"] = column_accumulator(events.sel_vtx.cos_collinear_fromPV.to_numpy())
+        outputs["vxy_corr"] = column_accumulator(np.sqrt((events.sel_vtx.vx-events.PV.x)**2+(events.sel_vtx.vy-events.PV.y)**2).to_numpy())
+        outputs["sel_vtx_minDxy_refit"] = column_accumulator(np.minimum(np.abs(events.sel_vtx.e1.refit_dxy), np.abs(events.sel_vtx.e2.refit_dxy)).to_numpy())
+        outputs["sel_vtx_dR_refit"] = column_accumulator(events.sel_vtx.refit_dR.to_numpy())
+        outputs["sel_vtx_METdPhi_corr"] = column_accumulator(np.abs(events.PFMET.phi-events.sel_vtx.refit_phi).to_numpy())
         
         return outputs
 

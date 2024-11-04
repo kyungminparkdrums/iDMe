@@ -11,6 +11,7 @@ def sum_weights(fileList,sums,blacklist,nevts,isData):
     sum_wgt = 0
     sum_nevts = 0
     for f in tqdm(fileList):
+        print(f)
         try:
             with uproot.open(f)['ntuples/outT'] as tree:
                 if tree.num_entries == 0:

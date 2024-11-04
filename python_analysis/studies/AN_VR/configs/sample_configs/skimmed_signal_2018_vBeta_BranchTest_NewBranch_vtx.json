@@ -1,0 +1,17 @@
+[
+    {
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/signal/signal_2018_vBeta_BranchTest_NewBranch_vtx_aEM_rdfSkim_MET200_nJetsG0//output_sig_Mchi-21p0_dMchi-2p0_ct-1/",
+        "Mchi": 21.0,
+        "dMchi": 2.0,
+        "ctau": 1,
+        "name": "sig_Mchi-21.0_dMchi-2.0_ct-1",
+        "sum_wgt": 2.3535315563094628e-07,
+        "type": "signal",
+        "year": 2018,
+        "alphaD": "aEM",
+        "xsec": 25833.374,
+        "nFiles": 1,
+        "num_events": 10000,
+        "blacklist": []
+    }
+]
