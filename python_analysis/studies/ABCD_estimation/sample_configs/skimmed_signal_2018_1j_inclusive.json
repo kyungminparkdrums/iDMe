@@ -1,0 +1,17 @@
+[
+    {
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/signal/signal_2018_1j_inclusive_aEM_rdfSkim_MET200_nJetsG0//output_sig_Mchi-42p0_dMchi-4p0_ct-10/",
+        "Mchi": 42.0,
+        "dMchi": 4.0,
+        "ctau": 10,
+        "name": "sig_Mchi-42.0_dMchi-4.0_ct-10",
+        "sum_wgt": 4.2921917042804125e-07,
+        "type": "signal",
+        "year": 2018,
+        "alphaD": "aEM",
+        "xsec": 969.089801,
+        "nFiles": 1,
+        "num_events": 6732,
+        "blacklist": []
+    }
+]

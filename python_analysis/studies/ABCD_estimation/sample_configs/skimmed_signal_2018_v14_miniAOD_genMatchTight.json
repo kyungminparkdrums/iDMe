@@ -1,0 +1,17 @@
+[
+    {
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/signal/signal_2018_v14_miniAOD_genMatchTight_aEM_rdfSkim_MET200_nJetsG0//output_sig_Mchi-10p5_dMchi-1p0_ct-1/",
+        "Mchi": 10.5,
+        "dMchi": 1.0,
+        "ctau": 1,
+        "name": "sig_Mchi-10.5_dMchi-1.0_ct-1",
+        "sum_wgt": 2.4860343899035797e-06,
+        "type": "signal",
+        "year": 2018,
+        "alphaD": "aEM",
+        "xsec": 40301.1609,
+        "nFiles": 11,
+        "num_events": 513160,
+        "blacklist": []
+    }
+]
