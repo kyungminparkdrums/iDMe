@@ -89,7 +89,7 @@ if mode == "sig":
                 output.append(info)
 
     if skimmed:
-        out_json = "skimmed_signal_{0}_{1}.json".format(year,name)
+        out_json = "skimmed_signal_{0}_{1}_{2}.json".format(year,name,alpha)
     else:
         out_json = "signal_{0}_{1}_{2}.json".format(year,name,alpha)
     with open(out_json,"w") as outfile:

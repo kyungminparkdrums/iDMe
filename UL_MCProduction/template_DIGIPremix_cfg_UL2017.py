@@ -32,7 +32,7 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
     dropDescendantsOfDroppedBranches = cms.untracked.bool(False),
-    fileNames = cms.untracked.vstring('PLACEHOLDER_IN.root'),
+    fileNames = cms.untracked.vstring('file:PLACEHOLDER_IN.root'),
     inputCommands = cms.untracked.vstring(
         'keep *', 
         'drop *_genParticles_*_*', 
@@ -73,7 +73,7 @@ process.PREMIXRAWoutput = cms.OutputModule("PoolOutputModule",
         dataTier = cms.untracked.string('GEN-SIM-DIGI'),
         filterName = cms.untracked.string('')
     ),
-    fileName = cms.untracked.string('PLACEHOLDER_OUT.root'),
+    fileName = cms.untracked.string('file:PLACEHOLDER_OUT.root'),
     outputCommands = process.PREMIXRAWEventContent.outputCommands,
     splitLevel = cms.untracked.int32(0)
 )
