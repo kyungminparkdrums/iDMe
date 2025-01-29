@@ -1,0 +1,57 @@
+[
+    {
+        "name": "Data_MET_UL17_MET_Run2017B",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_MET_10X_BTV_JME_noMuMetTrigger///2017/Data_MET_UL17/MET_Run2017B/MET/crab_iDMe_MET_Run2017B_2025_01_17-07_41/250117_134233/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 27,
+        "num_events": 47670437,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL17_MET_Run2017C",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_MET_10X_BTV_JME_noMuMetTrigger///2017/Data_MET_UL17/MET_Run2017C/MET/crab_iDMe_MET_Run2017C_2025_01_17-07_42/250117_134255/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 35,
+        "num_events": 105059074,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL17_MET_Run2017D",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_MET_10X_BTV_JME_noMuMetTrigger///2017/Data_MET_UL17/MET_Run2017D/MET/crab_iDMe_MET_Run2017D_2025_01_17-07_45/250117_134550/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 8,
+        "num_events": 19273946,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL17_MET_Run2017E",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_MET_10X_BTV_JME_noMuMetTrigger///2017/Data_MET_UL17/MET_Run2017E/MET/crab_iDMe_MET_Run2017E_2025_01_17-07_45/250117_135246/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 48,
+        "num_events": 68584235,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL17_MET_Run2017F",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_MET_10X_BTV_JME_noMuMetTrigger///2017/Data_MET_UL17/MET_Run2017F/MET/crab_iDMe_MET_Run2017F_2025_01_17-07_42/250117_134528/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 87,
+        "num_events": 171076402,
+        "blacklist": []
+    }
+]

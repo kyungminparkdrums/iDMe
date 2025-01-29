@@ -1,0 +1,68 @@
+[
+    {
+        "name": "Data_MET_UL16_MET_Run2016B-ver1",
+        "location": [],
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 0,
+        "num_events": 0,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL16_MET_Run2016B-ver2",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2016_preVFP_MET_10X_BTV_JME_noMuMetTrig///2016/Data_MET_UL16/MET_Run2016B-ver2/MET/crab_iDMe_MET_Run2016B-ver2_2025_01_17-17_27/250117_232952/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 19,
+        "num_events": 25131435,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL16_MET_Run2016C",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2016_preVFP_MET_10X_BTV_JME_noMuMetTrig///2016/Data_MET_UL16/MET_Run2016C/MET/crab_iDMe_MET_Run2016C_2025_01_17-17_32/250117_233317/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 17,
+        "num_events": 12282404,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL16_MET_Run2016D",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2016_preVFP_MET_10X_BTV_JME_noMuMetTrig///2016/Data_MET_UL16/MET_Run2016D/MET/crab_iDMe_MET_Run2016D_2025_01_17-17_32/250117_233243/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 12,
+        "num_events": 20072177,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL16_MET_Run2016E",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2016_preVFP_MET_10X_BTV_JME_noMuMetTrig///2016/Data_MET_UL16/MET_Run2016E/MET/crab_iDMe_MET_Run2016E_2025_01_17-17_29/250117_233224/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 33,
+        "num_events": 7378586,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL16_MET_Run2016F",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2016_preVFP_MET_10X_BTV_JME_noMuMetTrig///2016/Data_MET_UL16/MET_Run2016F/MET/crab_iDMe_MET_Run2016F_2025_01_17-17_32/250117_233258/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 13,
+        "num_events": 7055247,
+        "blacklist": []
+    }
+]

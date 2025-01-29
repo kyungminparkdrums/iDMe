@@ -6,6 +6,7 @@ transfer_output_files = ""
 input = /dev/null
 rank = Mips
 request_memory = 16000
+x509userproxy = /uscms/home/sbrightt/x509up_u56742
 +AcctGroup = "analysis"
 +ProjectName = "DarkMatterSimulation"
 +DesiredOS = "SL7"

@@ -545,7 +545,7 @@ class trigProcessor(iDMeProcessor):
         # histograms w/o selection
         MET_all.fill(samp=samp,met=events.PFMET.pt,weight=events.wgt)
         MET_passTrig_all.fill(samp=samp,met=events.PFMET.pt,
-                              passTrig=ak.values_astype(events.trig.HLT_PFMET120_PFMHT120_IDTight,int),
+                              passTrig=ak.values_astype(events.trig.HLT_PFMETNoMu120_PFMHTNoMu120_IDTight,int),
                               weight=events.wgt)
     
         # require jets
@@ -604,7 +604,7 @@ class trigProcessor(iDMeProcessor):
         for refTrig in refTrigs:
             if refTrig in events.trig.fields:
                 MET_passTrig_refTrig.fill(samp=samp,met=events.PFMET.pt,refTrig=refTrig,
-                                        passMET=ak.values_astype(events.trig.HLT_PFMET120_PFMHT120_IDTight,int),
+                                        passMET=ak.values_astype(events.trig.HLT_PFMETNoMu120_PFMHTNoMu120_IDTight,int),
                                         passRef=ak.values_astype(events.trig[refTrig],int))
 
         #events = events[events.trig.HLT_Ele20_WPTight_Gsf==1]

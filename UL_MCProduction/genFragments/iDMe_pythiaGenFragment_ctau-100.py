@@ -36,10 +36,10 @@ generator = cms.EDFilter("Pythia8ConcurrentHadronizerFilter",
                 'JetMatching:doShowerKt = off', #off for MLM matching, turn on for shower-kT matching
                 ),
             processParameters = cms.vstring(
-                #'SLHA:keepSM = on',
-                #'SLHA:minMassSM = 10.',
+                'SLHA:keepSM = on',
+                'SLHA:minMassSM = 10.',
                 # Very important to enable override!
-                #'SLHA:allowUserOverride = on',
+                'SLHA:allowUserOverride = on',
                 #'RHadrons:allow = on',
                 #'RHadrons:allowDecay = on',
                 'ParticleDecays:limitTau0 = on',
