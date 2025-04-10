@@ -186,16 +186,11 @@ if __name__ == "__main__":
     t = time.time()
     print(f"initial = {d.Count().GetValue()}")
     
-    if nJet_cut > 0:
-        njet_filter = f"(nPFJet > 0) && (nPFJet < {nJet_cut})"
-    else:
-        njet_filter = "nPFJet > 0"
     d = d.Filter("anyTrue(vtx_isGood)") \
         .Filter("METFiltersFailBits == 0") \
-        .Filter("passHEMveto") \
-        .Filter("trig_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight == 1")
-        .Filter(f"PFMET_pt > {MET_cut}") \
-        .Filter(njet_filter) \
+        .Filter("trig_HLT_IsoMu27 == 1") \
+        .Filter("nMuon >= 2") \
+        .Filter("(nElectron + nLptElectron) >= 2")
     final = d.Count().GetValue()
     print(f"final = {final}")
     if final > 0:
