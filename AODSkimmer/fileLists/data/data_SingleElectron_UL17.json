@@ -1,0 +1,9 @@
+{
+     "Data_SingleElectron_UL17" : {
+         "SingleElectron_Run2017B" : "/SingleElectron/Run2017B-UL2017_MiniAODv2-v1/MINIAOD",
+         "SingleElectron_Run2017C" : "/SingleElectron/Run2017C-UL2017_MiniAODv2-v1/MINIAOD",
+         "SingleElectron_Run2017D" : "/SingleElectron/Run2017D-UL2017_MiniAODv2-v1/MINIAOD",
+         "SingleElectron_Run2017E" : "/SingleElectron/Run2017E-UL2017_MiniAODv2-v1/MINIAOD",
+         "SingleElectron_Run2017F" : "/SingleElectron/Run2017F-UL2017_MiniAODv2-v1/MINIAOD"
+     }
+}

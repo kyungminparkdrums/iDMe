@@ -40,7 +40,7 @@ generator = cms.EDFilter("Pythia8ConcurrentHadronizerFilter",
                 'SLHA:minMassSM = 10.',
                 # Very important to enable override!
                 'SLHA:allowUserOverride = on',
-                #'RHadrons:allow = on',
+                #'RHadrons:allow = on',                
                 #'RHadrons:allowDecay = on',
                 'ParticleDecays:limitTau0 = on',
                 'ParticleDecays:tau0Max = 1000.1',

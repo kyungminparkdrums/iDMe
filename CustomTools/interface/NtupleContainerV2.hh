@@ -34,7 +34,7 @@ public:
     bool trigPassed_[100]; // more than we need to be safe
     int numTrigs_ = 0;
     
-
+    float fixedGridRhoFastjetAll_;
     // MET Filters
     uint32_t METFiltersFailBits_;
 
@@ -132,7 +132,21 @@ public:
     float genLeadMETET_;
 
     // Reco Particles
-
+    // Muons: used only for SF measurement with Z/Gamma events
+    int nMuon_;
+    vector<float> recoMuonPt_;
+    vector<float> recoMuonEta_;
+    vector<float> recoMuonPhi_;
+    vector<float> recoMuonEnergy_;
+    vector<float> recoMuonCharge_;
+    vector<int> recoMuonIDcutBasedLoose_;
+    vector<int> recoMuonIDcutBasedMedium_;
+    vector<int> recoMuonIDcutBasedMediumPrompt_;
+    vector<int> recoMuonIDcutBasedTight_;
+    vector<int> recoMuonIsPFMuon_;
+    vector<int> recoMuonIsGlobalMuon_;
+    vector<int> recoMuonIsStandAloneMuon_;
+    
     // Normal Electrons
     int nElectronDefault_;
     vector<float> recoElectronPt_;
@@ -326,10 +340,25 @@ public:
     // Jets
     int PFNJet_;
     int PFNJetAll_;
+    int PFNbJetTrue_;
+    int PFNbJetTagged_;
+    vector<float> PFJet_matchedGenJetPt_;
+    vector<float> PFJet_matchedGenJetEta_;
+    vector<float> PFJet_matchedGenJetPhi_;
+    vector<float> PFJetRawFactor_;
+    vector<float> PFJetMass_;
+    vector<float> PFJetMassRaw_;
+    vector<float> PFJetPtRaw_;
+    vector<float> PFJetArea_;
+    vector<float> PFJetEnergy_;
+    vector<float> PFJetEnergyRaw_;    
     vector<float> PFJetPt_;
     vector<float> PFJetEta_;
     vector<float> PFJetPhi_;
     vector<float> PFJetBTag_;
+    vector<int> PFJetTruth_;
+    vector<float> PFJetEffDenomPt_;
+    vector<float> PFJetEffNumPt_;
     vector<float> PFJetMETdPhi_;
     vector<float> PFJetCorrectedCHEF_;
     vector<float> PFJetCorrectedNHEF_;
@@ -337,6 +366,7 @@ public:
     vector<float> PFJetCorrectedNEEF_;
     vector<float> PFJetCorrectedNumDaughters_;
     vector<float> PFJetCorrectedChargedMultiplicity_;
+    vector<float> PFJetCorrectedPt_;
     vector<float> PFJetCorrectedJESUpPt_;
     vector<float> PFJetCorrectedJESUpEta_;
     vector<float> PFJetCorrectedJESUpPhi_;
@@ -363,6 +393,10 @@ public:
     float PFMETJERUpPhi_;
     float PFMETJERDownPt_;
     float PFMETJERDownPhi_;
+    float PFMETUnclusteredUpPt_;
+    float PFMETUnclusteredUpPhi_;
+    float PFMETUnclusteredDownPt_;
+    float PFMETUnclusteredDownPhi_;    
     float PFMETJetResUpSmearPt_;
     float PFMETJetResUpSmearPhi_;
     float PFMETJetResDownSmearPt_;
@@ -379,6 +413,7 @@ public:
     float PV_x_;
     float PV_y_;
     float PV_z_;
+    int numPV_;
 
     // Electron-positron vertices
     int nvtx_;
