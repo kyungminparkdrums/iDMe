@@ -125,6 +125,7 @@ metTrigs = [
     "HLT_PFMET120_PFMHT120_IDTight",
     "HLT_PFMET130_PFMHT130_IDTight",
     "HLT_PFMET140_PFMHT140_IDTight",
+    "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight",
     "HLT_PFMETTypeOne110_PFMHT110_IDTight",
     "HLT_PFMETTypeOne120_PFMHT120_IDTight",
     "HLT_PFMETTypeOne130_PFMHT130_IDTight",
@@ -189,7 +190,11 @@ eleTrigs = list(set([
     "HLT_DoubleEle8_CaloIdM_TrackIdM_Mass8_DZ_PFHT350"
 ]))
 
-triggerPaths = metTrigs + jetTrigs + eleTrigs
+muTrigs = [
+     "HLT_IsoMu27"
+]
+ 
+triggerPaths = metTrigs + jetTrigs + eleTrigs + muTrigs
 
 # Electron effective area input file for PU-corrected PF isolation calculations
 effAreaInputPath = "RecoEgamma/ElectronIdentification/data/Fall17/effAreaElectrons_cone03_pfNeuHadronsAndPhotons_94X.txt"
