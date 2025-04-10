@@ -1,0 +1,4 @@
+{"schema_version": 2, "corrections": [{"name": "LptElectron", "version": 0, "inputs": [{"name": "dxyRefit", "type": "real", "description": "refitted dxy"}, {"name": "weights", "type": "string", "description": "nominal, up, or down"}], "output": {"name": "weight", "type": "real", "description": "SF for Lpt electron reco/id/iso"}, "data": {"nodetype": "category", "input": "weights",
+    "content": [{"key": "nominal", "value": {"nodetype": "binning", "input": "dxyRefit", "flow": "clamp", "edges": [0.0, 0.01, 0.05, 0.1, 0.5, 1.0, Infinity],
+    "content": [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]}}, {"key": "up", "value": {"nodetype": "binning", "input": "dxyRefit", "flow": "clamp",  "edges": [0.0, 0.01, 0.05, 0.1, 0.5, 1.0, Infinity],
+    "content": [1.2, 1.2, 1.2, 1.2, 1.2, 1.2]}}, {"key": "down", "value": {"nodetype": "binning", "input": "dxyRefit", "flow": "clamp",  "edges": [0.0, 0.01, 0.05, 0.1, 0.5, 1.0, Infinity], "content": [0.8, 0.8, 0.8, 0.8, 0.8, 0.8]}}]}}]}

@@ -1,0 +1,432 @@
+[
+    {
+        "name": "DYLowMass_DYJetsToLL_M10to50",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_DYLowMass_DYJetsToLL_M10to50/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 99288125.0,
+        "xsec": 15910.0,
+        "blacklist": []
+    },
+    {
+        "name": "DY_DYJetsToLL",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_DY_DYJetsToLL/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 2,
+        "sum_wgt": 96154645.0,
+        "xsec": 5379000.0,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_WW",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_Multiboson_WW/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 15041116.329101562,
+        "xsec": 76250.0,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_WWW",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_Multiboson_WWW/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 51638.26171875,
+        "xsec": 215.8,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_WWZ",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_Multiboson_WWZ/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 42310.51953125,
+        "xsec": 170.7,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_WZ",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_Multiboson_WZ/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 6479000.0,
+        "xsec": 27550.0,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_WZZ",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_Multiboson_WZZ/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 14727.13525390625,
+        "xsec": 57.09,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_ZZ",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_Multiboson_ZZ/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 2884000.0,
+        "xsec": 12230.0,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_ZZZ",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_Multiboson_ZZZ/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 3690.7836685180664,
+        "xsec": 14.76,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT1000to1500",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_QCD_QCD_HT1000to1500/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 14898533.0,
+        "xsec": 1122000.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT100to200",
+        "location": [],
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 0,
+        "sum_wgt": 70726991.0,
+        "xsec": 23500000000.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT1500to2000",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_QCD_QCD_HT1500to2000/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 10223920.0,
+        "xsec": 109400.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT2000toInf",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_QCD_QCD_HT2000toInf/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 5395984.0,
+        "xsec": 21740.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT200to300",
+        "location": [],
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 0,
+        "sum_wgt": 58837414.0,
+        "xsec": 1552000000.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT300to500",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_QCD_QCD_HT300to500/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 57213303.0,
+        "xsec": 321100000.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT500to700",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_QCD_QCD_HT500to700/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 2,
+        "sum_wgt": 54865700.0,
+        "xsec": 30250000.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT50to100",
+        "location": [],
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 0,
+        "sum_wgt": 37903711.0,
+        "xsec": 187700000000.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT700to1000",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_QCD_QCD_HT700to1000/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 2,
+        "sum_wgt": 47247625.0,
+        "xsec": 6398000.0,
+        "blacklist": []
+    },
+    {
+        "name": "Top_ST_s-channel",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_Top_ST_s-channel/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 68767083.6796875,
+        "xsec": 3549.0,
+        "blacklist": []
+    },
+    {
+        "name": "Top_ST_t-channel_antitop",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_Top_ST_t-channel_antitop/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 2,
+        "sum_wgt": 7042567388.0,
+        "xsec": 71750.0,
+        "blacklist": []
+    },
+    {
+        "name": "Top_ST_t-channel_top",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_Top_ST_t-channel_top/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 3,
+        "sum_wgt": 23700157795.5,
+        "xsec": 119700.0,
+        "blacklist": []
+    },
+    {
+        "name": "Top_ST_tW_antitop",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_Top_ST_tW_antitop/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 251902071.8203125,
+        "xsec": 32510.0,
+        "blacklist": []
+    },
+    {
+        "name": "Top_ST_tW_top",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_Top_ST_tW_top/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 258137593.453125,
+        "xsec": 32450.0,
+        "blacklist": []
+    },
+    {
+        "name": "Top_TTJets",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_Top_TTJets/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 9752554.0,
+        "xsec": 471700.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT100to200",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_WJets_WJetsLNu_HT100to200/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 45004325.0,
+        "xsec": 1244000.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT1200to2500",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_WJets_WJetsLNu_HT1200to2500/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 6278423.0,
+        "xsec": 1152.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT200to400",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_WJets_WJetsLNu_HT200to400/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 58331446.0,
+        "xsec": 337800.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT2500toInf",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_WJets_WJetsLNu_HT2500toInf/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 2097648.0,
+        "xsec": 26.46,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT400to600",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_WJets_WJetsLNu_HT400to600/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 7444030.0,
+        "xsec": 44930.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT600to800",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_WJets_WJetsLNu_HT600to800/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 7718765.0,
+        "xsec": 11190.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT70to100",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_WJets_WJetsLNu_HT70to100/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 2,
+        "sum_wgt": 44314452.0,
+        "xsec": 1283000.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT800to1200",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_WJets_WJetsLNu_HT800to1200/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 7306187.0,
+        "xsec": 4926.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZGamma_ZG2JTo2L2JG",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_ZGamma_ZG2JTo2L2JG/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 495930.0,
+        "xsec": 114.5,
+        "blacklist": []
+    },
+    {
+        "name": "ZGamma_ZGToJJG",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_ZGamma_ZGToJJG/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 83731933.125,
+        "xsec": 4144.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZGamma_ZGToLLG",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_ZGamma_ZGToLLG/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 2654387062.625,
+        "xsec": 51530.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZGamma_ZGToNuNuG",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_ZGamma_ZGToNuNuG/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 200709530.0,
+        "xsec": 29930.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT100to200",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_ZJets_ZJetsNuNu_HT100to200/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 17836533.0,
+        "xsec": 271300.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT1200to2500",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_ZJets_ZJetsNuNu_HT1200to2500/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 381695.0,
+        "xsec": 247.4,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT200to400",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_ZJets_ZJetsNuNu_HT200to400/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 22284092.0,
+        "xsec": 72690.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT2500toInf",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_ZJets_ZJetsNuNu_HT2500toInf/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 268224.0,
+        "xsec": 5.609,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT400to600",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_ZJets_ZJetsNuNu_HT400to600/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 19810491.0,
+        "xsec": 9961.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT600to800",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_ZJets_ZJetsNuNu_HT600to800/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 5968910.0,
+        "xsec": 2425.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT800to1200",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2018_10X_systematics_rdfSkim_MET200_nJetsG0//output_ZJets_ZJetsNuNu_HT800to1200/",
+        "type": "bkg",
+        "year": 2018,
+        "nFiles": 1,
+        "sum_wgt": 2129122.0,
+        "xsec": 1076.0,
+        "blacklist": []
+    }
+]

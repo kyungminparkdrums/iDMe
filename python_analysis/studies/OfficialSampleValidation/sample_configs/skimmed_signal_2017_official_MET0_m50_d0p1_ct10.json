@@ -1,0 +1,47 @@
+[
+    {
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 1,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-1",
+        "sum_wgt": 1.4713371356833704e-06,
+        "type": "signal",
+        "year": 2017,
+        "alphaD": "aEM",
+        "xsec": 2894.2410560999997,
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/signal/signal_2017_official_aEM_rdfSkim_MET0_nJetsG0//output_sig_Mchi-52p5_dMchi-5p0_ct-1/",
+        "nFiles": 14,
+        "num_events": 36417,
+        "blacklist": []
+    },
+    {
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 10,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-10",
+        "sum_wgt": 1.8783801856159243e-06,
+        "type": "signal",
+        "year": 2017,
+        "alphaD": "aEM",
+        "xsec": 309.67832616000004,
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/signal/signal_2017_official_aEM_rdfSkim_MET0_nJetsG0//output_sig_Mchi-52p5_dMchi-5p0_ct-10/",
+        "nFiles": 13,
+        "num_events": 46587,
+        "blacklist": []
+    },
+    {
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 100,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-100",
+        "sum_wgt": 6.4410961329031124e-06,
+        "type": "signal",
+        "year": 2017,
+        "alphaD": "aEM",
+        "xsec": 31.152733342,
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/signal/signal_2017_official_aEM_rdfSkim_MET0_nJetsG0//output_sig_Mchi-52p5_dMchi-5p0_ct-100/",
+        "nFiles": 17,
+        "num_events": 159784,
+        "blacklist": []
+    }
+]

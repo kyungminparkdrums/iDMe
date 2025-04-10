@@ -1,0 +1,47 @@
+[
+    {
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 1,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-1",
+        "sum_wgt": 7.396090211386763e-07,
+        "type": "signal",
+        "year": 2016,
+        "alphaD": "aEM",
+        "xsec": 2894.2410560999997,
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/signal_2016postVFP_10X_official_sample//2016/sig_Mchi-52p5_dMchi-5p0/Mchi-52p5_dMchi-5p0_ctau-1/iDM_DarkPhotonToEE_Mchi-52p5_dMchi-5p0_ctau-1_mA-150p0_HT80_TuneCP5_13TeV_madgraph-pythia8/crab_iDMe_Mchi-52p5_dMchi-5p0_ctau-1_2025_02_27-15_24/250227_212445/0000/",
+        "nFiles": 4,
+        "num_events": 18335,
+        "blacklist": []
+    },
+    {
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 10,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-10",
+        "sum_wgt": 9.452060751868885e-07,
+        "type": "signal",
+        "year": 2016,
+        "alphaD": "aEM",
+        "xsec": 309.67832616000004,
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/signal_2016postVFP_10X_official_sample//2016/sig_Mchi-52p5_dMchi-5p0/Mchi-52p5_dMchi-5p0_ctau-10/iDM_DarkPhotonToEE_Mchi-52p5_dMchi-5p0_ctau-10_mA-150p0_HT80_TuneCP5_13TeV_madgraph-pythia8/crab_iDMe_Mchi-52p5_dMchi-5p0_ctau-10_2025_02_27-15_24/250227_212734/0000/",
+        "nFiles": 10,
+        "num_events": 23446,
+        "blacklist": []
+    },
+    {
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 100,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-100",
+        "sum_wgt": 3.1812858480861905e-06,
+        "type": "signal",
+        "year": 2016,
+        "alphaD": "aEM",
+        "xsec": 31.152733342,
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/signal_2016postVFP_10X_official_sample//2016/sig_Mchi-52p5_dMchi-5p0/Mchi-52p5_dMchi-5p0_ctau-100/iDM_DarkPhotonToEE_Mchi-52p5_dMchi-5p0_ctau-100_mA-150p0_HT80_TuneCP5_13TeV_madgraph-pythia8/crab_iDMe_Mchi-52p5_dMchi-5p0_ctau-100_2025_02_27-15_27/250227_213034/0000/",
+        "nFiles": 16,
+        "num_events": 79028,
+        "blacklist": []
+    }
+]

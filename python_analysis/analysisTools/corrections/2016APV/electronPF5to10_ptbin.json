@@ -1,0 +1,4 @@
+{"schema_version": 2, "corrections": [{"name": "PFelectron5to10GeV", "version": 0, "inputs": [{"name": "pt", "type": "real", "description": "pt"}, {"name": "weights", "type": "string", "description": "nominal, up, or down"}], "output": {"name": "weight", "type": "real", "description": "SF for PF electron [5,10]GeV reco/id/iso"}, "data": {"nodetype": "category", "input": "weights",
+    "content": [{"key": "nominal", "value": {"nodetype": "binning", "input": "pt", "flow": "clamp", "edges": [5.0, 10.0],
+    "content": [1.0]}}, {"key": "up", "value": {"nodetype": "binning", "input": "pt", "flow": "clamp",  "edges": [5.0, 10.0],
+    "content": [1.2]}}, {"key": "down", "value": {"nodetype": "binning", "input": "pt", "flow": "clamp",  "edges": [5.0, 10.0], "content": [0.8]}}]}}]}

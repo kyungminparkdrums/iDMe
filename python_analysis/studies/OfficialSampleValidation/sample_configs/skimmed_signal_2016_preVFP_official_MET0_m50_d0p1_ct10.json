@@ -1,0 +1,47 @@
+[
+    {
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 1,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-1",
+        "sum_wgt": 7.393187893001141e-07,
+        "type": "signal",
+        "year": 2016,
+        "alphaD": "aEM",
+        "xsec": 2894.2410560999997,
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/signal/signal_2016_preVFP_official_aEM_rdfSkim_MET0_nJetsG0//output_sig_Mchi-52p5_dMchi-5p0_ct-1/",
+        "nFiles": 9,
+        "num_events": 18326,
+        "blacklist": []
+    },
+    {
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 10,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-10",
+        "sum_wgt": 9.426801526046802e-07,
+        "type": "signal",
+        "year": 2016,
+        "alphaD": "aEM",
+        "xsec": 309.67832616000004,
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/signal/signal_2016_preVFP_official_aEM_rdfSkim_MET0_nJetsG0//output_sig_Mchi-52p5_dMchi-5p0_ct-10/",
+        "nFiles": 10,
+        "num_events": 23361,
+        "blacklist": []
+    },
+    {
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 100,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-100",
+        "sum_wgt": 3.2239750886731144e-06,
+        "type": "signal",
+        "year": 2016,
+        "alphaD": "aEM",
+        "xsec": 31.152733342,
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/signal/signal_2016_preVFP_official_aEM_rdfSkim_MET0_nJetsG0//output_sig_Mchi-52p5_dMchi-5p0_ct-100/",
+        "nFiles": 15,
+        "num_events": 79981,
+        "blacklist": []
+    }
+]

@@ -1,0 +1,57 @@
+[
+    {
+        "name": "Data_MET_UL17_MET_Run2017B",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/data/data_2017_MET_10X_systematics_rdfSkim_MET200_nJetsG0//output_Data_MET_UL17_MET_Run2017B/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 3,
+        "num_events": 47670437,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL17_MET_Run2017C",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/data/data_2017_MET_10X_systematics_rdfSkim_MET200_nJetsG0//output_Data_MET_UL17_MET_Run2017C/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 4,
+        "num_events": 105059074,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL17_MET_Run2017D",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/data/data_2017_MET_10X_systematics_rdfSkim_MET200_nJetsG0//output_Data_MET_UL17_MET_Run2017D/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 1,
+        "num_events": 19273946,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL17_MET_Run2017E",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/data/data_2017_MET_10X_systematics_rdfSkim_MET200_nJetsG0//output_Data_MET_UL17_MET_Run2017E/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 5,
+        "num_events": 68584235,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL17_MET_Run2017F",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/data/data_2017_MET_10X_systematics_rdfSkim_MET200_nJetsG0//output_Data_MET_UL17_MET_Run2017F/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 9,
+        "num_events": 171076402,
+        "blacklist": []
+    }
+]

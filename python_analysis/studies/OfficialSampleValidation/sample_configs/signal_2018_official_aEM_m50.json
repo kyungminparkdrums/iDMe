@@ -1,0 +1,47 @@
+[
+    {
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 1,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-1",
+        "sum_wgt": 1.4610660521441332e-06,
+        "type": "signal",
+        "year": 2018,
+        "alphaD": "aEM",
+        "xsec": 2894.2410560999997,
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/signal_2018_10X_official_sample//2018/sig_Mchi-52p5_dMchi-5p0/Mchi-52p5_dMchi-5p0_ctau-1/iDM_DarkPhotonToEE_Mchi-52p5_dMchi-5p0_ctau-1_mA-150p0_HT80_TuneCP5_13TeV_madgraph-pythia8/crab_iDMe_Mchi-52p5_dMchi-5p0_ctau-1_2025_02_24-16_24/250224_223105/0000/",
+        "nFiles": 8,
+        "num_events": 36228,
+        "blacklist": []
+    },
+    {
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 10,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-10",
+        "sum_wgt": 1.8820451614942613e-06,
+        "type": "signal",
+        "year": 2018,
+        "alphaD": "aEM",
+        "xsec": 309.67832616000004,
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/signal_2018_10X_official_sample//2018/sig_Mchi-52p5_dMchi-5p0/Mchi-52p5_dMchi-5p0_ctau-10/iDM_DarkPhotonToEE_Mchi-52p5_dMchi-5p0_ctau-10_mA-150p0_HT80_TuneCP5_13TeV_madgraph-pythia8/crab_iDMe_Mchi-52p5_dMchi-5p0_ctau-10_2025_02_24-16_31/250224_223238/0000/",
+        "nFiles": 7,
+        "num_events": 46627,
+        "blacklist": []
+    },
+    {
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 100,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-100",
+        "sum_wgt": 6.448448750973057e-06,
+        "type": "signal",
+        "year": 2018,
+        "alphaD": "aEM",
+        "xsec": 31.152733342,
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/signal_2018_10X_official_sample//2018/sig_Mchi-52p5_dMchi-5p0/Mchi-52p5_dMchi-5p0_ctau-100/iDM_DarkPhotonToEE_Mchi-52p5_dMchi-5p0_ctau-100_mA-150p0_HT80_TuneCP5_13TeV_madgraph-pythia8/crab_iDMe_Mchi-52p5_dMchi-5p0_ctau-100_2025_02_24-16_32/250224_223450/0000/",
+        "nFiles": 24,
+        "num_events": 159911,
+        "blacklist": []
+    }
+]

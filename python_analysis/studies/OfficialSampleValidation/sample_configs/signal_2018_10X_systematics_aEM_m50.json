@@ -1,0 +1,47 @@
+[
+    {
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/signal_10X_systematics//2018/Mchi-52p5_dMchi-5p0/ctau-1/",
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 1,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-1",
+        "sum_wgt": 1.4675415712872564e-05,
+        "type": "signal",
+        "year": 2018,
+        "alphaD": "aEM",
+        "xsec": 2894.2410560999997,
+        "nFiles": 8,
+        "num_events": 363908,
+        "blacklist": []
+    },
+    {
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/signal_10X_systematics//2018/Mchi-52p5_dMchi-5p0/ctau-10/",
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 10,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-10",
+        "sum_wgt": 1.6764034626248758e-05,
+        "type": "signal",
+        "year": 2018,
+        "alphaD": "aEM",
+        "xsec": 309.67832616000004,
+        "nFiles": 9,
+        "num_events": 415843,
+        "blacklist": []
+    },
+    {
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/signal_10X_systematics//2018/Mchi-52p5_dMchi-5p0/ctau-100/",
+        "Mchi": 52.5,
+        "dMchi": 5.0,
+        "ctau": 100,
+        "name": "sig_Mchi-52.5_dMchi-5.0_ct-100",
+        "sum_wgt": 2.7801249757430924e-05,
+        "type": "signal",
+        "year": 2018,
+        "alphaD": "aEM",
+        "xsec": 31.152733342,
+        "nFiles": 17,
+        "num_events": 689487,
+        "blacklist": []
+    }
+]
