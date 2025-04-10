@@ -1,0 +1,7 @@
+{
+    "Data_SingleElectron_UL16_postVPF" : {
+        "SingleElectron_Run2016F" : "/SingleElectron/Run2016F-UL2016_MiniAODv2-v2/MINIAOD",
+        "SingleElectron_Run2016G" : "/SingleElectron/Run2016G-UL2016_MiniAODv2-v2/MINIAOD",
+        "SingleElectron_Run2016H" : "/SingleElectron/Run2016H-UL2016_MiniAODv2-v2/MINIAOD"
+    }
+}

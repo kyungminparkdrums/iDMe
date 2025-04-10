@@ -1,0 +1,6 @@
+{
+    "Data_MET_UL16_APV" : {
+        "MET_Run2016F" : "/MET/Run2016F-UL2016_MiniAODv2-v2/MINIAOD",
+        "MET_Run2016G" : "/MET/Run2016G-UL2016_MiniAODv2-v2/MINIAOD",
+        "MET_Run2016H" : "/MET/Run2016H-UL2016_MiniAODv2-v2/MINIAOD"         }
+}

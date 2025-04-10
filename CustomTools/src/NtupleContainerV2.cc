@@ -27,6 +27,21 @@ void NtupleContainerV2::CreateTreeBranches() {
     // MET Filters
     outT->Branch("METFiltersFailBits",&METFiltersFailBits_);
 
+    // Muons
+    outT->Branch("nMuon",&nMuon_);
+    outT->Branch("Muon_pt",&recoMuonPt_);
+    outT->Branch("Muon_eta",&recoMuonEta_);
+    outT->Branch("Muon_phi",&recoMuonPhi_);
+    outT->Branch("Muon_e",&recoMuonEnergy_);
+    outT->Branch("Muon_charge",&recoMuonCharge_);
+    outT->Branch("Muon_IDcutLoose",&recoMuonIDcutBasedLoose_);
+    outT->Branch("Muon_IDcutMedium",&recoMuonIDcutBasedMedium_);
+    outT->Branch("Muon_IDcutMediumPrompt",&recoMuonIDcutBasedMediumPrompt_);
+    outT->Branch("Muon_IDcutTight",&recoMuonIDcutBasedTight_);
+    outT->Branch("Muon_isPFMuon",&recoMuonIsPFMuon_);
+    outT->Branch("Muon_isGlobalMuon",&recoMuonIsGlobalMuon_);
+    outT->Branch("Muon_isStandAloneMuon",&recoMuonIsStandAloneMuon_);
+
     // Normal Electrons
     outT->Branch("nElectron",&nElectronDefault_);
     outT->Branch("Electron_pt",&recoElectronPt_);
@@ -221,10 +236,28 @@ void NtupleContainerV2::CreateTreeBranches() {
     // Jets
     outT->Branch("nPFJetAll",&PFNJetAll_);
     outT->Branch("nPFJet",&PFNJet_);
+    outT->Branch("numPFJetTrueB",&PFNbJetTrue_);
+    outT->Branch("numPFJetTaggedB",&PFNbJetTagged_);
+
+    outT->Branch("PFJet_matchedGenJetPt",&PFJet_matchedGenJetPt_);
+    outT->Branch("PFJet_matchedGenJetEta",&PFJet_matchedGenJetEta_);
+    outT->Branch("PFJet_matchedGenJetPhi",&PFJet_matchedGenJetPhi_);
+
+    outT->Branch("PFJet_rawFactor",&PFJetRawFactor_);
+    outT->Branch("PFJet_massRaw",&PFJetMassRaw_);
+    outT->Branch("PFJet_ptRaw",&PFJetPtRaw_);
+    outT->Branch("PFJet_area",&PFJetArea_);
+    outT->Branch("PFJet_energy",&PFJetEnergy_);
+    outT->Branch("PFJet_energyRaw",&PFJetEnergyRaw_);
+
+    outT->Branch("PFJet_mass",&PFJetMass_);
     outT->Branch("PFJet_pt",&PFJetPt_);
     outT->Branch("PFJet_eta",&PFJetEta_);
     outT->Branch("PFJet_phi",&PFJetPhi_);
     outT->Branch("PFJet_bTag",&PFJetBTag_);
+    outT->Branch("PFJet_truth",&PFJetTruth_);
+    outT->Branch("PFJet_bTagEffDenomPt",&PFJetEffDenomPt_);
+    outT->Branch("PFJet_bTagEffNumPt",&PFJetEffNumPt_);
     outT->Branch("PFJet_METdPhi",&PFJetMETdPhi_);
     outT->Branch("PFJet_CHEF",&PFJetCorrectedCHEF_);
     outT->Branch("PFJet_NHEF",&PFJetCorrectedNHEF_);
@@ -232,6 +265,7 @@ void NtupleContainerV2::CreateTreeBranches() {
     outT->Branch("PFJet_NEEF",&PFJetCorrectedNEEF_);
     outT->Branch("PFJet_corrNumDaughters",&PFJetCorrectedNumDaughters_);
     outT->Branch("PFJet_corrCHM",&PFJetCorrectedChargedMultiplicity_);
+    outT->Branch("PFJet_corr_pt",&PFJetCorrectedPt_);
     outT->Branch("PFJet_corrJESUp_pt",&PFJetCorrectedJESUpPt_);
     outT->Branch("PFJet_corrJESUp_eta",&PFJetCorrectedJESUpEta_);
     outT->Branch("PFJet_corrJESUp_phi",&PFJetCorrectedJESUpPhi_);
@@ -258,6 +292,10 @@ void NtupleContainerV2::CreateTreeBranches() {
     outT->Branch("PFMET_JERUpPhi",&PFMETJERUpPhi_);
     outT->Branch("PFMET_JERDownPt",&PFMETJERDownPt_);
     outT->Branch("PFMET_JERDownPhi",&PFMETJERDownPhi_);
+    outT->Branch("PFMET_UnclusteredUpPt",&PFMETUnclusteredUpPt_);
+    outT->Branch("PFMET_UnclusteredUpPhi",&PFMETUnclusteredUpPhi_);
+    outT->Branch("PFMET_UnclusteredDownPt",&PFMETUnclusteredDownPt_);
+    outT->Branch("PFMET_UnclusteredDownPhi",&PFMETUnclusteredDownPhi_);
     outT->Branch("PFMET_JetResUpSmearPt",&PFMETJetResUpSmearPt_);
     outT->Branch("PFMET_JetResUpSmearPhi",&PFMETJetResUpSmearPhi_);
     outT->Branch("PFMET_JetResDownSmearPt",&PFMETJetResDownSmearPt_);
@@ -269,11 +307,13 @@ void NtupleContainerV2::CreateTreeBranches() {
     
     // Pileup density
     outT->Branch("rho",&rho_);
+    outT->Branch("fixedGridRhoFastjetAll",&fixedGridRhoFastjetAll_);
 
     // PV
     outT->Branch("PV_x",&PV_x_);
     outT->Branch("PV_y",&PV_y_);
     outT->Branch("PV_z",&PV_z_);
+    outT->Branch("numPV",&numPV_);
 
     // Electron-positron vertex branches
     outT->Branch("nvtx",&nvtx_);
@@ -513,6 +553,21 @@ void NtupleContainerV2::ClearTreeBranches() {
     genLeadMETPx_ = -9999;
     genLeadMETPy_ = -9999;
 
+    // Muons
+    nMuon_ = 0;
+    recoMuonPt_.clear();
+    recoMuonEta_.clear();
+    recoMuonPhi_.clear();
+    recoMuonEnergy_.clear();
+    recoMuonCharge_.clear();
+    recoMuonIDcutBasedLoose_.clear();
+    recoMuonIDcutBasedMedium_.clear();
+    recoMuonIDcutBasedMediumPrompt_.clear();
+    recoMuonIDcutBasedTight_.clear();
+    recoMuonIsPFMuon_.clear();
+    recoMuonIsGlobalMuon_.clear();
+    recoMuonIsStandAloneMuon_.clear();
+
     // Electrons
     nElectronDefault_ = 0;
     recoElectronPt_.clear();
@@ -711,10 +766,25 @@ void NtupleContainerV2::ClearTreeBranches() {
     // Jets
     PFNJet_ = 0;
     PFNJetAll_ = 0;
+    PFNbJetTrue_ = 0;
+    PFNbJetTagged_ = 0;
+    PFJet_matchedGenJetPt_.clear();
+    PFJet_matchedGenJetEta_.clear();
+    PFJet_matchedGenJetPhi_.clear();
+    PFJetRawFactor_.clear();
+    PFJetMassRaw_.clear();
+    PFJetPtRaw_.clear();
+    PFJetArea_.clear();
+    PFJetMass_.clear();
+    PFJetEnergy_.clear();
+    PFJetEnergyRaw_.clear();
     PFJetPt_.clear();
     PFJetEta_.clear();
     PFJetPhi_.clear();
     PFJetBTag_.clear();
+    PFJetTruth_.clear();
+    PFJetEffDenomPt_.clear();
+    PFJetEffNumPt_.clear();
     PFJetMETdPhi_.clear();
     PFJetCorrectedCHEF_.clear();
     PFJetCorrectedNHEF_.clear();
@@ -722,6 +792,7 @@ void NtupleContainerV2::ClearTreeBranches() {
     PFJetCorrectedNEEF_.clear();
     PFJetCorrectedNumDaughters_.clear();
     PFJetCorrectedChargedMultiplicity_.clear();
+    PFJetCorrectedPt_.clear();
     PFJetCorrectedJESUpPt_.clear();
     PFJetCorrectedJESUpEta_.clear();
     PFJetCorrectedJESUpPhi_.clear();
@@ -748,6 +819,10 @@ void NtupleContainerV2::ClearTreeBranches() {
     PFMETJERUpPhi_ = -9999;
     PFMETJERDownPt_ = -9999;
     PFMETJERDownPhi_ = -9999;
+    PFMETUnclusteredUpPt_ = -9999;
+    PFMETUnclusteredUpPhi_ = -9999;
+    PFMETUnclusteredDownPt_ = -9999;
+    PFMETUnclusteredDownPhi_ = -9999;
     PFMETJetResUpSmearPt_ = -9999;
     PFMETJetResUpSmearPhi_ = -9999;
     PFMETJetResDownSmearPt_ = -9999;
@@ -760,10 +835,14 @@ void NtupleContainerV2::ClearTreeBranches() {
     // Pileup density
     rho_ = -9999;
 
+    // 
+    fixedGridRhoFastjetAll_ = -999.;
+
     // PV
     PV_x_ = -999.;
     PV_y_ = -999.;
     PV_z_ = -999.;
+    numPV_ = 0;
 
     // Electron-positron vertices
     nvtx_ = 0;

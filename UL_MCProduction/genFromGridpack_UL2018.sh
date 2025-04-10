@@ -206,7 +206,7 @@ cmsRun -p ${genfragment}
 echo "list of output files:"
 ls -ltr *.root
 
-remoteDIR="/store/group/lpcmetx/iDMe//Samples/signal/2018"
+remoteDIR="/store/group/lpcmetx/iDMe//Samples/signal_privateMC/2018"
 #xrdcp -vf ${namebase}_HLT_ctau-${ctau}_year-${year}.root root://cmseos.fnal.gov/$remoteDIR/DIGIRAWHLT/${namebase}_HLT_ctau-${ctau}_year-${year}.root
 #xrdcp -vf ${namebase}_AOD_ctau-${ctau}_year-${year}.root root://cmseos.fnal.gov/$remoteDIR/AOD/${namebase}_AOD_ctau-${ctau}_year-${year}.root
 xrdcp -vf ${namebase}_MINIAOD_ctau-${ctau}_year-${year}.root root://cmseos.fnal.gov/$remoteDIR/MINIAOD/${namebase}_MINIAOD_ctau-${ctau}_year-${year}.root
