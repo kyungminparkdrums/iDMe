@@ -1,0 +1,57 @@
+[
+    {
+        "name": "Data_MET_UL17_MET_Run2017B",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_MET_MVA90WP//2017/Data_MET_UL17/MET_Run2017B/MET/crab_iDMe_MET_Run2017B_2025_04_03-18_33/250403_233344/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 29,
+        "num_events": 47670437,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL17_MET_Run2017C",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_MET_MVA90WP//2017/Data_MET_UL17/MET_Run2017C/MET/crab_iDMe_MET_Run2017C_2025_04_03-18_33/250403_233405/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 37,
+        "num_events": 105059074,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL17_MET_Run2017D",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_MET_MVA90WP//2017/Data_MET_UL17/MET_Run2017D/MET/crab_iDMe_MET_Run2017D_2025_04_02-17_02/250402_220251/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 9,
+        "num_events": 19273946,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL17_MET_Run2017E",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_MET_MVA90WP//2017/Data_MET_UL17/MET_Run2017E/MET/crab_iDMe_MET_Run2017E_2025_04_03-18_34/250403_233701/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 58,
+        "num_events": 68584235,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL17_MET_Run2017F",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_MET_MVA90WP//2017/Data_MET_UL17/MET_Run2017F/MET/crab_iDMe_MET_Run2017F_2025_04_03-18_34/250403_233425/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 116,
+        "num_events": 170464875,
+        "blacklist": []
+    }
+]

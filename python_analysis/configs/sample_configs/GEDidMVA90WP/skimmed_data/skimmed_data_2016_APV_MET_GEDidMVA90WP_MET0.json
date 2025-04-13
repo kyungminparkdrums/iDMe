@@ -1,0 +1,68 @@
+[
+    {
+        "name": "Data_MET_UL16_MET_Run2016B-ver1",
+        "location": [],
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 0,
+        "num_events": 0,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL16_MET_Run2016B-ver2",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/data/data_2016_APV_MET_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_Data_MET_UL16_MET_Run2016B-ver2/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 5,
+        "num_events": 33614010,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL16_MET_Run2016C",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/data/data_2016_APV_MET_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_Data_MET_UL16_MET_Run2016C/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 5,
+        "num_events": 16235316,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL16_MET_Run2016D",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/data/data_2016_APV_MET_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_Data_MET_UL16_MET_Run2016D/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 4,
+        "num_events": 20284873,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL16_MET_Run2016E",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/data/data_2016_APV_MET_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_Data_MET_UL16_MET_Run2016E/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 4,
+        "num_events": 21177866,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL16_MET_Run2016F",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/data/data_2016_APV_MET_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_Data_MET_UL16_MET_Run2016F/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 4,
+        "num_events": 11626756,
+        "blacklist": []
+    }
+]

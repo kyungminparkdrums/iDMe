@@ -1,0 +1,57 @@
+[
+    {
+        "name": "Data_SingleElectron_UL17_SingleElectron_Run2017B",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_SingleElectron_MVA90WP//2017/Data_SingleElectron_UL17/SingleElectron_Run2017B/SingleElectron/crab_iDMe_SingleElectron_Run2017B_2025_04_02-17_09/250402_220922/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 34,
+        "num_events": 56595110,
+        "blacklist": []
+    },
+    {
+        "name": "Data_SingleElectron_UL17_SingleElectron_Run2017C",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_SingleElectron_MVA90WP//2017/Data_SingleElectron_UL17/SingleElectron_Run2017C/SingleElectron/crab_iDMe_SingleElectron_Run2017C_2025_04_03-18_46/250403_234833/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 78,
+        "num_events": 126584724,
+        "blacklist": []
+    },
+    {
+        "name": "Data_SingleElectron_UL17_SingleElectron_Run2017D",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_SingleElectron_MVA90WP//2017/Data_SingleElectron_UL17/SingleElectron_Run2017D/SingleElectron/crab_iDMe_SingleElectron_Run2017D_2025_04_03-18_45/250403_234538/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 59,
+        "num_events": 50610320,
+        "blacklist": []
+    },
+    {
+        "name": "Data_SingleElectron_UL17_SingleElectron_Run2017E",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_SingleElectron_MVA90WP//2017/Data_SingleElectron_UL17/SingleElectron_Run2017E/SingleElectron/crab_iDMe_SingleElectron_Run2017E_2025_04_03-18_42/250403_234511/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 67,
+        "num_events": 100205122,
+        "blacklist": []
+    },
+    {
+        "name": "Data_SingleElectron_UL17_SingleElectron_Run2017F",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2017_SingleElectron_MVA90WP//2017/Data_SingleElectron_UL17/SingleElectron_Run2017F/SingleElectron/crab_iDMe_SingleElectron_Run2017F_2025_04_03-18_45/250403_234600/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2017,
+        "xsec": 0.0,
+        "nFiles": 69,
+        "num_events": 126059593,
+        "blacklist": []
+    }
+]

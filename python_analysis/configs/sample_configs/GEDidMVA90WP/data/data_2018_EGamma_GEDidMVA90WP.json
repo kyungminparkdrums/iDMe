@@ -1,0 +1,46 @@
+[
+    {
+        "name": "Data_EGamma_UL18_EGamma_Run2018A",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2018_EGamma_MVA90WP//2018/Data_EGamma_UL18/EGamma_Run2018A/EGamma/crab_iDMe_EGamma_Run2018A_2025_04_03-11_38/250403_164111/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2018,
+        "xsec": 0.0,
+        "nFiles": 268,
+        "num_events": 298048698,
+        "blacklist": []
+    },
+    {
+        "name": "Data_EGamma_UL18_EGamma_Run2018B",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2018_EGamma_MVA90WP//2018/Data_EGamma_UL18/EGamma_Run2018B/EGamma/crab_iDMe_EGamma_Run2018B_2025_04_03-11_33/250403_163831/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2018,
+        "xsec": 0.0,
+        "nFiles": 125,
+        "num_events": 129476754,
+        "blacklist": []
+    },
+    {
+        "name": "Data_EGamma_UL18_EGamma_Run2018C",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2018_EGamma_MVA90WP//2018/Data_EGamma_UL18/EGamma_Run2018C/EGamma/crab_iDMe_EGamma_Run2018C_2025_04_02-17_03/250402_220543/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2018,
+        "xsec": 0.0,
+        "nFiles": 115,
+        "num_events": 143781609,
+        "blacklist": []
+    },
+    {
+        "name": "Data_EGamma_UL18_EGamma_Run2018D",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2018_EGamma_MVA90WP//2018/Data_EGamma_UL18/EGamma_Run2018D/EGamma/crab_iDMe_EGamma_Run2018D_2025_04_02-17_06/250402_220839/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2018,
+        "xsec": 0.0,
+        "nFiles": 486,
+        "num_events": 698504386,
+        "blacklist": []
+    }
+]

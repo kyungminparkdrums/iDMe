@@ -1,0 +1,35 @@
+[
+    {
+        "name": "Data_SingleElectron_UL16_postVPF_SingleElectron_Run2016F",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2016_SingleElectron_MVA90WP//2016/Data_SingleElectron_UL16_postVPF/SingleElectron_Run2016F/SingleElectron/crab_iDMe_SingleElectron_Run2016F_2025_04_03-20_59/250404_020645/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 13,
+        "num_events": 8835883,
+        "blacklist": []
+    },
+    {
+        "name": "Data_SingleElectron_UL16_postVPF_SingleElectron_Run2016G",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2016_SingleElectron_MVA90WP//2016/Data_SingleElectron_UL16_postVPF/SingleElectron_Run2016G/SingleElectron/crab_iDMe_SingleElectron_Run2016G_2025_04_02-17_06/250402_220903/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 84,
+        "num_events": 152098617,
+        "blacklist": []
+    },
+    {
+        "name": "Data_SingleElectron_UL16_postVPF_SingleElectron_Run2016H",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2016_SingleElectron_MVA90WP//2016/Data_SingleElectron_UL16_postVPF/SingleElectron_Run2016H/SingleElectron/crab_iDMe_SingleElectron_Run2016H_2025_04_03-20_59/250404_015947/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 47,
+        "num_events": 115497814,
+        "blacklist": []
+    }
+]

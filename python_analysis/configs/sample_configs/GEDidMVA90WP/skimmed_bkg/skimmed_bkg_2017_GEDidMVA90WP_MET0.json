@@ -1,0 +1,552 @@
+[
+    {
+        "name": "DY_DYJetsToLL_M-4to50_HT-100to200",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_DY_DYJetsToLL_M-4to50_HT-100to200/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 10338640.0,
+        "xsec": 190600.0,
+        "blacklist": []
+    },
+    {
+        "name": "DY_DYJetsToLL_M-4to50_HT-200to400",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_DY_DYJetsToLL_M-4to50_HT-200to400/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 10212352.0,
+        "xsec": 42270.0,
+        "blacklist": []
+    },
+    {
+        "name": "DY_DYJetsToLL_M-4to50_HT-400to600",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_DY_DYJetsToLL_M-4to50_HT-400to600/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 10884283.0,
+        "xsec": 4050.0,
+        "blacklist": []
+    },
+    {
+        "name": "DY_DYJetsToLL_M-4to50_HT-600toInf",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_DY_DYJetsToLL_M-4to50_HT-600toInf/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 10098588.0,
+        "xsec": 1216.0,
+        "blacklist": []
+    },
+    {
+        "name": "DY_DYJetsToLL_M-4to50_HT-70to100",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_DY_DYJetsToLL_M-4to50_HT-70to100/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 10986605.0,
+        "xsec": 341800.0,
+        "blacklist": []
+    },
+    {
+        "name": "DY_DYJetsToLL_M-50_HT-100to200",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_DY_DYJetsToLL_M-50_HT-100to200/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 3,
+        "sum_wgt": 18955253.0,
+        "xsec": 139200.0,
+        "blacklist": []
+    },
+    {
+        "name": "DY_DYJetsToLL_M-50_HT-1200to2500",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_DY_DYJetsToLL_M-50_HT-1200to2500/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 4802716.0,
+        "xsec": 130.5,
+        "blacklist": []
+    },
+    {
+        "name": "DY_DYJetsToLL_M-50_HT-200to400",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_DY_DYJetsToLL_M-50_HT-200to400/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 12513057.0,
+        "xsec": 38400.0,
+        "blacklist": []
+    },
+    {
+        "name": "DY_DYJetsToLL_M-50_HT-2500toInf",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_DY_DYJetsToLL_M-50_HT-2500toInf/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 1480047.0,
+        "xsec": 2.997,
+        "blacklist": []
+    },
+    {
+        "name": "DY_DYJetsToLL_M-50_HT-400to600",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_DY_DYJetsToLL_M-50_HT-400to600/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 5543804.0,
+        "xsec": 5174.0,
+        "blacklist": []
+    },
+    {
+        "name": "DY_DYJetsToLL_M-50_HT-600to800",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_DY_DYJetsToLL_M-50_HT-600to800/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 4834931.0,
+        "xsec": 1258.0,
+        "blacklist": []
+    },
+    {
+        "name": "DY_DYJetsToLL_M-50_HT-800to1200",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_DY_DYJetsToLL_M-50_HT-800to1200/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 3,
+        "sum_wgt": 4506887.0,
+        "xsec": 559.8,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_WW",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_Multiboson_WW/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 15634114.5625,
+        "xsec": 76250.0,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_WWW",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_Multiboson_WWW/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 36869.161712646484,
+        "xsec": 215.8,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_WWZ",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_Multiboson_WWZ/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 30386.29296875,
+        "xsec": 170.7,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_WZ",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_Multiboson_WZ/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 7341000.0,
+        "xsec": 27550.0,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_WZZ",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_Multiboson_WZZ/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 17023.64990234375,
+        "xsec": 57.09,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_ZZ",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_Multiboson_ZZ/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 2706000.0,
+        "xsec": 12230.0,
+        "blacklist": []
+    },
+    {
+        "name": "Multiboson_ZZZ",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_Multiboson_ZZZ/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 2628.4712982177734,
+        "xsec": 14.76,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT1000to1500",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_QCD_QCD_HT1000to1500/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 3,
+        "sum_wgt": 13792726.0,
+        "xsec": 1122000.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT100to200",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_QCD_QCD_HT100to200/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 15,
+        "sum_wgt": 81455325.0,
+        "xsec": 23500000000.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT1500to2000",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_QCD_QCD_HT1500to2000/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 3,
+        "sum_wgt": 12941701.0,
+        "xsec": 109400.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT2000toInf",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_QCD_QCD_HT2000toInf/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 5900070.0,
+        "xsec": 21740.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT200to300",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_QCD_QCD_HT200to300/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 4,
+        "sum_wgt": 60567226.0,
+        "xsec": 1552000000.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT300to500",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_QCD_QCD_HT300to500/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 12,
+        "sum_wgt": 55090472.0,
+        "xsec": 321100000.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT500to700",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_QCD_QCD_HT500to700/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 9,
+        "sum_wgt": 61190089.0,
+        "xsec": 30250000.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT50to100",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_QCD_QCD_HT50to100/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 39904296.0,
+        "xsec": 187700000000.0,
+        "blacklist": []
+    },
+    {
+        "name": "QCD_QCD_HT700to1000",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_QCD_QCD_HT700to1000/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 4,
+        "sum_wgt": 48001839.0,
+        "xsec": 6398000.0,
+        "blacklist": []
+    },
+    {
+        "name": "SingleTop_ST_s-channel",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_SingleTop_ST_s-channel/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 49292571.796875,
+        "xsec": 3549.0,
+        "blacklist": []
+    },
+    {
+        "name": "SingleTop_ST_t-channel_antitop",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_SingleTop_ST_t-channel_antitop/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 5,
+        "sum_wgt": 4996018001.625,
+        "xsec": 71750.0,
+        "blacklist": []
+    },
+    {
+        "name": "SingleTop_ST_t-channel_top",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_SingleTop_ST_t-channel_top/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 11,
+        "sum_wgt": 16883188704.375,
+        "xsec": 119700.0,
+        "blacklist": []
+    },
+    {
+        "name": "SingleTop_ST_tW_antitop",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_SingleTop_ST_tW_antitop/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 184446248.875,
+        "xsec": 32510.0,
+        "blacklist": []
+    },
+    {
+        "name": "SingleTop_ST_tW_top",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_SingleTop_ST_tW_top/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 183285016.625,
+        "xsec": 32450.0,
+        "blacklist": []
+    },
+    {
+        "name": "TTbar_TTTo2L2Nu",
+        "location": [],
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 0,
+        "sum_wgt": 721021.75,
+        "xsec": 88290.0,
+        "blacklist": []
+    },
+    {
+        "name": "TTbar_TTToHadronic",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_TTbar_TTToHadronic/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 20,
+        "sum_wgt": 73969815533.0,
+        "xsec": 377960.0,
+        "blacklist": []
+    },
+    {
+        "name": "TTbar_TTToSemiLeptonic",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_TTbar_TTToSemiLeptonic/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 46,
+        "sum_wgt": 106922355930.0,
+        "xsec": 365340.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT100to200",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_WJets_WJetsLNu_HT100to200/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 4,
+        "sum_wgt": 47424468.0,
+        "xsec": 1244000.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT1200to2500",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_WJets_WJetsLNu_HT1200to2500/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 4955636.0,
+        "xsec": 1152.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT200to400",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_WJets_WJetsLNu_HT200to400/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 5,
+        "sum_wgt": 42602407.0,
+        "xsec": 337800.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT2500toInf",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_WJets_WJetsLNu_HT2500toInf/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 1185699.0,
+        "xsec": 26.46,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT400to600",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_WJets_WJetsLNu_HT400to600/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 5468473.0,
+        "xsec": 44930.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT600to800",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_WJets_WJetsLNu_HT600to800/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 5545298.0,
+        "xsec": 11190.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT70to100",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_WJets_WJetsLNu_HT70to100/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 4,
+        "sum_wgt": 44736228.0,
+        "xsec": 1283000.0,
+        "blacklist": []
+    },
+    {
+        "name": "WJets_WJetsLNu_HT800to1200",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_WJets_WJetsLNu_HT800to1200/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 5088483.0,
+        "xsec": 4926.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZGamma_ZG2JTo2L2JG",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_ZGamma_ZG2JTo2L2JG/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 497882.0,
+        "xsec": 114.5,
+        "blacklist": []
+    },
+    {
+        "name": "ZGamma_ZGToJJG",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_ZGamma_ZGToJJG/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 102232916.671875,
+        "xsec": 4144.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZGamma_ZGToLLG",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_ZGamma_ZGToLLG/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 2942151160.0,
+        "xsec": 51530.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZGamma_ZGToNuNuG",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_ZGamma_ZGToNuNuG/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 137853600.0,
+        "xsec": 29930.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT100to200",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_ZJets_ZJetsNuNu_HT100to200/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 3,
+        "sum_wgt": 18983897.0,
+        "xsec": 271300.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT1200to2500",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_ZJets_ZJetsNuNu_HT1200to2500/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 267125.0,
+        "xsec": 247.4,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT200to400",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_ZJets_ZJetsNuNu_HT200to400/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 2,
+        "sum_wgt": 17349597.0,
+        "xsec": 72690.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT2500toInf",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_ZJets_ZJetsNuNu_HT2500toInf/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 176201.0,
+        "xsec": 5.609,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT400to600",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_ZJets_ZJetsNuNu_HT400to600/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 3,
+        "sum_wgt": 13963690.0,
+        "xsec": 9961.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT600to800",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_ZJets_ZJetsNuNu_HT600to800/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 4418971.0,
+        "xsec": 2425.0,
+        "blacklist": []
+    },
+    {
+        "name": "ZJets_ZJetsNuNu_HT800to1200",
+        "location": "/store/group/lpcmetx/iDMe/skimmed_ntuples/bkg/bkg_2017_MVA90WP_rdfSkim_MVA90WP_MET0_nJetsG0//output_ZJets_ZJetsNuNu_HT800to1200/",
+        "type": "bkg",
+        "year": 2017,
+        "nFiles": 1,
+        "sum_wgt": 1513585.0,
+        "xsec": 1076.0,
+        "blacklist": []
+    }
+]
