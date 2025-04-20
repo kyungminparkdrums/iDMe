@@ -310,29 +310,35 @@ class iDMeProcessor(processor.ProcessorABC):
         apply_vtx_SF = False
         if self.systematics != None:
             #print('systematics')
+            
             if self.systematics['PU'] != 'None':
-                sf_PU = corrections.get_sf_PU(iov, jsonPath, nTrueInt=events.genPU.true, type=self.systematics['PU'])
-                events["eventWgt"] = events["eventWgt"] * np.array(sf_PU)
+                if isMC:
+                    sf_PU = corrections.get_sf_PU(iov, jsonPath, nTrueInt=events.genPU.true, type=self.systematics['PU'])
+                    events["eventWgt"] = events["eventWgt"] * np.array(sf_PU)
             if self.systematics['electron'] != 'None':
-                sf_vtx = corrections.get_sf_ee_vtx(iov, jsonPath, events.vtx.vxy_fromPV, vtx_type = events.vtx.typ, type=self.systematics['electron'])
-                #sf_vtx = routines.vtxElectronSF(events, type=self.systematics['electron']) # shitty hack
-                events['vtx','sf'] = sf_vtx
-                apply_vtx_SF = True
+                if isMC:
+                    sf_vtx = corrections.get_sf_ee_vtx(iov, jsonPath, events.vtx.vxy_fromPV, vtx_type = events.vtx.typ, type=self.systematics['electron'])
+                    #sf_vtx = routines.vtxElectronSF(events, type=self.systematics['electron']) # shitty hack
+                    events['vtx','sf'] = sf_vtx
+                    apply_vtx_SF = True
             if self.systematics['btag'] != 'None':
-                sf_btag = corrections.apply_btagSF(iov, jsonPath, events, type=self.systematics['btag'])
-                events["eventWgt"] = events["eventWgt"] * np.array(sf_btag)
+                if isMC:
+                    sf_btag = corrections.apply_btagSF(iov, jsonPath, events, type=self.systematics['btag'])
+                    events["eventWgt"] = events["eventWgt"] * np.array(sf_btag)
             if self.systematics['jec'] != 'None':
                 corrections.apply_JEC(isMC, iov, events, type=self.systematics['jec'])
             if self.systematics['met'] != 'None':
                 corrections.correct_MET(events, type=self.systematics['met'])
+            
             if self.systematics['trigger_MC'] != 'None':
                 if isMC:
-                    sf_trig_MC = corrections.get_trigger_MC(events, jsonPath, events.PFMET.pt, isMC, type=self.systematics['trigger_MC'])
+                    sf_trig_MC = corrections.get_trigger_MC(iov, jsonPath, events.PFMET.pt, isMC, type=self.systematics['trigger_MC'])
                     events['eventWgt'] = events['eventWgt'] * sf_trig_MC
             if self.systematics['trigger_data'] != 'None':
-                if isData:
-                    sf_trig_data = corrections.get_trigger_MC(events, jsonPath, events.PFMET.pt, isMC, type=self.systematics['trigger_data'])
+                if not isMC:
+                    sf_trig_data = corrections.get_trigger_MC(iov, jsonPath, events.PFMET.pt, isMC, type=self.systematics['trigger_data'])
                     events['eventWgt'] = events['eventWgt'] * sf_trig_data
+            
 
         #################################
         ##### Hard-coded basic cuts #####

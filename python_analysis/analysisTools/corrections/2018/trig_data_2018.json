@@ -1,4 +1,101 @@
-{"schema_version": 2, "corrections": [{"name": "trigger_MC", "version": 0, "inputs": [{"name": "MET", "type": "real", "description": "MET"}, {"name": "weights", "type": "string", "description": "nominal, up, or down"}], "output": {"name": "weight", "type": "real", "description": "trigger MC SF"}, "data": {"nodetype": "category", "input": "weights",
-    "content": [{"key": "nominal", "value": {"nodetype": "binning", "input": "MET", "flow": "clamp", "edges": [200., 240., 300., 1000.],
-    "content": [0.98,1.00,1.00]}}, {"key": "up", "value": {"nodetype": "binning", "input": "MET", "flow": "clamp",  "edges": [200., 240., 300., 1000.],
-    "content": [0.981,1.002,1.002]}}, {"key": "down", "value": {"nodetype": "binning", "input": "MET", "flow": "clamp",  "edges": [200., 240., 300., 1000.], "content": [0.979,0.998,0.998]}}]}}]}
+{
+    "schema_version": 2,
+    "corrections": [
+        {
+            "name": "trigger",
+            "version": 0,
+            "inputs": [
+                {
+                    "name": "MET",
+                    "type": "real",
+                    "description": "MET"
+                },
+                {
+                    "name": "weights",
+                    "type": "string",
+                    "description": "nominal, up, or down"
+                }
+            ],
+            "output": {
+                "name": "weight",
+                "type": "real",
+                "description": "trigger"
+            },
+            "data": {
+                "nodetype": "category",
+                "input": "weights",
+                "content": [
+                    {
+                        "key": "nominal",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "MET",
+                            "flow": "clamp",
+                            "edges": [
+                                0.0,
+                                120.0,
+                                200.0,
+                                240.0,
+                                300.0,
+                                100000.0
+                            ],
+                            "content": [
+                                0.2,
+                                0.78,
+                                0.99,
+                                1.01,
+                                1.01
+                            ]
+                        }
+                    },
+                    {
+                        "key": "up",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "MET",
+                            "flow": "clamp",
+                            "edges": [
+                                0.0,
+                                120.0,
+                                200.0,
+                                240.0,
+                                300.0,
+                                100000.0
+                            ],
+                            "content": [
+                                0.203,
+                                0.788,
+                                1.011,
+                                1.036,
+                                1.038
+                            ]
+                        }
+                    },
+                    {
+                        "key": "down",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "MET",
+                            "flow": "clamp",
+                            "edges": [
+                                0.0,
+                                120.0,
+                                200.0,
+                                240.0,
+                                300.0,
+                                100000.0
+                            ],
+                            "content": [
+                                0.197,
+                                0.772,
+                                0.969,
+                                0.984,
+                                0.982
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

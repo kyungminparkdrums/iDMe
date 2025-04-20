@@ -184,14 +184,15 @@ def get_trigger_MC(IOV, jsonPath, MET, isMC, type):
         evaluator = correctionlib.CorrectionSet.from_file(f'{jsonPath}/trig_MC_{IOV}.json')
     else:
         evaluator = correctionlib.CorrectionSet.from_file(f'{jsonPath}/trig_data_{IOV}.json')
+
+    #print(MET)
+    #mask_MET = (MET > 1000)
+    #print(mask_MET)
+    #MET = ak.where(mask_MET, 800, MET)
     
-    mask_MET = (MET > 1000)
-    MET = ak.where(mask_MET, 800, MET)
 
-    sf = evaluator[typ][f'trigger_MC'].evaluate(np.array(ak.flatten(MET)), type) # type = 'nominal'/'up'/'down' # trigger_MC naming convention bug; this name is also applied to data
-
+    sf = evaluator[f'trigger'].evaluate(np.array(MET), type) # type = 'nominal'/'up'/'down' # trigger_MC naming convention bug; this name is also applied to data
     print(sf)
-    
     return sf
 
 
