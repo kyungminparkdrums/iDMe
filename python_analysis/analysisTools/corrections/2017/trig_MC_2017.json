@@ -1,0 +1,4 @@
+{"schema_version": 2, "corrections": [{"name": "trigger_MC", "version": 0, "inputs": [{"name": "MET", "type": "real", "description": "MET"}, {"name": "weights", "type": "string", "description": "nominal, up, or down"}], "output": {"name": "weight", "type": "real", "description": "trigger MC SF"}, "data": {"nodetype": "category", "input": "weights",
+    "content": [{"key": "nominal", "value": {"nodetype": "binning", "input": "MET", "flow": "clamp", "edges": [200., 240., 300., 1000.],
+    "content": [0.95,0.96,0.97]}}, {"key": "up", "value": {"nodetype": "binning", "input": "MET", "flow": "clamp",  "edges": [200., 240., 300., 1000.],
+    "content": [0.958,0.969,0.98]}}, {"key": "down", "value": {"nodetype": "binning", "input": "MET", "flow": "clamp",  "edges": [200., 240., 300., 1000.], "content": [0.942,0.951,0.96]}}]}}]}

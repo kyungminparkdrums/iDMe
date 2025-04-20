@@ -38,7 +38,7 @@ vxy_range = {1:[0,20],10:[0,50],100:[0,50],1000:[0,50]}
 vxy_rebin = {1:5,10:20,100:20,1000:20}
 
 class Analyzer:
-    def __init__(self,fileList,histoList,cuts,model_json=None,systematics=None,max_samples=-1,max_files_per_samp=-1,newCoffea=False,nJet_isNominal=None,good_vtx='v11'):
+    def __init__(self,fileList,histoList,cuts,model_json=None,systematics=None,max_samples=-1,max_files_per_samp=-1,newCoffea=False,nJet_isNominal=None,isSFstudies=False,good_vtx='v11'):
         # flag to see if we're using new coffea
         self.newCoffea = newCoffea
 
@@ -58,6 +58,8 @@ class Analyzer:
                 self.systematics[sys_list[idx]["name"]] = sys_list[idx]["type"]
         else:
             self.systematics = None
+
+        self.isSFstudies = isSFstudies
 
         #load in histogram config
         if "/" in histoList: # if cut file is in a different directory
@@ -147,10 +149,10 @@ class Analyzer:
             self.sample_names.append(name)
             loaded += 1
 
-    def process(self,treename='ntuples/outT',execr="iterative",workers=4,dask_client=None,procType='default',**kwargs):
+    def process(self,treename='ntuples/outT',execr="iterative",workers=4,merging=False,dask_client=None,procType='default',**kwargs):
         fileset = self.sample_locs
         if procType == 'default':
-            proc = iDMeProcessor(self.sample_names,self.sample_info,self.sample_locs,self.histoFile,self.cuts,mode=self.mode,model_json=self.model,nJet_isNom=self.nJet_isNom,good_vtx=self.good_vtx,systematics=self.systematics,**kwargs)
+            proc = iDMeProcessor(self.sample_names,self.sample_info,self.sample_locs,self.histoFile,self.cuts,mode=self.mode,model_json=self.model,nJet_isNom=self.nJet_isNom,isSFstudies=self.isSFstudies,good_vtx=self.good_vtx,systematics=self.systematics,**kwargs)
         elif procType == 'gen':
             proc = genProcessor(self.sample_names,self.sample_info,self.sample_locs,self.histoFile,self.cuts,mode=self.mode,**kwargs)
         elif procType == 'trig':
@@ -162,7 +164,7 @@ class Analyzer:
             if execr == "iterative":
                 executor = processor.IterativeExecutor()
             elif execr == "futures":
-                executor = processor.FuturesExecutor(workers=workers)
+                executor = processor.FuturesExecutor(workers=workers, merging=merging)
             elif execr == "dask":
                 if dask_client is None:
                     print("Need to supply a dask client!")
@@ -186,7 +188,7 @@ class Analyzer:
         return accumulator
 
 class iDMeProcessor(processor.ProcessorABC):
-    def __init__(self,samples,sampleInfo,fileSet,histoFile,cutFile,mode='signal',model_json=None,nJet_isNom=None,good_vtx='v11',systematics=None,**kwargs):
+    def __init__(self,samples,sampleInfo,fileSet,histoFile,cutFile,mode='signal',model_json=None,nJet_isNom=None,isSFstudies=False,good_vtx='v11',systematics=None,**kwargs):
         self.samples = samples
         self.sampleInfo = sampleInfo
         self.sampleLocs = fileSet
@@ -196,6 +198,7 @@ class iDMeProcessor(processor.ProcessorABC):
         self.good_vtx = good_vtx
         self.systematics = systematics
         print('Running with systematics: ', self.systematics)
+        self.isSFstudies = isSFstudies
 
         # load in histogram config
         self.histoMod = importlib.import_module(histoFile)
@@ -249,14 +252,15 @@ class iDMeProcessor(processor.ProcessorABC):
             xsec = info['xsec']
             # Apply NLO k-factor for W/Z
             if 'DY' in info['name']:
-                xsec = xsec * 1.23
+                if self.isSFstudies == False:
+                    xsec = xsec * 1.23
             elif 'WJet' in info['name']:
                 xsec = xsec * 1.21
             elif 'ZJet' in info['name']:
                 xsec = xsec * 1.23
                 
-            #if info['type'] == 'signal':
-            #    xsec = xsec*info['filter_eff']
+            if info['type'] == 'signal':
+                xsec = xsec*info['filter_eff']
             # register event weight branch
             events.__setitem__("eventWgt",xsec*lumi*events.genWgt)
         else:
@@ -278,8 +282,9 @@ class iDMeProcessor(processor.ProcessorABC):
         ## Add HEM flags to Event (before applying any quality cuts to jet, electrons ##
         ######################################################################################
 
-        routines.checkHEMjet(events)
-        routines.checkHEMelectron(events)
+        if str(info['year']) == '2018':
+            routines.checkHEMjet(events)
+            routines.checkHEMelectron(events)
 
         #################################
         ## Calculating Additional Vars ##
@@ -295,20 +300,23 @@ class iDMeProcessor(processor.ProcessorABC):
             events = events[events.hasHEMjet == 0]
             events = events[events.hasHEMelecPF == 0]
             events = events[events.hasHEMelecLpt == 0]
-      
+
         #################################
         ## Applying systematics and SF ##
         #################################
         iov = str(info['year'])
-        jsonPath = f"../../analysisTools/corrections/{info['year']}/"
+        jsonPath = f"../../../analysisTools/corrections/{info['year']}/"
 
         apply_vtx_SF = False
         if self.systematics != None:
+            #print('systematics')
             if self.systematics['PU'] != 'None':
                 sf_PU = corrections.get_sf_PU(iov, jsonPath, nTrueInt=events.genPU.true, type=self.systematics['PU'])
                 events["eventWgt"] = events["eventWgt"] * np.array(sf_PU)
             if self.systematics['electron'] != 'None':
-                sf_vtx = routines.vtxElectronSF(events, type=self.systematics['electron']) # shitty hack
+                sf_vtx = corrections.get_sf_ee_vtx(iov, jsonPath, events.vtx.vxy_fromPV, vtx_type = events.vtx.typ, type=self.systematics['electron'])
+                #sf_vtx = routines.vtxElectronSF(events, type=self.systematics['electron']) # shitty hack
+                events['vtx','sf'] = sf_vtx
                 apply_vtx_SF = True
             if self.systematics['btag'] != 'None':
                 sf_btag = corrections.apply_btagSF(iov, jsonPath, events, type=self.systematics['btag'])
@@ -317,6 +325,14 @@ class iDMeProcessor(processor.ProcessorABC):
                 corrections.apply_JEC(isMC, iov, events, type=self.systematics['jec'])
             if self.systematics['met'] != 'None':
                 corrections.correct_MET(events, type=self.systematics['met'])
+            if self.systematics['trigger_MC'] != 'None':
+                if isMC:
+                    sf_trig_MC = corrections.get_trigger_MC(events, jsonPath, events.PFMET.pt, isMC, type=self.systematics['trigger_MC'])
+                    events['eventWgt'] = events['eventWgt'] * sf_trig_MC
+            if self.systematics['trigger_data'] != 'None':
+                if isData:
+                    sf_trig_data = corrections.get_trigger_MC(events, jsonPath, events.PFMET.pt, isMC, type=self.systematics['trigger_data'])
+                    events['eventWgt'] = events['eventWgt'] * sf_trig_data
 
         #################################
         ##### Hard-coded basic cuts #####
@@ -354,7 +370,7 @@ class iDMeProcessor(processor.ProcessorABC):
         routines.defineGoodVertices(events,version=self.good_vtx) # define "good" vertices based on whether associated electrons pass ID cuts
         events = events[events.nGoodVtx > 0]
         # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
-        routines.selectBestVertex(events)
+        #routines.selectBestVertex(events)
         if info['type'] == "signal":
              events = routines.selectTrueVertex(events,events.good_vtx)
              #routines.selectBestVertex(events)
@@ -383,6 +399,18 @@ class iDMeProcessor(processor.ProcessorABC):
         # computing any extra quantities specified in the histogram config file
         for subroutine in self.subroutines:
             getattr(routines,subroutine)(events)
+
+        
+        # SF studies
+        if self.isSFstudies:
+            if isMC:
+                if 'ZGamma' in info['name']:
+                    print('Before cutting on ZG pT', len(events))
+                    events = events[events.sel_vtx.refit_pt > 17]
+                    print('After cutting on ZG pT', len(events[events.sel_vtx.refit_pt > 17]))
+                elif 'DY' in info['name']:
+                    events = events[events.sel_vtx.refit_pt < 17]
+        
         
         ###############################
         ######## CUTS & HISTOS ########
@@ -442,8 +470,8 @@ class genProcessor(iDMeProcessor):
         sum_wgt = info["sum_wgt"]
         lumi, unc = getLumi(info['year'])
         xsec = info['xsec']
-        #if info['type'] == 'signal':
-        #    xsec = xsec*info['filter_eff']
+        if info['type'] == 'signal':
+            xsec = xsec*info['filter_eff']
 
         # register event weight branch
         events.__setitem__("eventWgt",xsec*lumi*events.genWgt)
@@ -458,7 +486,7 @@ class genProcessor(iDMeProcessor):
         #################################
         routines.jetBtag(events,info['year'])
         routines.vtxElectronConnection(events)
-        #events = routines.computeExtraVariables(events,info)
+        events = routines.computeExtraVariables(events,info)
         #if info['type'] == 'signal':
         #    routines.genMatchExtraVtxVariables(events)
 
@@ -476,18 +504,18 @@ class genProcessor(iDMeProcessor):
         #### Demand >= 1 ee vertices ####
         #################################
         #routines.defineGoodVertices(events) # define "good" vertices based on whether associated electrons pass ID cuts
+        routines.defineGoodVertices(events,version='none') # define "good" vertices based on whether associated electrons pass ID cuts
+
         #events.__setitem__("nGoodVtx",ak.count(events.good_vtx.vxy,axis=1))
         #events = events[events.nGoodVtx > 0]
         # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
-        #routines.selectBestVertex(events)
+        routines.selectBestVertex(events)
 
-        routines.defineGoodVertices(events,version='none') # define "good" vertices based on whether associated electrons pass ID cuts
-        
         # Fill cutflow after baseline selection
         cutflow['hasVtx'] += ak.sum(events.genWgt)/sum_wgt
         cutflow_nevts['hasVtx'] += len(events)
         cutDesc['hasVtx'] = 'Baseline Selection'
-
+        
         # computing any extra quantities specified in the histogram config file
         for subroutine in self.subroutines:
             getattr(routines,subroutine)(events)
@@ -506,7 +534,8 @@ class genProcessor(iDMeProcessor):
         
         for k in cutflow.keys():
             cutflow_counts[k] = xsec*lumi*cutflow[k]
-
+        
+        
         histos = histObj.histograms
         histos['cutDesc'] = cutDesc
         histos['cutflow'] = {samp:cutflow}

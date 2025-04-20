@@ -225,6 +225,7 @@ def defineGoodVertices(events,version='v9',ele_id='dR'):
     mass_lo = events.vtx.m > 0.325
     mass_lo_refit = events.vtx.refit_m > 0.1
     logdxydz = np.minimum(np.log10(np.abs(events.vtx.e1.dxy/events.vtx.e1.dz)), np.log10(np.abs(events.vtx.e2.dxy/events.vtx.e2.dz))) > -1.25
+    logdxydz_loose = np.minimum(np.log10(np.abs(events.vtx.e1.dxy/events.vtx.e1.dz)), np.log10(np.abs(events.vtx.e2.dxy/events.vtx.e2.dz))) > -2
     if version == 'none':
         events['vtx','isGood'] = ak.values_astype(ak.ones_like(events.vtx.m),bool)
     if version == 'default':
@@ -251,18 +252,32 @@ def defineGoodVertices(events,version='v9',ele_id='dR'):
         events["vtx","isGood"] = IDcut & chi2 & maxMiniIso & passConvVeto & mass_lo_refit & mindxy_refit
     if version == 'v11':
          events["vtx","isGood"] = IDcut & chi2 & maxMiniIso & passConvVeto & mass_lo_refit & mindxy_refit # remove OSSF
+
+    if version == 'v11_LL':
+        vtx_type = ((events.vtx.e1_typ == 'L') & (events.vtx.e2_typ == 'L'))
+        events["vtx","isGood"] = IDcut & chi2 & maxMiniIso & passConvVeto & mass_lo_refit & mindxy_refit & vtx_type # remove OSSF
+    if version == 'v11_RR':
+        vtx_type = ((events.vtx.e1_typ == 'R') & (events.vtx.e2_typ == 'R'))
+        events["vtx","isGood"] = IDcut & chi2 & maxMiniIso & passConvVeto & mass_lo_refit & mindxy_refit & vtx_type # remove OSSF
+    if version == 'v11_RL':
+        vtx_type = ((events.vtx.e1_typ == 'R') & (events.vtx.e2_typ == 'L'))|((events.vtx.e1_typ == 'L') & (events.vtx.e2_typ == 'R'))
+        events["vtx","isGood"] = IDcut & chi2 & maxMiniIso & passConvVeto & mass_lo_refit & mindxy_refit # remove OSSF
+        
     if version == 'v12':
          events["vtx","isGood"] = IDcut & chi2 & maxMiniIso & passConvVeto & mass_lo_refit & mindxy_refit_tight # tighten mindxy
     if version == 'v13':
          events["vtx","isGood"] = IDcut & chi2 & maxMiniIso & passConvVeto & mass_lo_refit & mindxy_refit_tight & logdxydz # add logdxydz
     if version == 'v14':
          events["vtx","isGood"] = IDcut & chi2 & maxMiniIso & passConvVeto & mass_lo_refit & mindxy_refit & logdxydz # loosen mindxy
+
+    if version == 'v15':
+         events["vtx","isGood"] = IDcut & chi2 & maxMiniIso & passConvVeto & mass_lo_refit & mindxy_refit & logdxydz_loose # loosen mindxy
     
-    """if version == 'v40': # For SF studies
+    if version == 'v40': # For SF studies
          vtx_type = ((events.vtx.e1_typ == 'L') & (events.vtx.e2_typ == 'L'))
          #vtx_type = ((events.vtx.e1_typ == 'R') & (events.vtx.e2_typ == 'R'))
          #vtx_type = ((events.vtx.e1_typ == 'R') & (events.vtx.e2_typ == 'L'))|((events.vtx.e1_typ == 'L') & (events.vtx.e2_typ == 'R'))
-         events['vtx','isGood'] =  IDcut & chi2 & maxMiniIso & mindxy_refit & vtx_type"""
+         events['vtx','isGood'] =  IDcut & chi2 & maxMiniIso & mindxy_refit & vtx_type
 
     events.__setitem__("good_vtx",events.vtx[events.vtx.isGood])
     events.__setitem__("nGoodVtx",ak.count(events.good_vtx.vxy,axis=1))
@@ -294,6 +309,7 @@ def computeExtraVariables(events,info):
     vtxElectronConnection(events) # associate electrons to vertices
     events['vtx','min_dxy'] = np.minimum(np.abs(events.vtx.e1.dxy),np.abs(events.vtx.e2.dxy))
     events['vtx','eleDphi'] = np.abs(deltaPhi(events.vtx.e1.phi,events.vtx.e2.phi))
+    events['vtx','vxy_fromPV'] = ((events.vtx.vx-events.PV.x)**2+(events.vtx.vy-events.PV.y)**2)
     if info['type'] == 'signal':
         projectGenLxy(events)
         events['GenJetMETdPhi'] = np.abs(deltaPhi(events.GenJet.phi[:,0],events.GenMET.phi))
@@ -727,10 +743,20 @@ def makeBDTinputs_ABCD(events): # Current BDT for SR vtx cut
     met_leadPt_ratio_arr = (events.PFMET.pt/events.PFJet.pt[:,0]).to_numpy()
     jetMETdPhi_arr = np.abs(events.PFJet.METdPhi[:,0]).to_numpy()
     minJetMETdPhi_arr = ak.min(np.abs(events.PFJet.METdPhi),axis=1).to_numpy()
+    logdxydz_arr = np.minimum(np.log10(np.abs(events.sel_vtx.e1.dxy/events.sel_vtx.e1.dz)), np.log10(np.abs(events.sel_vtx.e2.dxy/events.sel_vtx.e2.dz)))
+
+#    input_arrs = (sel_vtx_chi2_arr, sel_vtx_METdPhi_arr, sel_vtx_m_arr, sel_vtx_dR_arr, \
+#                  sel_vtx_minDxy_arr, sel_vtx_vxy_arr, sel_vtx_prod_eta_arr, met_leadPt_ratio_arr
+#                 )
+
+#    input_arrs = (sel_vtx_chi2_arr, sel_vtx_METdPhi_arr, sel_vtx_m_arr, sel_vtx_dR_arr, \
+#                  sel_vtx_minDxy_arr, sel_vtx_vxy_arr, sel_vtx_prod_eta_arr
+#                 )
 
     input_arrs = (sel_vtx_chi2_arr, sel_vtx_METdPhi_arr, sel_vtx_m_arr, sel_vtx_dR_arr, \
-                  sel_vtx_minDxy_arr, sel_vtx_vxy_arr, sel_vtx_prod_eta_arr, met_leadPt_ratio_arr
-                 )
+                  sel_vtx_minDxy_arr, sel_vtx_vxy_arr, sel_vtx_prod_eta_arr, logdxydz_arr
+                   )
+
     input = np.stack(input_arrs, axis=1)
     return input
 
