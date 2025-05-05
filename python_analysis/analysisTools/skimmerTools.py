@@ -176,7 +176,7 @@ class makeBDTInputs(processor.ProcessorABC):
         events["nJets"] = nJets
         events = events[nJets>0]
         # needs a good vertex
-        routines.defineGoodVertices(events,version='v10') # define "good" vertices based on whether associated electrons pass ID cuts
+        routines.defineGoodVertices(events,version='v11') # define "good" vertices based on whether associated electrons pass ID cuts
         events = events[events.nGoodVtx > 0]
         # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
         # for signal, only select the events where the good vertex is the true vertex
@@ -251,6 +251,7 @@ class makeBDTInputs(processor.ProcessorABC):
         outputs["delta_dxy_over_meandxy"] = column_accumulator((deltadxy/meandxy).to_numpy())
         outputs["delta_eta_over_delta_phi"] = column_accumulator((abs_deta/abs_dphi).to_numpy())
         outputs["log_delta_eta_over_delta_phi"] = column_accumulator(np.log10(abs_deta/abs_dphi).to_numpy())
+        outputs["logdxydz"] = column_accumulator(np.minimum(np.log10(np.abs(events.sel_vtx.e1.dxy/events.sel_vtx.e1.dz)),np.log10(np.abs(events.sel_vtx.e2.dxy/events.sel_vtx.e2.dz))).to_numpy())
        
         outputs["sel_vtx_m_refit"] = column_accumulator(events.sel_vtx.refit_m.to_numpy())
         outputs["sel_vtx_CosThetaColl_fromPV_refit"] = column_accumulator(events.sel_vtx.cos_collinear_fromPV_refit.to_numpy())

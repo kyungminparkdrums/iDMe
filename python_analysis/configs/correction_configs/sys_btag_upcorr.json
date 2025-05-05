@@ -1,0 +1,22 @@
+[
+   {
+      "name": "PU",
+      "type": "nominal"
+   },
+   {
+      "name": "electron",
+      "type": "nominal"
+   },
+   {
+      "name": "btag",
+      "type": "up_correlated"
+   },
+   {
+      "name": "jec",
+      "type": "nominal"
+   },
+   {
+      "name": "met",
+      "type": "None"
+   }
+]

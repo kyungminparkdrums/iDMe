@@ -1,0 +1,109 @@
+{
+    "schema_version": 2,
+    "description": "PF electron reco/ID SF for [5,10] GeV bin",
+    "corrections": [
+        {
+            "name": "UL-Electron-ID-SF",
+            "description": "PF electron reco/ID SF for [5,10] GeV bin",
+            "version": 2,
+            "inputs": [
+                {
+                    "name": "year",
+                    "type": "string",
+                    "description": "year/scenario: example 2016preVFP, 2017 etc"
+                },
+                {
+                    "name": "ValType",
+                    "type": "string",
+                    "description": "sf/sfup/sfdown (sfup = sf + syst, sfdown = sf - syst) "
+                },
+                {
+                    "name": "WorkingPoint",
+                    "type": "string",
+                    "description": "Working Point of choice : Loose, Medium etc."
+                },
+                {
+                    "name": "eta",
+                    "type": "real",
+                    "description": "supercluster eta"
+                },
+                {
+                    "name": "pt",
+                    "type": "real",
+                    "description": "electron pT"
+                }
+            ],
+            "output": {
+                "name": "weight",
+                "type": "real",
+                "description": "value of scale factor (nominal, up or down)"
+            },
+            "data": {
+                "nodetype": "category",
+                "input": "year",
+                "content": [
+                    {
+                        "key": "2018",
+                        "value": {
+                            "nodetype": "category",
+                            "input": "ValType",
+                            "content": [
+                                {
+                                    "key": "sf",
+                                    "value": {
+                                        "nodetype": "category",
+                                        "input": "WorkingPoint",
+                                        "content": [
+                                            {
+                                                "key": "5to10",
+                                                "value": {
+                                                    "nodetype": "multibinning",
+                                                    "inputs": [
+                                                        "eta",
+                                                        "pt"
+                                                    ],
+                                                    "edges": [
+                                                        [
+                                                            -Infinity,
+                                                            -2.0,
+                                                            -1.566,
+                                                            -1.444,
+                                                            -1.0,
+                                                            0.0,
+                                                            1.0,
+                                                            1.444,
+                                                            1.566,
+                                                            2.0,
+                                                            Infinity
+                                                        ],
+                                                        [
+                                                            5.0,
+                                                            10.0,
+                                                        ]
+                                                    ],
+                                                    "content": [
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                        1.0,
+                                                    ],
+                                                    "flow": "error"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

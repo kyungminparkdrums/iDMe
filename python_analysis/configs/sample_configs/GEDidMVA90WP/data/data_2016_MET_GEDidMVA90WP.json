@@ -1,0 +1,35 @@
+[
+    {
+        "name": "Data_MET_UL16_APV_MET_Run2016F",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2016_MET_MVA90WP//2016/Data_MET_UL16_APV/MET_Run2016F/MET/crab_iDMe_MET_Run2016F_2025_04_03-20_58/250404_015859/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 4,
+        "num_events": 1370777,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL16_APV_MET_Run2016G",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2016_MET_MVA90WP//2016/Data_MET_UL16_APV/MET_Run2016G/MET/crab_iDMe_MET_Run2016G_2025_04_02-16_58/250402_220244/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 15,
+        "num_events": 25726953,
+        "blacklist": []
+    },
+    {
+        "name": "Data_MET_UL16_APV_MET_Run2016H",
+        "location": "/store/group/lpcmetx/iDMe/Samples/Ntuples/data_2016_MET_MVA90WP//2016/Data_MET_UL16_APV/MET_Run2016H/MET/crab_iDMe_MET_Run2016H_2025_04_06-16_24/250406_212923/0000/",
+        "sum_wgt": 0.0,
+        "type": "data",
+        "year": 2016,
+        "xsec": 0.0,
+        "nFiles": 19,
+        "num_events": 25726953,
+        "blacklist": []
+    }
+]

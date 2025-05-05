@@ -193,10 +193,9 @@ if __name__ == "__main__":
     d = d.Filter("anyTrue(vtx_isGood)") \
         .Filter("METFiltersFailBits == 0") \
         .Filter("passHEMveto") \
-        .Filter("trig_HLT_PFMET120_PFMHT120_IDTight == 1") \
+        .Filter("trig_HLT_PFMETNoMu120_PFMHTNoMu120_IDTight == 1")
         .Filter(f"PFMET_pt > {MET_cut}") \
         .Filter(njet_filter) \
-        .Filter("!anyB_med")
     final = d.Count().GetValue()
     print(f"final = {final}")
     if final > 0:

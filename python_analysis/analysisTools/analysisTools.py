@@ -31,13 +31,14 @@ from collections import defaultdict
 from hist import Hist
 from hist.axis import StrCategory, Regular, Integer, IntCategory
 import hist
+import corrections
 
 match_names = {"Default":"match0","lowpt":"match1"}
 vxy_range = {1:[0,20],10:[0,50],100:[0,50],1000:[0,50]}
 vxy_rebin = {1:5,10:20,100:20,1000:20}
 
 class Analyzer:
-    def __init__(self,fileList,histoList,cuts,model_json=None,max_samples=-1,max_files_per_samp=-1,newCoffea=False):
+    def __init__(self,fileList,histoList,cuts,model_json=None,systematics=None,max_samples=-1,max_files_per_samp=-1,newCoffea=False,nJet_isNominal=None,isSFstudies=False,good_vtx='v11'):
         # flag to see if we're using new coffea
         self.newCoffea = newCoffea
 
@@ -47,7 +48,19 @@ class Analyzer:
                 self.fileList = json.load(f)
         else:
             self.fileList = fileList
-        
+
+        # systematics
+        if systematics != None:
+            with open(systematics) as s:
+                sys_list = json.load(s)
+            self.systematics = {}
+            for idx, item in enumerate(sys_list):
+                self.systematics[sys_list[idx]["name"]] = sys_list[idx]["type"]
+        else:
+            self.systematics = None
+
+        self.isSFstudies = isSFstudies
+
         #load in histogram config
         if "/" in histoList: # if cut file is in a different directory
             sys.path.append("/".join(histoList.split("/")[:-1]))
@@ -69,6 +82,8 @@ class Analyzer:
         self.mode = None
 
         self.model = model_json # BDT model for inference (if used in selections)
+        self.nJet_isNom = nJet_isNominal # nomial njet range of NJet > 0 and NJet < 3
+        self.good_vtx = good_vtx
         
         self.loadFiles()
     
@@ -134,10 +149,10 @@ class Analyzer:
             self.sample_names.append(name)
             loaded += 1
 
-    def process(self,treename='ntuples/outT',execr="iterative",workers=4,dask_client=None,procType='default',**kwargs):
+    def process(self,treename='ntuples/outT',execr="iterative",workers=4,merging=False,dask_client=None,procType='default',**kwargs):
         fileset = self.sample_locs
         if procType == 'default':
-            proc = iDMeProcessor(self.sample_names,self.sample_info,self.sample_locs,self.histoFile,self.cuts,mode=self.mode,model_json=self.model, **kwargs)
+            proc = iDMeProcessor(self.sample_names,self.sample_info,self.sample_locs,self.histoFile,self.cuts,mode=self.mode,model_json=self.model,nJet_isNom=self.nJet_isNom,isSFstudies=self.isSFstudies,good_vtx=self.good_vtx,systematics=self.systematics,**kwargs)
         elif procType == 'gen':
             proc = genProcessor(self.sample_names,self.sample_info,self.sample_locs,self.histoFile,self.cuts,mode=self.mode,**kwargs)
         elif procType == 'trig':
@@ -149,7 +164,7 @@ class Analyzer:
             if execr == "iterative":
                 executor = processor.IterativeExecutor()
             elif execr == "futures":
-                executor = processor.FuturesExecutor(workers=workers)
+                executor = processor.FuturesExecutor(workers=workers, merging=merging)
             elif execr == "dask":
                 if dask_client is None:
                     print("Need to supply a dask client!")
@@ -173,13 +188,18 @@ class Analyzer:
         return accumulator
 
 class iDMeProcessor(processor.ProcessorABC):
-    def __init__(self,samples,sampleInfo,fileSet,histoFile,cutFile,mode='signal',model_json=None,**kwargs):
+    def __init__(self,samples,sampleInfo,fileSet,histoFile,cutFile,mode='signal',model_json=None,nJet_isNom=None,isSFstudies=False,good_vtx='v11',systematics=None,**kwargs):
         self.samples = samples
         self.sampleInfo = sampleInfo
         self.sampleLocs = fileSet
         self.mode = mode
         self.model = model_json
-        
+        self.nJet_isNom = nJet_isNom
+        self.good_vtx = good_vtx
+        self.systematics = systematics
+        print('Running with systematics: ', self.systematics)
+        self.isSFstudies = isSFstudies
+
         # load in histogram config
         self.histoMod = importlib.import_module(histoFile)
         self.histoFill = self.histoMod.fillHistos
@@ -232,7 +252,8 @@ class iDMeProcessor(processor.ProcessorABC):
             xsec = info['xsec']
             # Apply NLO k-factor for W/Z
             if 'DY' in info['name']:
-                xsec = xsec * 1.23
+                if self.isSFstudies == False:
+                    xsec = xsec * 1.23
             elif 'WJet' in info['name']:
                 xsec = xsec * 1.21
             elif 'ZJet' in info['name']:
@@ -261,20 +282,64 @@ class iDMeProcessor(processor.ProcessorABC):
         ## Add HEM flags to Event (before applying any quality cuts to jet, electrons ##
         ######################################################################################
 
-        routines.checkHEMjet(events)
-        routines.checkHEMelectron(events)
-      
+        if str(info['year']) == '2018':
+            routines.checkHEMjet(events)
+            routines.checkHEMelectron(events)
+
         #################################
         ## Calculating Additional Vars ##
         #################################
         events = routines.computeExtraVariables(events,info)
+
+        #################################
+        ## HEM Veto for 2018 ##
+        #################################
  
         # Veto HEM jets and electrons for 2018 data and MC
-        if info['year'] == 2018:
+        if str(info['year']) == '2018':
             events = events[events.hasHEMjet == 0]
             events = events[events.hasHEMelecPF == 0]
             events = events[events.hasHEMelecLpt == 0]
-       
+
+        #################################
+        ## Applying systematics and SF ##
+        #################################
+        iov = str(info['year'])
+        jsonPath = f"../../../analysisTools/corrections/{info['year']}/"
+
+        apply_vtx_SF = False
+        if self.systematics != None:
+            #print('systematics')
+            
+            if self.systematics['PU'] != 'None':
+                if isMC:
+                    sf_PU = corrections.get_sf_PU(iov, jsonPath, nTrueInt=events.genPU.true, type=self.systematics['PU'])
+                    events["eventWgt"] = events["eventWgt"] * np.array(sf_PU)
+            if self.systematics['electron'] != 'None':
+                if isMC:
+                    sf_vtx = corrections.get_sf_ee_vtx(iov, jsonPath, events.vtx.vxy_fromPV, vtx_type = events.vtx.typ, type=self.systematics['electron'])
+                    #sf_vtx = routines.vtxElectronSF(events, type=self.systematics['electron']) # shitty hack
+                    events['vtx','sf'] = sf_vtx
+                    apply_vtx_SF = True
+            if self.systematics['btag'] != 'None':
+                if isMC:
+                    sf_btag = corrections.apply_btagSF(iov, jsonPath, events, type=self.systematics['btag'])
+                    events["eventWgt"] = events["eventWgt"] * np.array(sf_btag)
+            if self.systematics['jec'] != 'None':
+                corrections.apply_JEC(isMC, iov, events, type=self.systematics['jec'])
+            if self.systematics['met'] != 'None':
+                corrections.correct_MET(events, type=self.systematics['met'])
+            
+            if self.systematics['trigger_MC'] != 'None':
+                if isMC:
+                    sf_trig_MC = corrections.get_trigger_MC(iov, jsonPath, events.PFMET.pt, isMC, type=self.systematics['trigger_MC'])
+                    events['eventWgt'] = events['eventWgt'] * sf_trig_MC
+            if self.systematics['trigger_data'] != 'None':
+                if not isMC:
+                    sf_trig_data = corrections.get_trigger_MC(iov, jsonPath, events.PFMET.pt, isMC, type=self.systematics['trigger_data'])
+                    events['eventWgt'] = events['eventWgt'] * sf_trig_data
+            
+
         #################################
         ##### Hard-coded basic cuts #####
         #################################
@@ -283,14 +348,45 @@ class iDMeProcessor(processor.ProcessorABC):
         #events = events[(nJets>0) & (nJets<3)] # Nominal NJet requirement for SR
         events["nJets"] = nJets
         events = events[nJets>0]
-        #events = events[nJets>2] # For VR: VR is defined by orthogonal NJet requirement && orthogonal other cut (still under study)
+
+        if self.nJet_isNom != None: # If applying Njet cut (legacy: deprecated after fixing the nJet bug in pythia)
+            if self.nJet_isNom:
+                events = events[(nJets>0) & (nJets<3)] # Nominal NJet requirement for SR & VR2
+                cutName = '0 < NJet < 3@'
+                print('Njet nominal')
+            elif self.nJet_isNom:
+                events = events[(nJets>2)] # Reverse NJet requirement for VR1
+                cutName = 'NJet > 2@'
+                print('Njet flipped')
+
+            # Initial number of events
+            if isMC:
+                cutflow['njet'] += ak.sum(events.genWgt)/sum_wgt
+            else:
+                cutflow['njet'] += len(events)/sum_wgt
+            cutflow_nevts['njet'] += len(events)
+
+            if info['type'] == "signal":
+                cutflow_vtx_matched['njet'] += 1 # dummy value before selecting a vertex
+                cutflow_vtx_matched_fromReco['njet'] += 1
+
+            cutDesc['njet'] = cutName
+
         # needs a good vertex
-        routines.defineGoodVertices(events,version='v10') # define "good" vertices based on whether associated electrons pass ID cuts
+        routines.defineGoodVertices(events,version=self.good_vtx) # define "good" vertices based on whether associated electrons pass ID cuts
         events = events[events.nGoodVtx > 0]
         # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
-        routines.selectBestVertex(events)
-        #events = routines.selectTrueVertex(events,events.good_vtx)
+        #routines.selectBestVertex(events)
+        if info['type'] == "signal":
+             events = routines.selectTrueVertex(events,events.good_vtx)
+             #routines.selectBestVertex(events)
+        else:
+             routines.selectBestVertex(events)
         routines.prepareBDT(events, self.model) # prepare BDT inference if the cuts include BDT-based cut
+
+        # Vtx SF related stuff (shitty hack)
+        if apply_vtx_SF == True:
+             events["eventWgt"] = events["eventWgt"] * events.sel_vtx.sf
 
         # Fill cutflow after baseline selection
         if isMC:
@@ -309,6 +405,18 @@ class iDMeProcessor(processor.ProcessorABC):
         # computing any extra quantities specified in the histogram config file
         for subroutine in self.subroutines:
             getattr(routines,subroutine)(events)
+
+        
+        # SF studies
+        if self.isSFstudies:
+            if isMC:
+                if 'ZGamma' in info['name']:
+                    print('Before cutting on ZG pT', len(events))
+                    events = events[events.sel_vtx.refit_pt > 17]
+                    print('After cutting on ZG pT', len(events[events.sel_vtx.refit_pt > 17]))
+                elif 'DY' in info['name']:
+                    events = events[events.sel_vtx.refit_pt < 17]
+        
         
         ###############################
         ######## CUTS & HISTOS ########
@@ -384,7 +492,7 @@ class genProcessor(iDMeProcessor):
         #################################
         routines.jetBtag(events,info['year'])
         routines.vtxElectronConnection(events)
-        #events = routines.computeExtraVariables(events,info)
+        events = routines.computeExtraVariables(events,info)
         #if info['type'] == 'signal':
         #    routines.genMatchExtraVtxVariables(events)
 
@@ -402,16 +510,18 @@ class genProcessor(iDMeProcessor):
         #### Demand >= 1 ee vertices ####
         #################################
         #routines.defineGoodVertices(events) # define "good" vertices based on whether associated electrons pass ID cuts
+        routines.defineGoodVertices(events,version='none') # define "good" vertices based on whether associated electrons pass ID cuts
+
         #events.__setitem__("nGoodVtx",ak.count(events.good_vtx.vxy,axis=1))
         #events = events[events.nGoodVtx > 0]
         # define "selected" vertex based on selection criteria in the routine (nominally: lowest chi2)
-        #routines.selectBestVertex(events)
+        routines.selectBestVertex(events)
 
         # Fill cutflow after baseline selection
         cutflow['hasVtx'] += ak.sum(events.genWgt)/sum_wgt
         cutflow_nevts['hasVtx'] += len(events)
         cutDesc['hasVtx'] = 'Baseline Selection'
-
+        
         # computing any extra quantities specified in the histogram config file
         for subroutine in self.subroutines:
             getattr(routines,subroutine)(events)
@@ -430,7 +540,8 @@ class genProcessor(iDMeProcessor):
         
         for k in cutflow.keys():
             cutflow_counts[k] = xsec*lumi*cutflow[k]
-
+        
+        
         histos = histObj.histograms
         histos['cutDesc'] = cutDesc
         histos['cutflow'] = {samp:cutflow}
@@ -737,14 +848,19 @@ def deltaPhi(v1,v2):
 
 def getLumi(year):
     # recommendations from https://twiki.cern.ch/twiki/bin/view/CMS/LumiRecommendationsRun2
+    year = str(year)
+
     lumi, unc = 0, 0
-    if year == 2016:
-        lumi = 36.31
+    if year == '2016':
+        lumi = 16.8
         unc = 0.012*lumi # 1.2 percent
-    if year == 2017:
+    if year == '2016APV':
+        lumi = 19.5
+        unc = 0.012*lumi # 1.2 percent
+    if year == '2017':
         lumi = 41.48
         unc = 0.023*lumi # 2.3 percent
-    if year == 2018:
+    if year == '2018':
         lumi = 59.83
         unc = 0.025*lumi # 2.5 percent
     return lumi, unc

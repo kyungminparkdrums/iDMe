@@ -1,0 +1,101 @@
+{
+    "schema_version": 2,
+    "corrections": [
+        {
+            "name": "trigger",
+            "version": 0,
+            "inputs": [
+                {
+                    "name": "MET",
+                    "type": "real",
+                    "description": "MET"
+                },
+                {
+                    "name": "weights",
+                    "type": "string",
+                    "description": "nominal, up, or down"
+                }
+            ],
+            "output": {
+                "name": "weight",
+                "type": "real",
+                "description": "trigger"
+            },
+            "data": {
+                "nodetype": "category",
+                "input": "weights",
+                "content": [
+                    {
+                        "key": "nominal",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "MET",
+                            "flow": "clamp",
+                            "edges": [
+                                0.0,
+                                120.0,
+                                200.0,
+                                240.0,
+                                300.0,
+                                100000.0
+                            ],
+                            "content": [
+                                0.13,
+                                0.74,
+                                1.00,
+                                1.00,
+                                0.99
+                            ]
+                        }
+                    },
+                    {
+                        "key": "up",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "MET",
+                            "flow": "clamp",
+                            "edges": [
+                                0.0,
+                                120.0,
+                                200.0,
+                                240.0,
+                                300.0,
+                                100000.0
+                            ],
+                            "content": [
+                                0.133,
+                                0.750,
+                                1.028,
+                                1.033,
+                                1.026
+                            ]
+                        }
+                    },
+                    {
+                        "key": "down",
+                        "value": {
+                            "nodetype": "binning",
+                            "input": "MET",
+                            "flow": "clamp",
+                            "edges": [
+                                0.0,
+                                120.0,
+                                200.0,
+                                240.0,
+                                300.0,
+                                100000.0
+                            ],
+                            "content": [
+                                0.127,
+                                0.730,
+                                0.972,
+                                0.977,
+                                0.954
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
