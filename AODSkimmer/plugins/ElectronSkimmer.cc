@@ -721,22 +721,22 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
       float mindR = 999;
       reco::GsfTrackRef track = ele.gsfTrack();
       float PFmatch_threshold = 0.05; // dR threshold for throwing away low-pT electron in favor of PF electron
-      //int iMatch_reg;
+      int iMatch_reg;
       for (size_t ireg = 0; ireg < reg_good_eles.size(); ireg++) {
          float dR = reco::deltaR(ele.p4(), reg_good_eles[ireg]->p4());
          if (dR < mindR) {
             mindR = dR;
-            //iMatch_reg = ireg;
+            iMatch_reg = ireg;
          }
       }
       // can optionally not skip and save whether or not the lpt electron *should* be x-cleaned
       if (mindR < PFmatch_threshold) {
-         //nt.recoLowPtElectronIsXCleaned_.push_back(true);
-         //nt.recoLowPtElectronGEDidx_.push_back(iMatch_reg);
-         //nt.recoElectronHasLptMatch_[iMatch_reg] = true;
-         //nt.recoElectronLptMatchIdx_[iMatch_reg] = ilpt;
+         nt.recoLowPtElectronIsXCleaned_.push_back(true);
+         nt.recoLowPtElectronGEDidx_.push_back(iMatch_reg);
+         nt.recoElectronHasLptMatch_[iMatch_reg] = true;
+         nt.recoElectronLptMatchIdx_[iMatch_reg] = ilpt;
          ilpt_all++;
-         continue;
+         //continue; // "remove" cross cleaning
       }
       else {
          nt.recoLowPtElectronIsXCleaned_.push_back(false);
@@ -870,7 +870,7 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
          }
       }
       for (size_t il = 0; il < lowPtNanoElectronHandle_->size(); il++) {
-         if (allLptEles_isXcleaned[il]) continue;
+         if (allLptEles_isXcleaned[il]) continue; // even when the cross cleaning is removed, this still needs to be present due to overlap removal in the isolation calculation
          auto cand_ele = (*lowPtNanoElectronHandle_)[il];
          float dR = reco::deltaR(ele.p4(),cand_ele.p4());
          if (dR < R_pf) {
@@ -911,7 +911,7 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
       }
       for (size_t il = 0; il < lowPtNanoElectronHandle_->size(); il++) {
          if ((ele.isEE()) && (iSaved_lpt[i] == (int)il)) continue; // have deadcone rejection in EE         
-         if (allLptEles_isXcleaned[il]) continue;
+         if (allLptEles_isXcleaned[il]) continue; // even when the cross cleaning is removed, this still needs to be present due to overlap removal in the isolation calculation
          auto cand_ele = (*lowPtNanoElectronHandle_)[il];
          float dR = reco::deltaR(ele.p4(),cand_ele.p4());
          if (dR < R_pf) {
@@ -1027,6 +1027,7 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
             if ( (type1==type2) && (j <= i) ) continue; // don't vertex ele with itself or ones prior (if vertexing with same type)
             
             // don't vertex a GED electron with a matching low-pT (only for x-clean study where we keep xcleaned lpt)
+            // even if the cross cleaning is removed; this part needs to be done because you dont want to vertex an electron with itself
             if (type1 == "L" && type2 == "R") {
                if (nt.recoLowPtElectronIsXCleaned_[i]) continue; // nested if b/c will error if checking condition with i > n_lpt 
             }
@@ -1338,7 +1339,7 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
          for (size_t icount = 0; icount < all_eles.size(); icount++) {
             // don't try gen-matching x-cleaned low-pt electrons
             if (icount >= (size_t)n_reg_eles) {
-               if (nt.recoLowPtElectronIsXCleaned_[icount - n_reg_eles]) continue;
+               //if (nt.recoLowPtElectronIsXCleaned_[icount - n_reg_eles]) continue; // comment this out for removing cross-cleaning and doing efficiency studies (gen-matching needed)
             }
             auto ele = all_eles[icount];
             float dRe = reco::deltaR(ele,gen_ele_p4);
