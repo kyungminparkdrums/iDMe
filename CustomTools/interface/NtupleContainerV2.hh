@@ -101,6 +101,16 @@ public:
     int genPosMatchIdxLocal_;
     int genPosMatchIdxGlobal_;
 
+    // resolution studies
+    float genEleGEDPtRes_;
+    float genEleGEDPtResRel_;
+    float genEleLptPtRes_;
+    float genEleLptPtResRel_;
+    float genPosGEDPtRes_;
+    float genPosGEDPtResRel_;
+    float genPosLptPtRes_;
+    float genPosLptPtResRel_;
+
     // Gen Electron + Positron info
     float genEEPt_;
     float genEEEta_;
@@ -114,9 +124,10 @@ public:
     float genEEVx_;
     float genEEVy_;
 
-    // Track whether full signal (e and p) are reconstructed
+    // Track whether full signal (e and p) are reconstructed (as well as vertex, to factor out vertexing eff)
     bool signalReconstructed_;
-    
+    bool signalVertexReconstructed_;
+
     // Gen jet
     int nGenJet_;
     vector<float> genJetPt_;

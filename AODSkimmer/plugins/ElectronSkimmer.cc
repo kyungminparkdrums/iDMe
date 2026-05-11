@@ -712,10 +712,13 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
    int ilpt_all = 0;
    for (auto & ele : *lowPtNanoElectronHandle_) {
       // basic cut (should be applied by default in miniAOD stage, but repeating here)
-      if (ele.pt() < 1 || ele.userFloat("ID") < -0.25) {
+      //if (ele.userFloat("ID") < -0.25) std::cout << "ALL Low pT ID < -0.25: ID = " << ele.userFloat("ID") << std::endl;
+      //if (ele.pt() < 1 || ele.userFloat("ID") < -0.25) {
+      if (ele.pt() < 1) {
          ilpt_all++;
          continue;
       }
+      //if (ele.userFloat("ID") < -0.25) std::cout << "After Low pT ID < -0.25: ID = " << ele.userFloat("ID") << std::endl;
 
       // Checking against GED electrons
       float mindR = 999;
@@ -1328,8 +1331,10 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
       if (isSignal) {
          // Gen-matching electrons to reco objects for iDM signal
          // Strategy: merge "good" electrons + low-pT electrons (i.e. the ones saved to ntuples & used in vertexing)
+         
+	 /* // the following will match gen to its closest reco ele; not matching to both GED & lpt if there is
          vector<math::XYZTLorentzVector> all_eles(reg_ele_p4s);
-         all_eles.insert(all_eles.end(),lowpt_ele_p4s.begin(),lowpt_ele_p4s.end());
+	 all_eles.insert(all_eles.end(),lowpt_ele_p4s.begin(),lowpt_ele_p4s.end());
          int n_reg_eles = reg_ele_p4s.size();
          
          float min_dRe = 999.;
@@ -1451,6 +1456,230 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
                nt.vtx_matchSign_[iv] = nt.vtx_e1_matchType_[iv]*nt.vtx_e2_matchType_[iv];
             }
          }
+
+         */
+
+         // ======================================================
+         // Gen matching for signal electrons
+         // Allow:
+         //   1 gen electron -> 1 GED electron
+         //   1 gen electron -> 1 low-pT electron
+         // independently
+         // ======================================================
+
+         // ---------- GED electron matches ----------
+         float min_dRe_reg = 999.;
+         float min_dRp_reg = 999.;
+
+         int iMatch_e_reg = -1;
+         int iMatch_p_reg = -1;
+
+         for (size_t i = 0; i < reg_ele_p4s.size(); i++) {
+
+             float dRe = reco::deltaR(reg_ele_p4s[i], gen_ele_p4);
+             float dRp = reco::deltaR(reg_ele_p4s[i], gen_pos_p4);
+
+             if (dRe < 0.1 && dRe < min_dRe_reg) {
+                // check if the reco object was assigned to positron before
+                if ((int)i == iMatch_p_reg) {
+                    iMatch_p_reg = -1;
+                    min_dRp_reg = 999.;
+                }
+ 
+                min_dRe_reg = dRe;
+                iMatch_e_reg = i;
+             }
+
+             if (((int)i != iMatch_e_reg) && (dRp < 0.1) && (dRp < min_dRp_reg)) {
+                 min_dRp_reg = dRp;
+                 iMatch_p_reg = i;
+             }
+         }
+
+         // ---------- low-pT electron matches ----------
+         float min_dRe_lpt = 999.;
+         float min_dRp_lpt = 999.;
+
+         int iMatch_e_lpt = -1;
+         int iMatch_p_lpt = -1;
+
+	for (size_t i = 0; i < lowpt_ele_p4s.size(); i++) {
+
+	    float dRe = reco::deltaR(lowpt_ele_p4s[i], gen_ele_p4);
+	    float dRp = reco::deltaR(lowpt_ele_p4s[i], gen_pos_p4);
+
+	    if (dRe < 0.1 && dRe < min_dRe_lpt) {
+                // here as well; if matched to positron before, remove duplicate matching
+                if ((int)i == iMatch_p_lpt) {
+                    iMatch_p_lpt = -1;
+                    min_dRp_lpt = 999.;
+                }
+
+		min_dRe_lpt = dRe;
+		iMatch_e_lpt = i;
+	    }
+
+	    if (((int)i != iMatch_e_lpt) && (dRp < 0.1) && (dRp < min_dRp_lpt)) {
+		min_dRp_lpt = dRp;
+		iMatch_p_lpt = i;
+	    }
+	}
+
+	// ======================================================
+	// Event-level reconstruction flag
+	// Require at least one reco match for each gen particle
+	// ======================================================
+
+	bool found_genEle = (iMatch_e_reg != -1) || (iMatch_e_lpt != -1);
+
+	bool found_genPos = (iMatch_p_reg != -1) || (iMatch_p_lpt != -1);
+
+	if (found_genEle && found_genPos) nt.signalReconstructed_ = true;
+
+	// ======================================================
+	// Assign GED matches
+	// ======================================================
+
+	// electron
+	if (iMatch_e_reg != -1) {
+	    nt.recoElectronGenMatched_[iMatch_e_reg] = true;
+	    nt.recoElectronMatchType_[iMatch_e_reg] = -1;
+
+            nt.genEleGEDPtRes_ = (reg_good_eles[iMatch_e_reg]->pt() - gen_ele_p4.pt());
+            nt.genEleGEDPtResRel_ = (reg_good_eles[iMatch_e_reg]->pt() - gen_ele_p4.pt()) / gen_ele_p4.pt();
+
+	    nt.genEleMatched_ = true;
+	}
+
+	// positron
+	if (iMatch_p_reg != -1) {
+	    nt.recoElectronGenMatched_[iMatch_p_reg] = true;
+	    nt.recoElectronMatchType_[iMatch_p_reg] = 1;
+
+            nt.genPosGEDPtRes_ = (reg_good_eles[iMatch_p_reg]->pt() - gen_pos_p4.pt());
+            nt.genPosGEDPtResRel_ = (reg_good_eles[iMatch_p_reg]->pt() - gen_pos_p4.pt()) / gen_pos_p4.pt();
+
+	    nt.genPosMatched_ = true;
+	}
+
+	// ======================================================
+	// Assign low-pT matches
+	// ======================================================
+
+	// electron
+	if (iMatch_e_lpt != -1) {
+
+	    nt.recoLowPtElectronGenMatched_[iMatch_e_lpt] = true;
+	    nt.recoLowPtElectronMatchType_[iMatch_e_lpt] = -1;
+
+            nt.genEleLptPtRes_ = (lowpt_good_eles[iMatch_e_lpt]->pt() - gen_ele_p4.pt());
+            nt.genEleLptPtResRel_ = (lowpt_good_eles[iMatch_e_lpt]->pt() - gen_ele_p4.pt()) / gen_ele_p4.pt();
+
+	    nt.genEleMatched_ = true;
+	}
+
+	// positron
+	if (iMatch_p_lpt != -1) {
+
+	    nt.recoLowPtElectronGenMatched_[iMatch_p_lpt] = true;
+	    nt.recoLowPtElectronMatchType_[iMatch_p_lpt] = 1;
+
+            nt.genPosLptPtRes_ = (lowpt_good_eles[iMatch_p_lpt]->pt() - gen_pos_p4.pt());
+            nt.genPosLptPtResRel_ = (lowpt_good_eles[iMatch_p_lpt]->pt() - gen_pos_p4.pt()) / gen_pos_p4.pt();
+
+	    nt.genPosMatched_ = true;
+	}
+
+	// ======================================================
+	// Mark x-cleaned low-pT electrons whose GED partner matched
+	// ======================================================
+
+	if (iMatch_e_reg != -1) {
+	    if (nt.recoElectronHasLptMatch_[iMatch_e_reg]) {
+		int idx = nt.recoElectronLptMatchIdx_[iMatch_e_reg];
+
+		if (idx >= 0 && idx < (int)nt.recoLowPtElectronGEDisMatched_.size()) {
+		    nt.recoLowPtElectronGEDisMatched_[idx] = true;
+		}
+	    }
+	}
+
+	if (iMatch_p_reg != -1) {
+	    if (nt.recoElectronHasLptMatch_[iMatch_p_reg]) {
+		int idx = nt.recoElectronLptMatchIdx_[iMatch_p_reg];
+
+		if (idx >= 0 && idx < (int)nt.recoLowPtElectronGEDisMatched_.size()) {
+		    nt.recoLowPtElectronGEDisMatched_[idx] = true;
+		}
+	    }
+	}
+
+	// ======================================================
+	// Vertex matching
+	// Vertex considered matched if BOTH electrons matched
+	// ======================================================
+
+	for (int iv = 0; iv < nt.nvtx_; iv++) {
+	    bool e1matched = false;
+	    bool e2matched = false;
+
+	    int e1type = 0;
+	    int e2type = 0;
+
+	    // ---------- electron 1 ----------
+	    if (nt.vtx_e1_type_[iv] == "R") {
+		int idx = nt.vtx_e1_idx_[iv];
+
+		if (nt.recoElectronGenMatched_[idx]) {
+		    e1matched = true;
+		    e1type = nt.recoElectronMatchType_[idx];
+		}
+	    }
+	    else if (nt.vtx_e1_type_[iv] == "L") {
+		int idx = nt.vtx_e1_idx_[iv];
+
+		if (nt.recoLowPtElectronGenMatched_[idx]) {
+		    e1matched = true;
+		    e1type = nt.recoLowPtElectronMatchType_[idx];
+		}
+	    }
+
+	    // ---------- electron 2 ----------
+	    if (nt.vtx_e2_type_[iv] == "R") {
+		int idx = nt.vtx_e2_idx_[iv];
+
+		if (nt.recoElectronGenMatched_[idx]) {
+
+		    e2matched = true;
+		    e2type = nt.recoElectronMatchType_[idx];
+		}
+	    }
+	    else if (nt.vtx_e2_type_[iv] == "L") {
+
+		int idx = nt.vtx_e2_idx_[iv];
+
+		if (nt.recoLowPtElectronGenMatched_[idx]) {
+
+		    e2matched = true;
+		    e2type = nt.recoLowPtElectronMatchType_[idx];
+		}
+	    }
+
+	    nt.vtx_e1_isMatched_[iv] = e1matched;
+	    nt.vtx_e2_isMatched_[iv] = e2matched;
+
+	    nt.vtx_e1_matchType_[iv] = e1type;
+	    nt.vtx_e2_matchType_[iv] = e2type;
+
+	    if (e1matched && e2matched) {
+		nt.vtx_isMatched_[iv] = true;
+		nt.vtx_matchSign_[iv] = e1type * e2type;
+	    
+                if (e1type * e2type == -1) nt.signalVertexReconstructed_ = true;
+            }
+	}
+
+		 
          // constructing gen dilepton object
          auto gen_ll = gen_ele_p4 + gen_pos_p4;
          nt.genEEPt_ = gen_ll.pt();
