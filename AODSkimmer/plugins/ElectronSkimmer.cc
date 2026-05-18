@@ -1481,16 +1481,17 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
 
              if (dRe < 0.1 && dRe < min_dRe_reg) {
                 // check if the reco object was assigned to positron before
-                if ((int)i == iMatch_p_reg) {
-                    iMatch_p_reg = -1;
-                    min_dRp_reg = 999.;
-                }
+                //if ((int)i == iMatch_p_reg) {
+                //    iMatch_p_reg = -1;
+                //    min_dRp_reg = 999.;
+                //}
  
                 min_dRe_reg = dRe;
                 iMatch_e_reg = i;
              }
 
-             if (((int)i != iMatch_e_reg) && (dRp < 0.1) && (dRp < min_dRp_reg)) {
+             //if (((int)i != iMatch_e_reg) && (dRp < 0.1) && (dRp < min_dRp_reg)) {
+             if ((dRp < 0.1) && (dRp < min_dRp_reg)) {
                  min_dRp_reg = dRp;
                  iMatch_p_reg = i;
              }
@@ -1510,20 +1511,31 @@ ElectronSkimmer::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup
 
 	    if (dRe < 0.1 && dRe < min_dRe_lpt) {
                 // here as well; if matched to positron before, remove duplicate matching
-                if ((int)i == iMatch_p_lpt) {
-                    iMatch_p_lpt = -1;
-                    min_dRp_lpt = 999.;
-                }
+                //if ((int)i == iMatch_p_lpt) {
+                //    iMatch_p_lpt = -1;
+                //    min_dRp_lpt = 999.;
+                //}
 
 		min_dRe_lpt = dRe;
 		iMatch_e_lpt = i;
 	    }
 
-	    if (((int)i != iMatch_e_lpt) && (dRp < 0.1) && (dRp < min_dRp_lpt)) {
+	    //if (((int)i != iMatch_e_lpt) && (dRp < 0.1) && (dRp < min_dRp_lpt)) {
+	    if ((dRp < 0.1) && (dRp < min_dRp_lpt)) {
 		min_dRp_lpt = dRp;
 		iMatch_p_lpt = i;
 	    }
 	}
+
+        // ======================================================
+        // // Save collection-specific gen match indices
+        // // ======================================================
+        
+        nt.genEleMatchIdxGED_ = iMatch_e_reg;
+        nt.genEleMatchIdxLpt_ = iMatch_e_lpt;
+        
+        nt.genPosMatchIdxGED_ = iMatch_p_reg;
+        nt.genPosMatchIdxLpt_ = iMatch_p_lpt;
 
 	// ======================================================
 	// Event-level reconstruction flag
